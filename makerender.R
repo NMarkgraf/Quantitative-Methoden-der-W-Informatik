@@ -1,8 +1,8 @@
 # ------------------------------------------------------------------------
-# makerender.R                              Version 1.1   - 05. Nov. 2019
+# makerender.R                              Version 1.2.1 - 25. Feb. 2020
 # ============------------------------------------------------------------
 #
-# (C) by N. Markgraf & M. Gehrke in 2019
+# (C) by N. Markgraf & M. Gehrke in 2019-2020
 #
 # Kleines R-Skript zum erstellen von Dozenten- / Studierenden- und
 # Lösungsskript aus einer R markdown Datei ohne dass mehrfach geknitert 
@@ -13,16 +13,44 @@
 # ------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------
-# Dateiname (ohne ".Rmd") der übersetzt werden soll:
+# Aufruf für ein Rmarkdown als R Skript:
+# Rscript --vanilla makerender.R QMd-W-Informatik
 # ------------------------------------------------------------------------
 
-filename <- "Wissenschaftliche-Methodik"
-filename <- "MathGrundlDWInfo"
+arguments <- commandArgs(trailingOnly=TRUE)
+if (length(arguments) > 0) {
+  filename <- arguments[1]
+  if (length(arguments) > 1) {
+    skiptsOnly <- arguments[2:length(arguments)]
+  }
+}
+
+# ------------------------------------------------------------------------
+# Default Dateiname (ohne ".Rmd") der übersetzt werden soll:
+# ------------------------------------------------------------------------
+
+if (!exists("filename")) {
+  filename <- "QMd-W-Informatik"
+}
+cat(paste0("makerender ", filename,".Rmd\n"))
+
+# ------------------------------------------------------------------------
+
 overwrite_old <- TRUE   # Sollen bestehende Dateien überschrieben werden?
 use_private <- TRUE     # Die Werte aus "private/private.R" benutzen?
-Semester <- "WiSe 2019/20"  # Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
-Studienort <- iconv("Düsseldorf / Münster")  # Studienort(e)
+Semester <- "SoSe 2020"  # Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
+#Studienort <- "Wuppertal / Gütersloh"  # Studienort(e)
+Studienort <- "Düsseldorf / Münster"
 midfix <- "" # Anhängsel an den Dateinamen, falls benötigt.
+#
+#
+if (filename == "Etwas-R-am-Abend") {
+  privateVorstellung <<- FALSE  # Zeige die Private Vorstellung
+  showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
+  useLattice <<- FALSE          # ... ggformula zur Darstellung
+  useCrashKurs <<- TRUE
+  UseCache <<- FALSE
+}
 
 # ------------------------------------------------------------------------
 # Hiermit werden die Einstellungen im Rmd-Skript übersprungen:
@@ -66,7 +94,7 @@ filename_lsg <- paste0(filename, midfix, "-Lsg.pdf")
 # Lokale Funktion, werche die externen Dateien anpasst:
 
 compileTeXFile <- function(texfile, pdffilesource, pdffiledest, 
-                           msg = "", ovrwrt=TRUE) {
+                           msg = "", ovrwrt = TRUE) {
   cat(paste0(msg,"\n"))
   tinytex::latexmk(texfile)
   file.copy(pdffilesource, pdffiledest, overwrite = ovrwrt)
@@ -84,12 +112,13 @@ makeSkriptOfType("DozentenSkript")
 cat("Render and compile dozi file!\n")
 
 rmarkdown::render(
-    input = filename_rmd,
-    encoding = "UTF-8",
-    clean=FALSE
-  )
+  input = filename_rmd,
+  encoding = "UTF-8",
+  clean = FALSE
+)
 
 file.copy(filename_pdf, filename_dozi, overwrite = overwrite_old)
+
 
 # ------------------------------------------------------------------------
 # Studierendenskript erzeugen
@@ -106,5 +135,3 @@ compileTeXFile(filename_tex, filename_pdf, filename_lsg,
                "Compile lsg file!", overwrite_old)
 
 # ========================================================================
-
-warnings()

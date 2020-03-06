@@ -41,3 +41,4 @@ vignettes/*.pdf
 # temporary (La)TeX-Files 
 *.log
 QMd-W-Informatik.tex
+QMd-W-Informatik*.pdf
