@@ -1,4 +1,4 @@
-# Vorlesungsskript *Quantitative Methoden der (Wirtschafts-)Informatik*
+# Vorlesungsskript *QMd(W-)Info*
 
 Hier entsteht das Repository für die Vorlesung *Quantitative Methoden der (Wirtschafts-)Informatik*.
 
