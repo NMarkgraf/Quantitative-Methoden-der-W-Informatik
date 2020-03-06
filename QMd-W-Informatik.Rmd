@@ -1,0 +1,121 @@
+---
+title: "Quantitative Methoden der (Wirtschafts-)Informatik (Teil 1)"
+tag:
+    - bachelor
+    - shiny
+    - qmwinf
+---
+
+```{r setup, include=FALSE}
+# ---------------------------------------------------------------------------
+# Einige Funktionen und Variabeln sind in die Datei 'prelude.R' ausgelagert.
+# Diese werden hier nachgeladen und angepasst.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+source("prelude.R")
+initPrelude(
+    "QMWI-",       # Prefix für Terminlisten etc.
+    TRUE           # Soll geprüft werden ob alle Pakete installiert sind?
+)
+```
+```{r localKnitrButtonSetup, eval=!RENDEREDBYSCRIPT, echo=FALSE, include=FALSE}
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Einstellungen für den Fall, dass man den knitr-Button nutzt. Sonst bitte
+# 'eval=FALSE' einstellen!
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+privateVorstellung <<- FALSE   # Zeige die Private Vorstellung
+showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
+showuseR <<- FALSE
+UseCache <<- FALSE
+
+Vorlesungstermine <<- "Duesseldorf"
+
+if (!exists("prelude.rendertools")) {
+    loadPrelude("prelude_rendertools.R")
+}
+
+createPrivateYaml("Dozent*in", "SoSe 2020", "Studienort")
+
+# Erzeuge Skript "DozentenSkript", "StudierendenSkript" oder "LösungsSkript": 
+makeSkriptOfType("DozentenSkript") 
+```
+```{r ggplot2Setup, eval=TRUE, echo=FALSE, include=FALSE}
+library(ggplot2)
+# ggformula, also ggplot2 muss noch etwas konfiguriert werden.
+theme.fom <- theme_classic(22*1.02)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+```
+```{r setup_data, include=FALSE}
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Sichert zu, dass die entsprechenden Daten auch vorhanden sind. 
+# Ggf. werden sie von dem übergebenden Link geladen und lokal gespeichert.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+tips <- assertData("tips.csv", "https://goo.gl/whKjnl")
+
+# ---------------------------------------------------------------------------
+```
+
+```{r setUpChildren, eval=TRUE, include=FALSE}
+childrenToInclude <- c(
+  "Organisatorisches", "Hinweise", "Einfuehrung-R", "07-MatheInR", "Grundlagen-QuantDat",
+  "EDA", "Regression", "Inferenz", "Inferenz-Beispiele",
+  "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung",
+  "Abschluss"
+)
+childrenToInclude <- c(
+  "Organisatorisches", "Hinweise", 
+  "00-EinfuehrungInDieNumerik"
+)
+includeChild <- function(name, children=childrenToInclude, all=FALSE) {
+    ifelse(all, TRUE, ifelse(name %in% children, TRUE, FALSE))
+}
+```
+
+```{r child = './Inhalte/QMWI-Organisatorisches.Rmd', eval=includeChild("Organisatorisches")}
+```
+
+```{r child = './private/private-Vorstellung.Rmd', eval=privateVorstellung}
+```
+
+```{r child = './Inhalte/Organisatorisches/Hinweise.Rmd', eval=includeChild("Hinweise")}
+```
+
+```{r child = './Inhalte/Einfuehrung-R.Rmd', eval=includeChild("Einfuehrung-R")}
+```
+
+```{r child = './Inhalte/Numerik/07-MatheInR.Rmd', eval=includeChild("07-MatheInR")}
+```
+
+```{r child = './Inhalte/Grundlagen-QuantDat.Rmd', eval=includeChild("Grundlagen-QuantDat")}
+```
+
+```{r child = './Inhalte/EDA.Rmd', eval=includeChild("EDA")}
+```
+
+```{r child = './Inhalte/Regression.Rmd', eval=includeChild("Regression")}
+```
+
+```{r child = './Inhalte/Inferenz.Rmd', eval=includeChild("Inferenz")}
+```
+
+```{r child = './Inhalte/Inferenz-Beispiele.Rmd', eval=includeChild("Inferenz-Beispiele")}
+```
+
+```{r child = './Inhalte/Numerik/00-EinfuehrungInDieNumerik.Rmd', eval=includeChild("00-EinfuehrungInDieNumerik")}
+```
+
+```{r child = './Inhalte/Numerik/10-Nullstellenberechnung.Rmd', eval=includeChild("10-Nullstellenberechnung")}
+```
+
+```{r child = './Inhalte/Abschluss.Rmd', eval=includeChild("Abschluss")}
+```
+
+```{r finalize, include=FALSE}
+# ---------------------------------------------------------------------------
+# Setzt einige Parameter zurück
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+finalizePrelude()
+```

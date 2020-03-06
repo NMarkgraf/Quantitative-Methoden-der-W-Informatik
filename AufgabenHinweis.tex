@@ -1,0 +1,55 @@
+% --------------------------------------------------------------------
+% AufgabenHinweis.tex
+% =============-------------------------------------------------------
+% (C) in 2015 by Norman markgraf
+%  
+% Release 1.0 (nm) 26.06.2015 Initial Concept
+% Release 1.1 (nm) 30.06.2015 Läuffähige Version
+%
+% --------------------------------------------------------------------
+% Hiermit sollen ggf. Aufgaben Nummern eingeblendet werden! ;-)
+% --------------------------------------------------------------------
+\newcommand*{\AUFGABEN}[1]{%
+	\mode<beamer>{
+	\pause
+	\begin{tikzpicture}[remember picture,overlay]
+		\node [shift={(-1.8 cm, -1.8 cm)}] at (current page.north east) 
+		{%
+			\includegraphics[width=3cm]{images/Yellow_Post_It_Note.png}
+			\begin{tikzpicture}[remember picture,overlay]
+				\node [rotate=-1] at (-1.5 cm, 1.5 cm)
+					{%
+						\color{green!70!black}%
+						\begin{tabular}{c}
+							\Large\texttt{Aufgaben:} \\
+							\\
+							\large\texttt{#1}\\
+						\end{tabular}
+					};
+			\end{tikzpicture}
+		};
+	\end{tikzpicture}
+	}
+}
+\newcommand*{\AUFGABE}[1]{%
+	\mode<beamer>{
+	\pause
+	\begin{tikzpicture}[remember picture,overlay]
+		\node [shift={(-1.8 cm, -1.8 cm)}] at (current page.north east) 
+		{%
+			\includegraphics[width=3cm]{images/Yellow_Post_It_Note.png}
+			\begin{tikzpicture}[remember picture,overlay]
+				\node [rotate=-1] at (-1.5 cm, 1.5 cm)
+					{%
+						\color{green!70!black}%
+						\begin{tabular}{c}
+							\Large\texttt{Aufgabe:} \\
+							\\
+							\large\texttt{#1}\\
+						\end{tabular}
+					};
+			\end{tikzpicture}
+		};
+	\end{tikzpicture}
+	}
+}
