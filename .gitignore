@@ -20,6 +20,7 @@
 # RStudio files
 .Rproj.user/
 
+tips.csv
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
@@ -37,6 +38,9 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+*_files/
+/_files/
 
 # temporary (La)TeX-Files 
 *.log

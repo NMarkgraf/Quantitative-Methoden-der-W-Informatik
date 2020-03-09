@@ -8,7 +8,7 @@ Der verwendete Code sowie das Beamer-Template aus dem [NPBT-Projekt](http://gith
 - R Version: `r getRversion()`
 - `mosaic` Version: `r packageVersion("mosaic")`
 
-Bitte melden Sie Fehler und Verbesserungsvorschläge: [karsten.luebke@fom.de](<mailto:karsten.luebke@fom.de>)
+Bitte melden Sie Fehler und Verbesserungsvorschläge: [nmarkgraf@hotmail.com](<mailto:nmarkgraf@hotmail.com>)
 
 - Autor\*innen: Karsten Lübke, Oliver Gansser, Matthias Gehrke, Bianca Krol, Norman Markgraf, Sebastian Sauer, Tanja Kistler, Tabea Treppmann
 - Hinweise u.a. von Thomas Christiaans, Jörg Horst, Ute Twisselmann, Martin Vogt, Daniel Ziggel. Vielen Dank!

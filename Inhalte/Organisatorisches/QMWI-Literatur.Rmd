@@ -1,13 +1,14 @@
 ### Literatur (Auswahl)
 
-<!-- 
-\begin{flushright}
-\printbibliography
-\end{flushright}
--->
 
 - Christiaans,Thomas; Ross, Matthias: *Wirtschaftsmathematik für das Bachelor-Studium*, Springer Gabler, 2013 
 
 - Hartmann, Peter: *Mathematik für Informatiker Taschenbuch*, 6. Auflage, Springer Vieweg, 2015, ISBN: 978-3658034153
+
+- Locher, F.: *Numerische Mathematik für Informatiker*, 2. Auflage, Springer, 2013
+
+- Teschl, Gerald; Teschl, Susanne: *Mathematik für Informatiker Band 1*, 4. Auflage, Springer Spektrum, 2013
+
+- Teschl, Gerald; Teschl, Susanne: *Mathematik für Informatiker Band 2*, 3. Auflage, Springer Spektrum, 2014
 
 - Luderer, Bernd; Würker, Uwe: *Einstieg in die Wirtschaftsmathematik*, 9. Auflage, Springer Gabler Verlag, 2015

@@ -17,10 +17,10 @@ pathToImages <- getPathToImages()
 
 # `r if(abschluss) WDH` Organisatorisches
 
-```{r child = './Organisatorisches/Literatur.Rmd'}
+```{r child = './Organisatorisches/QMWI-Literatur.Rmd'}
 ```
 
-```{r child = './Organisatorisches/LizenzVersion.Rmd'}
+```{r child = './Organisatorisches/QMWI-LizenzVersion.Rmd'}
 ```
 
 
@@ -36,7 +36,7 @@ Die Studierenden können nach erfolgreichem Abschluss des Moduls:
 - die Anwendbarkeit quantitativer Methoden im Unternehmen beurteilen.
 
 
-```{r child = './Organisatorisches/QMWI-Wordcloud.Rmd', eval = FALSE}
+```{r child = './Organisatorisches/QMWI-Wordcloud.Rmd', eval = useWordcloud}
 ```
 
 

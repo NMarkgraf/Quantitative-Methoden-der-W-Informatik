@@ -27,6 +27,7 @@ privateVorstellung <<- FALSE   # Zeige die Private Vorstellung
 showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
 showuseR <<- FALSE
 UseCache <<- FALSE
+useWordcloud <<- TRUE
 
 Vorlesungstermine <<- "Duesseldorf"
 
@@ -53,7 +54,7 @@ theme_set(
 # Sichert zu, dass die entsprechenden Daten auch vorhanden sind. 
 # Ggf. werden sie von dem übergebenden Link geladen und lokal gespeichert.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-tips <- assertData("tips.csv", "https://goo.gl/whKjnl")
+#tips <- assertData("tips.csv", "https://goo.gl/whKjnl")
 
 # ---------------------------------------------------------------------------
 ```
