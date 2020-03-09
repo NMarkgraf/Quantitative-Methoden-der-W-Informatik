@@ -457,6 +457,27 @@ welche durch Rundung eines exakten Wertes $x$ entstand hat höchstens einen abso
 
 $$\left|x - rd(x)\right| \leq 0.\underbrace{00...000}_{n \text{ Nullen}}5 \cdot 10^E = 0.5 \cdot 10^{-n+E}$$
 
+### Übung `r nextExercise()`: {.exercise}
+
+Runden Sie bitte die folgenden Zahlen $x_1$ bis $x_4$ auf eine Maschinenzahl in jeweils $n$-stelliger Gleitpunktarithmetik.
+
+Gegeben sind die folgenden Zahlen:
+
+$$
+    x_1 = (0.101010101)_2 \cdot 2^3, \quad 
+    x_2 = (0.11111111) \cdot 2^4, \quad
+    x_3 = (0.101010101)_2 \cdot 2^{-3}, \quad
+    x_4 = (0.11111111) \cdot 2^{-4} 
+$$
+
+A) Geben Sie die Werte von $x_1$ bis $x_4$ an.
+
+B) Runden Sie die Zahlen $x_1$ bis $x_4$ aus eine 5-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
+
+C) Runden Sie die Zahlen $x_1$ bis $x_4$ aus eine 4-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
+
+D) Bestimmen Sie jeweils den absoluten und relativen Fehler der Rundungen und B) und C).
+
 
 ### Maschinengenauigkeit
 
@@ -499,17 +520,17 @@ abgeschlossen (selbst wenn wir für die Exponenten beliebige Werte erlauben).
 
 ### Auswirkungen auf die Rechnerarithmetik
 
-Die arithmetischen Grundoperationen $+, -,  \cdot, /$ werden auf Rechenanlagen durch entsprechende "*Maschinenoperationen*" $+, -, \cdot, /$ ersetzt, die Maschinenzahlen in Maschinenzahlen überführen.
+Die arithmetischen Grundoperationen $+, -,  \cdot, /$ werden auf Rechenanlagen durch entsprechende *Maschinenoperationen* $+_M, -_M, \cdot_M, /_M$ ersetzt, die Maschinenzahlen in Maschinenzahlen überführen.
 
 Für ein $\bot \in \{+, -, \cdot, /\}$, zwei reelle Zahlen $x$ und $y$ und zwei Machinenzahlen $\tilde{x}=rd(x)$ und $\tilde{y}=rd(y)$ gilt daher, falls weder Unter- noch Überläufe eintreten:
 
-$$\tilde{x} \bot \tilde{y} = rd(x \bot y) = (x \bot y)\cdot(1+\epsilon), \qquad  |\epsilon| < eps$$
+$$\tilde{x} \bot_M \tilde{y} = rd(x \bot y) = (x \bot y)\cdot(1+\epsilon), \qquad  |\epsilon| < eps$$
 
 **Auf dieser Annahme fußt der Großteil moderner Rundungsfehleranalyse!**
 
 *Insbesondere gilt:*
 
-$$\tilde{x} + \tilde{y} = \tilde{x}, \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
+$$\tilde{x} +_M \tilde{y} = \tilde{x}, \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
 
 
 ### Offene Übung `r nextExercise()`: Maschinengenauigkeit {.exercise .fragile}
@@ -518,7 +539,7 @@ Schreiben Sie ein Programm, welches die *Maschinengenauigkeit* **eps** berechnet
 
 [Tipp:]{.cemph} Nutzen Sie die Formel ($B=2$):
 
-$$\tilde{x} + \tilde{y} = \tilde{x}, \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
+$$\tilde{x} +_M \tilde{y} = \tilde{x}, \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
 
 mit $x=1$ und variieren Sie $y$ geschickt.
 
@@ -584,7 +605,7 @@ Tipp: Probieren Sie: `abs(foo(1) - 0.1)`.
 
 - Jede einzelne Operation ($+$,$-$,$\cdot$,$\ldots$) wird auf $n+1$ Stellen gerechnet und dann wird gerundet. Erst im Anschluss wird die nächste Operation durchgeführt
 
-- Das Ergebnis einer Kette von Operationen ist das Ergebnis einer Kette von Rundungen – nicht erst das Ergebnis ist gerundet!
+- Das Ergebnis einer Kette von Operationen ist das Ergebnis einer Kette von Rundungen –- nicht erst das Ergebnis ist gerundet!
 Bei der Addition müssen erst die Exponenten verglichen und ggfs. angepasst werden, dann können die Mantissen addiert werden. Danach wird ggfs. normalisiert
 
 - Bei der Multiplikation werden die Exponenten addiert und die Mantissen multipliziert. Danach wird ggfs. normalisiert
@@ -625,20 +646,20 @@ $$
 
 Berechnen Sie in 5-stelliger dezimaler Gleitpunktarithmetik!
 
-- $rd(x_1 - x_2)$
-- $rd(x_1 - x_3)$
+- $rd(\tilde{x}_1 -_M \tilde{x}_2)$
+- $rd(\tilde{x}_1 -_M \tilde{x}_3)$
 
 ::: {.notes}
 $$
     \begin{aligned}
-        rd(x_1 - x_2)   &= 0.123454 \cdot 10^{12} - 0.123446 \cdot 10^{12} \\ 
-                        &= 0.12345 \cdot 10^{12} - 0.12345 \cdot 10^{12} \\
-                        &= 0
+        rd(\tilde{x}_1 -_M \tilde{x}_2)   &= 0.123454 \cdot 10^{12} - 0.123446 \cdot 10^{12} \\ 
+                                        &= 0.12345 \cdot 10^{12} - 0.12345 \cdot 10^{12} \\
+                                        &= 0
     \end{aligned}
 $$
 $$
     \begin{aligned}
-        rd(x_1 - x_3)   &= 0.123454 \cdot 10^{12} - 0.123435 \cdot 10^{12} \\
+        rd(\tilde{x}_1 -_M \tilde{x}_3)   &= 0.123454 \cdot 10^{12} - 0.123435 \cdot 10^{12} \\
                         &= 0.12345 \cdot 10^{12} - 0.12344 \cdot 10^{12}\\
                         &= 0.00001 \cdot 10^{12} \\
                     &= 0.1 \cdot 10^{8}\\
@@ -712,6 +733,7 @@ $$
 $$
 
 Einmal bestimmt können wir so im Intervall die Fehler abschätzen, ohne die Funktionen explizit auszuwerten.
+
 
 ### Abschätzung und Schätzung des Fehlers bei Funktionsauswertungen
 
