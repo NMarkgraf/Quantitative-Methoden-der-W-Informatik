@@ -26,4 +26,4 @@ def dfkt(x):
     return 100 - 2 * x - (6 * x ** 2 - 50 * x + 134)
 
 
-newton(fkt, dfkt, epsilon=0.0000001)
+newton(fkt, dfkt, 2.0, epsilon=0.0000001)

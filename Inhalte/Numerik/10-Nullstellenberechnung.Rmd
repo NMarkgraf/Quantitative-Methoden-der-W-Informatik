@@ -396,6 +396,8 @@ Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$.
 
 Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
 
+Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$, sowie die Grenzgewinnfunktion $G'(x)=-3x^2+16x-9$ und definieren die notwenidigen Funktionen in Python: 
+
 ```{python}
 def fkt(x):
     return -x**3+8*x**2-9*x-18
@@ -473,7 +475,7 @@ plt.axhline(0, color='black', lw=2)
 plt.plot([3, 10], [0, 0], 'ro')
 
 # Bemerkung welcher Punkt (hier Break Even Point) gesucht ist
-plt.annotate('Break Even point', xy=(3, 0.01), xytext=(0, 50),
+plt.annotate('Break Even Point', xy=(3, 0.01), xytext=(0, 50),
              arrowprops=dict(facecolor='green', shrink=0.08),
              )
 
@@ -485,15 +487,18 @@ plt.show()
 :::
 ::::::
 
-Wo liegt, ausgehend von $x_0=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tablle mit $i, x_i, f(x_i), f'(x_i)$.
+Wo liegt, ausgehend von $x_0=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
 
 ::: {.notes}
-```{python results="asis"}
+
+Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Newtonverfahren:
+
+```{python, echo=FALSE}
 from math import exp, fabs
 
 
 def print_iter_info(i, x, fx, dfx):
-    print('%i & %2.8F & %2.8F & %2.8F \\\\ \n' %
+    print('%i & %2.8F & %2.8F & %2.8F \\\\' %
           (i, x, fx, dfx))
 
 
@@ -507,22 +512,194 @@ def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
             break
         x = x - (fx / dfx)
     return x
-
+    
 def fkt(x):
     return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
     
 def dfkt(x):
     return 100 - 2*x - (6*x**2-50*x+134)
-    
-newton(2, fkt, dfkt, epsilon=0.0000001)
 ```
+
+```{python, echo=FALSE, results="asis"}
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $f\\prime(x_i)$ \\\\\\midrule\n')
+x = newton(fkt, dfkt, 2.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n\n')
+print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+
+**Wichtig:** In Klausuren wird genau so eine Tabelle beim Newtonverfahren erwartet!
+
 :::
 
+<!-- -->
 
-### Sekantenverfahren {include-only=NEWNUM}
+### Sekantenverfahren {include-only=use_python}
 
-Tangentensteigung wird durch die Sekantensteigung der letzen beiden Werte ersetzt.
+Ist die Ableitung schwer zu bestimmen, dann kann man die Tangentensteigung durch die Sekantensteigung der letzen beiden Werte ersetzt. Wir erhalten so das **Sekantenverfahren**.
 
+::: {.small}
+```{python}
+from math import exp, fabs
+
+def print_iter_info(i, x, fx, dfx):
+    print('Iter. %i: x=%2.8F f(x)=%2.8F Delta f(x)/Delta x=%2.8F\n' %
+          (i, x, fx, dfx))
+
+def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=1.0/1000):
+    x_last, x_cur = x_0, x_1
+    fx = f(x_last)
+    for i in range(1, max_iter):
+        fxl, fx = fx, f(x_cur)
+        dfx = (fxl - fx) / (x_last - x_cur)
+        print_iter_info(i, x_cur, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x_last, x_cur = x_cur, x_cur - (fx / dfx)
+    return x_cur
+```
+
+:::
+
+<!-- --->
+
+
+### Beispiel: Sekantenverfahren (I/ II) {include-only=use_python}
+
+Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
+Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
+
+Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4$?
+
+Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwenidige Funktion in Python: 
+
+
+```{python}
+def fkt(x):
+    return -x**3+8*x**2-9*x-18
+```
+
+Da wir die Grenzgewinnfunktion $G'(x)$ durch die Sekantensteigungen $\frac{\Delta G(x)}{\Delta x}$ approximieren, bedarf es keiner expliziten Angabe von $G'(x)$!
+
+<!-- --->
+
+### Beispiel: Sekantenverfahren (II/ II) {include-only=use_python}
+
+```{python, results = "asis"}
+sekantenverfahren(fkt, 2, 4, epsilon=0.0000001)
+```
+
+<!-- --->
+
+### Übung `r nextExercise()`: Sekantenverfahren {.exercise}
+
+Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P$ abhängig von der verkauften Menge $x$ gemäß folgender Preisabsatzfunktion ist:
+
+:::::: {.columns}
+::: {.column width="60%"}
+
+$$P(x) = 100-x$$
+Für die Erlöse $E$ gilt damit: 
+
+$$E(x) = P \cdot x= 100 x - x^2$$ 
+
+Die Kosten lassen sich darstellen durch: 
+
+$$K(x) = 2x^3-25x^2+134x+60$$
+
+:::
+::: {.column width="40%"}
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Betrachteter Bereich 0 - 10,5
+x = np.arange(0, 10.5, 0.1)
+
+# Gewinnfunktion G(x) = P(x)*x - K(X)
+y = (100-x)*x - (2*x**3-25*x**2+134*x+60)
+
+# Bereich plotten
+plt.plot(x, y)
+
+# X-Achse benennen
+plt.xlabel('Menge [x]')
+
+# Y-Achse benennen
+plt.ylabel('Gewinn [y=G(x)]')
+
+# Titel fuer den Graphen:
+plt.title('Gewinnfunktion')
+
+# Gitterraster zeichnen
+plt.grid(True)
+
+# Fette X-Achse in schwarz
+plt.axhline(0, color='black', lw=2)
+
+# Nullstellen der Funktion mit roten Punkten markieren
+plt.plot([3, 10], [0, 0], 'ro')
+
+# Bemerkung welcher Punkt (hier Break Even Point) gesucht ist
+plt.annotate('Break Even Point', xy=(3, 0.01), xytext=(0, 50),
+             arrowprops=dict(facecolor='green', shrink=0.08),
+             )
+
+# Graphik anzeigen
+plt.show()
+
+```
+
+:::
+::::::
+
+Wo liegt, ausgehend von $x_0=2$ und $x_1=4$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Sekantenverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$.
+
+::: {.notes}
+
+Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Sekantenverfahren:
+
+```{python, echo=FALSE}
+from math import exp, fabs
+
+
+def print_iter_info(i, x, fx, dfx):
+    print('%i & %2.8F & %2.8F & %2.8F \\\\' %
+          (i, x, fx, dfx))
+
+
+def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=1.0/1000):
+    x_last, x_cur = x_0, x_1
+    fx = f(x_last)
+    for i in range(1, max_iter):
+        fxl, fx = fx, f(x_cur)
+        dfx = (fxl - fx) / (x_last - x_cur)
+        print_iter_info(i, x_cur, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x_last, x_cur = x_cur, x_cur - (fx / dfx)
+    return x_cur
+    
+def fkt(x):
+    return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
+```
+
+```{python, echo=FALSE, results="asis"}
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
+x = sekantenverfahren(fkt, 2.0, 4.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n\n')
+print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+
+**Wichtig:** In Klausuren wird genau so eine Tabelle beim Sekantenverfahren erwartet!
+
+:::
+
+<!-- -->
 
 ### Regular-Falsi {include-only=NEWNUM}
 
@@ -535,9 +712,12 @@ Kombination aus Bisektions- und Sekantenverfahren.
 
 - Nullstellen werden unter anderem zur Berechnung des Break-Even benötigt
 
-- Das Bisektionsverfahren findet Nullstellen von Funktionen dadurch, dass es ein immer kleineres Intervall bildet, in dem eine Nullstelle liegen muss
+- Das Bisektionsverfahren findet Nullstellen von Funktionen, indem es ein immer kleineres Intervall bildet, in dem eine Nullstelle liegen muss
 
 - Das Newtonverfahren benötigt zur Nullstellenberechnung die 1. Ableitung. Mit dieser Hilfe findet es häufig recht schnell ein Nullstelle durch Approximation mit Hilfe der Tangente.
+
+- Beim Sekantenverfahren wird im Newtonverfahren die Ableitung durch die Sekantensteigung der letzten zwei Punkte ersetzt.
+
 
 
 ```{r finish-Nullstellenberechnung, include=FALSE}

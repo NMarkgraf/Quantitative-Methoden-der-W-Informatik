@@ -932,9 +932,8 @@ Ein Programm in R könnte wie folgt aussehen:
 
 \theverbbox
 
-Es lieftert die Werte a[70]=`r a[70]` und a[100]=`r a[100]` ...
+Es liefert die Werte a[70]=`r a[70]` und a[100]=`r a[100]` ...
 
-Der Grenzwert aber ist in der Tat 5!
 
 Vgl.: https://scipython.com/blog/mullers-recurrence/
 
