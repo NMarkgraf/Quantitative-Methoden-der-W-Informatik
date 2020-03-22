@@ -68,8 +68,9 @@ $$
 
 <https://fomshinyapps.shinyapps.io/bisektionsverfahren/>
 
+<!-- --->
 
-### Die Programmiersprache R (I/ II) {.shrink}
+### Die Programmiersprache R (I/ II) {.shrink include-only=use_r}
 
 Um in R einfach mit Funktionen umgehen zu können laden wir zusätzlich zum Paket `mosaic` auch das Paket `mosaicCalc`:
 
@@ -96,14 +97,16 @@ if (a >= 2) { a <- 2 } else { a <- 0 }
 print(paste("Es ist a =", a, "und A =", A))
 ```
 
+<!-- --->
 
-### Die Programmiersprache R (II/ II) {.shrink}
+### Die Programmiersprache R (II/ II) {.shrink include-only=use_r}
 
 ```{r ref.label="r_demo_1", eval=TRUE}
 ```
 
+<!-- --->
 
-### R-Code für Bisektionsverfahren {.shrink}
+### R-Code für Bisektionsverfahren {.shrink include-only=use_r}
 
 ```{r, eval=TRUE, echo=FALSE}
 library(mosaic)
@@ -125,15 +128,129 @@ bisektion <- function(fkt, a, b, maxiter=1000, minwidth=1/1000){
             "\nb=", b, "\t fkt(b)=", fkt(b), "\n\n");
         i <- i + 1
         if (i > maxiter) break
-        if (fkt(a)*fkt(c) < 0) { b <- c} else { a <- c }
+        if (fkt(a)*fkt(c) <= 0) { b <- c} else { a <- c }
         iw <- (b-a)
     }
     erg <- list(fkt=fkt, a=a, b=b); return(erg)
 }
 ```
 
+<!-- --->
 
-### Beispiel: Bisektionsverfahren (I/ II) 
+### Die Programmiersprache Python {include-only=use_python}
+
+Sie müssen Python nicht unbedingt auf ihrem Rechner installieren. 
+Sie können für unsere Progamme auch diesen Online-IDE für Python nutzen: https://repl.it/languages/python3
+
+Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
+
+1. https://www.python.org als Quelle für Python
+2. https://www.python-kurs.eu/python3_kurs.php als gute Quelle, wie man in Python programmiert.
+3. https://www.jetbrains.com/de-de/pycharm/ PyCharm als IDE für ihren Rechner.
+4. Installieren Sie numpy mittels:
+
+::: {.footnotesize}
+
+```
+> python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+:::
+
+oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann vielleicht:
+
+::: {.footnotesize}
+
+```
+> python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+
+:::
+
+### Python-Code für das Bisektionsverfahren (I/ II){.shrink include-only=use_python}
+
+Zuerst etwas Vorbereitenden Code:
+
+::: {.footnotesize}
+
+```{python}
+# Bisection-Verfahren in Python
+from math import exp
+
+def print_iter_info(i, a, b, c, f):
+    print('Iter. %i: a=%2.8F f(a)=%2.8F c=(a+b)/2=%2.8F f(c)= %2.8F' %
+          (i, a, f(a), c, f(b)) +
+          ' b=%2.8F  f(b)=%2.8F\n' % (b, f(b)))
+
+````
+
+:::
+
+<!-- --->
+
+### Python-Code für das Bisektionsverfahren (II/ II){.shrink include-only=use_python}
+
+::: {.footnotesize}
+
+```{python}
+def bisection(f, a, b, maxitr=1000, minwidth=1.0/1000):
+    if f(a) * f(b) > 0:
+        raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
+                              "ein Vorzeichenwechsel haben!")
+    if a > b:
+        a, b = b, a
+    iw = b - a
+    i = 1
+    while iw > minwidth:
+        c = (a+b)/2.0
+        print_iter_info(i, a, b, c, f)
+        i = i + 1
+        if i > maxitr:
+            break
+        if f(a)*f(c) <= 0:
+            b = c
+        else:
+            a = c
+        iw = b - a
+    return(a, b)
+```
+
+:::
+
+<!-- --->
+
+### Beispiel: Bisectionsverfahren (I / II) {include-only=use_python}
+
+```{python, echo=FALSE}
+def fkt(x):
+    return(exp(-x**2)-x)
+```
+
+Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=-0.6321205588285577$
+
+```{python}
+def fkt(x):
+  return(exp(-x**2)-x)
+  
+fkt(0)
+fkt(1)
+```
+
+<!-- --->
+
+### Beispiel: Bisektionsverfahren (II/ II) {.shrink inlcude-only=use_python}
+
+::: {.footnotesize}
+
+```{python, results = "asis"}
+if __name__== "__main__":
+    print(bisection(fkt, 0, 1))
+```
+
+:::
+
+<!-- --->
+
+### Beispiel: Bisektionsverfahren (I/ II) {include-only=use_r}
 
 ```{r echo=FALSE}
 fkt <- makeFun( exp(-x*x)-x ~ x )
@@ -152,15 +269,21 @@ fkt(1)
 bisektion(fkt, 0, 1)
 ```
 
+<!-- --->
 
-### Beispiel: Bisektionsverfahren (II/ II) {.shrink}
+### Beispiel: Bisektionsverfahren (II/ II) {.shrink include-only=use_r}
+
+::: {.small}
 
 ```{r eval=TRUE, width="50%"}
 bisektion(fkt, 0, 1)
 ```
 
+:::
 
-### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise}
+<!-- --->
+
+### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise include-only=use_r}
 
 Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
 
@@ -170,6 +293,19 @@ p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
 ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
 ```
 
+<!-- --->
+
+### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise include-only=python}
+
+Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
+
+```{r, out.width="60%"}
+fkt <- makeFun(sqrt( (x-2)^2 + 1) - 2*(x+1)^2 ~ x)
+p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
+ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
+```
+
+<!-- --->
 
 ### Das Newtonverfahren (Tangentenverfahren)
 
@@ -182,8 +318,9 @@ $$
 
 <https://fomshinyapps.shinyapps.io/newtonverfahren/>
 
+<!-- --->
 
-### R-Code für das Newtonverfahren {.shrink}
+### R-Code für das Newtonverfahren {.shrink include-only=use_r}
 
 ```{r}
 newton <- function(fkt, dftk, xstart, maxiter=1000, epsilon=1/1000) {
@@ -201,8 +338,9 @@ newton <- function(fkt, dftk, xstart, maxiter=1000, epsilon=1/1000) {
 }
 ```
 
+<!-- --->
 
-### Beispiel: Newtonverfahren (I/ II)
+### Beispiel: Newtonverfahren (I/ II) {include-only=use_r}
 
 Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
 Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
@@ -215,13 +353,67 @@ dfkt = D( fkt(x) ~ x )
 dfkt = makeFun( -3*x^2+16*x-9 ~ x )
 ```
 
+<!-- --->
 
-### Beispiel: Newtonverfahren (II/ II)
+### Beispiel: Newtonverfahren (II/ II) {include-only=use_r}
 
 ```{r}
 newton(fkt, dfkt, 4)
 ```
 
+<!-- --->
+
+### Python-Code für das Newtonverfahren {.shrink include-only=use_pyhton}
+
+```{python}
+from math import exp, fabs
+
+
+def print_iter_info(i, x, fx, dfx):
+    print('Iter. %i: x=%2.8F f(x)=%2.8F df(x)=%2.8F \n\n' %
+          (i, x, fx, dfx))
+
+
+def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
+    x = x_start
+    for i in range(1, max_iter):
+        fx = f(x)
+        dfx = df(x)
+        print_iter_info(i, x, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x = x - (fx / dfx)
+    return x
+```
+
+<!-- --->
+
+
+### Beispiel: Newtonverfahren (I/ II) {include-only=use_python}
+
+Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
+Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
+
+Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
+
+```{python}
+def fkt(x):
+    return -x**3+8*x**2-9*x-18
+
+
+def dfkt(x):
+    return -3*x**2+16*x-9
+```
+
+<!-- --->
+
+### Beispiel: Newtonverfahren (II/ II) {include-only=use_python}
+
+```{python, results = "asis"}
+newton(fkt, dfkt, 4)
+```
+
+<!-- --->
 
 ### Übung `r nextExercise()`: Newtonverfahren {.exercise}
 
@@ -243,7 +435,7 @@ Wo liegt die Break-Even ($x_{BE}$) Gewinnschwelle – ausgehend von $x_0=2$?
 
 ### Sekantenverfahren {include-only=NEWNUM}
 
-Tangentensteigung wird und Sekantensteigung der letzen beiden Werte ersetzt.
+Tangentensteigung wird durch die Sekantensteigung der letzen beiden Werte ersetzt.
 
 
 ### Regular-Falsi {include-only=NEWNUM}

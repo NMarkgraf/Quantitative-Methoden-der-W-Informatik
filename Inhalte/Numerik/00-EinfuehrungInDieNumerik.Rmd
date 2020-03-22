@@ -59,7 +59,7 @@ knitr::include_graphics(file.path(pathToImages, "ExcelFehler1.png"), error=FALSE
 
 
 
-### Spaß mit R
+### Spaß mit R {include-only=use_r}
 
 a) Runden ist in der Tat schwerer als gedacht:
 
@@ -77,6 +77,29 @@ foo(1)
 Aber:
 ```{r}
 foo(1) == 0.1
+```
+
+**Warum ist das so?**
+
+### Spaß mit Python {include-only=use_python}
+
+a) Runden ist in der Tat schwerer als gedacht:
+
+```{python RundenInPython}
+5.000000000001-5
+```
+
+richtig wäre $`python 0.000000000001`$!
+
+b) Berechnen wir $1/10$ in kompliziert:
+```{python}
+def foo(x):
+    return(((1.0/x)/10.0+1.0)*x-x)
+foo(1.0)
+```
+Okay, aber:
+```{python}
+foo(1.1)
 ```
 
 **Warum ist das so?**
@@ -581,7 +604,7 @@ $$((1/x)/10+1)*x-x = \left(\frac{\frac{1}{x}}{10}+1\right)\cdot x - x
 
 gilt mathematisch: `foo(1)`  $= 0.1$!
 
-Wie würden Sie diese Gleichheit in einem (R-)Programm am sinnvollsten abfragen:
+Wie würden Sie diese Gleichheit in einem Programm sinnvoll abfragen:
 
 A.  `foo(1) = 0.1`
 B.  `foo(1) == 0.1`
@@ -591,13 +614,13 @@ E.  `abs(foo(1) - 0.1) < eps`
 
 
 ::: {.notes}
-***E*** ist richtig. Möchte man in R auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheiszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
+***E*** ist richtig. Möchte man in R oder Python auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheiszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
 
 B und D prüfen formal korrekt auf Gleichheit. E hat aber den Vorteil, dass nicht nur zurückgegeben wird, ob Gleichheit vorliegt, sondern ob der Unterschied kleiner als die Maschinengenauigkeit *eps* ist.
 
 
 
-Tipp: Probieren Sie: `abs(foo(1) - 0.1)`.
+Tipp: Probieren Sie: In R: `abs(foo(1) - 0.1)` in Python: "math.abs(foo(1.0). 0.1)`
 :::
 
 
@@ -668,11 +691,44 @@ $$
 $$                  
 :::
 
-<!--
+<!-- -->
+
+### Auslöschung
+
+Bei der Subtraktion zweier fast gleichgroßer Zahlen kann es zu einem besonderen Phänomen kommen: der **Auslöschung**.
+
+**Beispiel:**
+Sei $\Delta f(x,h) := f(x+h)-f(x)$ und $f(x)= sin(x)$, $x=1$ und $h=10^{-i}$ für $i=1,...,8$ mit 10-stelliger dezimaler Gleitpunktarithmetik. Wir berechnen $\Delta f(1,h)$ sowie den abs. und relativen Fehler:
+
+```{r, echo=FALSE}
+library(mosaicCalc)
+library(knitr) 
+library(kableExtra)
+#digits <- 10
+fkt <- makeFun(sin(x) ~ x)
+i <- 1:8
+h <- 10^-i
+#h
+delta <- round(fkt(1+h)-fkt(1),10)*1.0
+abserror <- abs(fkt(1+h)-fkt(1)-delta)
+#abserror
+tab <- data.frame( 
+        h = format(h, scientific=T), 
+        deltaf=format(delta, decimal.mark=",", digits=10, scientific=T), 
+        abserror=format(abserror, decimal.mark=",", digits=10, scientific=T),
+        relerror=format(abserror/(fkt(1+h)-fkt(1)), decimal.mark=",", digits=10, scientific=T)
+)
+names(tab) <- c("h", "$\\Delta f(1,h)$", "abs. Fehler", "rel. Fehler")
+kable(tab, "latex", booktabs = T, escape = FALSE) %>% 
+    kable_styling(latex_options = "striped")
+```
+
 
 ### Fehler bei arithmetischen Operationen / Auslöschung
 
 Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdot y$.
+
+
 
 - *Addition*:
     - absoluter Fehler: $\tilde{x} + \tilde{y} = x + y - e_x \cdot x - e_y \cdot y$
@@ -684,11 +740,7 @@ Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdo
 
 Addition ist numerisch fehleranfälliger als Multiplikation: Hoher relativer Fehler bei Subtraktion in etwa gleich großer Zahlen (**Auslöschung**)
 
-### Fehlerfortpflanzung bei Funktionsauswertung
--->
-
-
-## Numerische Stabilität und Fehleranalyse
+## Fehlerfortpflanzung bei Funktionsauswertung
 
 ### Numerische Stabilität und Fehleranalyse
 
