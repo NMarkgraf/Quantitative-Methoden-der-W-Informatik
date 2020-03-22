@@ -419,6 +419,9 @@ newton(fkt, dfkt, 4)
 
 Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P$ abhängig von der verkauften Menge $x$ gemäß folgender Preisabsatzfunktion ist:
 
+:::::: {.columns}
+::: {.column width="60%"}
+
 $$P(x) = 100-x$$
 Für die Erlöse $E$ gilt damit: 
 
@@ -428,9 +431,92 @@ Die Kosten lassen sich darstellen durch:
 
 $$K(x) = 2x^3-25x^2+134x+60$$
 
-Wo liegt die Break-Even ($x_{BE}$) Gewinnschwelle – ausgehend von $x_0=2$?
+:::
+::: {.column width="40%"}
 
-<!-- 100*x - x^2 - (2*x^3-25*x^2+134*x+60) -->
+```{python, echo=FALSE}
+# ========================================================================
+# Uebung Newtonverfahren in Python                 rev. 1.0 (22.Mrz 2020)
+# =================================---------------------------------------
+# (C)opyleft in 2020 by N. Markgraf (nmarkgraf@hotmail.com)
+#
+# ========================================================================
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Betrachteter Bereich 0 - 10,5
+x = np.arange(0, 10.5, 0.1)
+
+# Gewinnfunktion G(x) = P(x)*x - K(X)
+y = (100-x)*x - (2*x**3-25*x**2+134*x+60)
+
+# Bereich plotten
+plt.plot(x, y)
+
+# X-Achse benennen
+plt.xlabel('Menge [x]')
+
+# Y-Achse benennen
+plt.ylabel('Gewinn [y=G(x)]')
+
+# Titel fuer den Graphen:
+plt.title('Gewinnfunktion')
+
+# Gitterraster zeichnen
+plt.grid(True)
+
+# Fette X-Achse in schwarz
+plt.axhline(0, color='black', lw=2)
+
+# Nullstellen der Funktion mit roten Punkten markieren
+plt.plot([3, 10], [0, 0], 'ro')
+
+# Bemerkung welcher Punkt (hier Break Even Point) gesucht ist
+plt.annotate('Break Even point', xy=(3, 0.01), xytext=(0, 50),
+             arrowprops=dict(facecolor='green', shrink=0.08),
+             )
+
+# Graphik anzeigen
+plt.show()
+
+```
+
+:::
+::::::
+
+Wo liegt, ausgehend von $x_0=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tablle mit $i, x_i, f(x_i), f'(x_i)$.
+
+::: {.notes}
+```{python results="asis"}
+from math import exp, fabs
+
+
+def print_iter_info(i, x, fx, dfx):
+    print('%i & %2.8F & %2.8F & %2.8F \\\\ \n' %
+          (i, x, fx, dfx))
+
+
+def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
+    x = x_start
+    for i in range(1, max_iter):
+        fx = f(x)
+        dfx = df(x)
+        print_iter_info(i, x, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x = x - (fx / dfx)
+    return x
+
+def fkt(x):
+    return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
+    
+def dfkt(x):
+    return 100 - 2*x - (6*x**2-50*x+134)
+    
+newton(2, fkt, dfkt, epsilon=0.0000001)
+```
+:::
 
 
 ### Sekantenverfahren {include-only=NEWNUM}

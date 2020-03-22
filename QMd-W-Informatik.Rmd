@@ -50,7 +50,7 @@ theme_set(
   theme.fom  
 )
 ```
-```{r setup_python}
+```{r setup_python, include=FALSE}
 # Wichtig! Ggf. R neu starten! Alle Programme brauchen Python3 und sind in Python2 nicht lauffähig!
 Sys.setenv(RETICULATE_PYTHON = "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3")
 library(reticulate)
