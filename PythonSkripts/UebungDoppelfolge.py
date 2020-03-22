@@ -18,3 +18,5 @@ for i in range(1, 100):
 
 print(l[80])
 print(l[100])
+
+print(l[10:30])
