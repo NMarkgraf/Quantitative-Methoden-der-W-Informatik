@@ -1,5 +1,5 @@
 ---
-title: "Quantitative Methoden der (Wirtschafts-)Informatik (Teil 1)"
+title: "Quantitative Methoden der (Wirtschafts-)Informatik (Teil 1+2)"
 tag:
     - bachelor
     - shiny
@@ -92,15 +92,17 @@ includeChild <- function(name, children=childrenToInclude, all=FALSE) {
 ```{r child = './Inhalte/Organisatorisches/Hinweise.Rmd', eval=includeChild("Hinweise")}
 ```
 
+```{r child = './Inhalte/Numerik/00-EinfuehrungInDieNumerik.Rmd', eval=includeChild("00-EinfuehrungInDieNumerik")}
+```
+
 ```{r child = './Inhalte/Einfuehrung-R.Rmd', eval=includeChild("Einfuehrung-R")}
 ```
 
 ```{r child = './Inhalte/Numerik/07-MatheInR.Rmd', eval=includeChild("07-MatheInR")}
 ```
 
-```{r child = './Inhalte/Numerik/07-MatheInR.Rmd', eval=includeChild("10-Nullstellenberechnung")}
+```{r child = './Inhalte/Numerik/10-Nullstellenberechnung.Rmd', eval=includeChild("10-Nullstellenberechnung")}
 ```
-
 
 ```{r child = './Inhalte/Grundlagen-QuantDat.Rmd', eval=includeChild("Grundlagen-QuantDat")}
 ```
@@ -115,12 +117,6 @@ includeChild <- function(name, children=childrenToInclude, all=FALSE) {
 ```
 
 ```{r child = './Inhalte/Inferenz-Beispiele.Rmd', eval=includeChild("Inferenz-Beispiele")}
-```
-
-```{r child = './Inhalte/Numerik/00-EinfuehrungInDieNumerik.Rmd', eval=includeChild("00-EinfuehrungInDieNumerik")}
-```
-
-```{r child = './Inhalte/Numerik/10-Nullstellenberechnung.Rmd', eval=includeChild("10-Nullstellenberechnung")}
 ```
 
 ```{r child = './Inhalte/Abschluss.Rmd', eval=includeChild("Abschluss")}
