@@ -497,7 +497,7 @@ Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Newtonve
 from math import exp, fabs
 
 
-def print_iter_info(i, x, fx, dfx):
+def print_iter_info_newton(i, x, fx, dfx):
     print('%i & %2.8F & %2.8F & %2.8F \\\\' %
           (i, x, fx, dfx))
 
@@ -507,7 +507,7 @@ def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
     for i in range(1, max_iter):
         fx = f(x)
         dfx = df(x)
-        print_iter_info(i, x, fx, dfx)
+        print_iter_info_newton(i, x, fx, dfx)
         if abs(fx) < epsilon: 
             break
         x = x - (fx / dfx)
@@ -522,10 +522,10 @@ def dfkt(x):
 
 ```{python, echo=FALSE, results="asis"}
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
-print('$i$ & $x_i$ & $f(x_i)$ & $f\\prime(x_i)$ \\\\\\midrule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
 x = newton(fkt, dfkt, 2.0, epsilon=0.0000001)
-print('\n\\bottomrule\n\\end{tabular}\n\n')
-print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
 print('Ergebnis: $x\\approx %2.8F$' % (x))
 ```
 
@@ -665,7 +665,7 @@ Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Sekanten
 from math import exp, fabs
 
 
-def print_iter_info(i, x, fx, dfx):
+def print_iter_info_sekver(i, x, fx, dfx):
     print('%i & %2.8F & %2.8F & %2.8F \\\\' %
           (i, x, fx, dfx))
 
@@ -676,7 +676,7 @@ def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=1.0/1000):
     for i in range(1, max_iter):
         fxl, fx = fx, f(x_cur)
         dfx = (fxl - fx) / (x_last - x_cur)
-        print_iter_info(i, x_cur, fx, dfx)
+        print_iter_info_sekver(i, x_cur, fx, dfx)
         if abs(fx) < epsilon: 
             break
         x_last, x_cur = x_cur, x_cur - (fx / dfx)
@@ -704,6 +704,62 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 ### Regular-Falsi {include-only=NEWNUM}
 
 Kombination aus Bisektions- und Sekantenverfahren.
+
+### Übung `r nextExercise()`: Sekanten- und Newtonverfahren {.exercise}
+
+Betrachten Sie ein Unternehmen mit Marktmacht, welches sich der
+Marktnachfrage $P(x)= 30-x$ gegenübersieht, wobei hier $P$ den Preis und $x$ die
+Menge bezeichnet. 
+
+Die Kosten $K$ sind gegeben durch $K(x) = 0{,}5\cdot x^2 +18 \cdot x + 18$.
+
+a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$.
+
+b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$.
+
+::: {.notes}
+Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)= 3x+12$ erhalten wir:
+
+```{python, echo=FALSE}
+def fkt(x):
+    return -1.5*x**2+12*x-18
+    
+def dfkt(x):
+    return -3*x+12
+```
+
+::::::::: {.columns}
+:::::: {.column width="48%"}
+::::::::: {.footnotesize}
+
+Für das Sekantenverfahren:
+
+```{python, echo=FALSE, results="asis"}
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
+x = sekantenverfahren(fkt, 1.0, 3.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+:::::::::
+::::::
+:::::: {.column width="48%"}
+::::::::: {.footnotesize}
+Für das Newtwonverfahren:
+
+```{python, echo=FALSE, results="asis"}
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
+x = newton(fkt, dfkt, 3.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+:::::::::
+::::::
+:::::::::
+:::
 
 
 ### Das Wissen Sie nun!
