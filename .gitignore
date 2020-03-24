@@ -46,3 +46,9 @@ vignettes/*.pdf
 *.log
 QMd-W-Informatik.tex
 QMd-W-Informatik*.pdf
+QMd-W-Informatik*.nav
+QMd-W-Informatik*.snm
+QMd-W-Informatik*.toc
+QMd-W-Informatik*.vrb
+private.yaml
+include-notes.tex
