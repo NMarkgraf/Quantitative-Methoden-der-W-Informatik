@@ -149,7 +149,7 @@ Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 3. https://www.jetbrains.com/de-de/pycharm/ PyCharm als IDE für ihren Rechner.
 4. Installieren Sie numpy mittels:
 
-::: {.footnotesize}
+::: {.tiny}
 
 ```
 > python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
@@ -158,7 +158,7 @@ Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 
 oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann vielleicht:
 
-::: {.footnotesize}
+::: {.tiny}
 
 ```
 > python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose

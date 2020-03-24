@@ -486,11 +486,12 @@ Runden Sie bitte die folgenden Zahlen $x_1$ bis $x_4$ auf eine Maschinenzahl in 
 
 Gegeben sind die folgenden Zahlen:
 
-$$
+$$\begin{aligned}
     x_1 = (0.101010101)_2 \cdot 2^3, \quad 
-    x_2 = (0.11111111) \cdot 2^4, \quad
+    &x_2 = (0.11111111) \cdot 2^4, \\
     x_3 = (0.101010101)_2 \cdot 2^{-3}, \quad
-    x_4 = (0.11111111) \cdot 2^{-4} 
+    &x_4 = (0.11111111) \cdot 2^{-4} 
+\\end{aligned}
 $$
 
 A) Geben Sie die Werte von $x_1$ bis $x_4$ an.
@@ -594,7 +595,7 @@ Als Ergebnis würde man $eps=`r eps`$ erhalten.
 ::::::
 
 
-### Übung `r nextExercise()`: Die Numerische Null {.exercise type=A-B-C-D-E answer=B}
+### Übung `r nextExercise()`: Die numerische Null {.exercise type=A-B-C-D-E answer=B}
 
 Wegen
 
@@ -616,11 +617,17 @@ E.  `abs(foo(1) - 0.1) < eps`
 ::: {.notes}
 ***E*** ist richtig. Möchte man in R oder Python auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheiszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
 
-B und D prüfen formal korrekt auf Gleichheit. E hat aber den Vorteil, dass nicht nur zurückgegeben wird, ob Gleichheit vorliegt, sondern ob der Unterschied kleiner als die Maschinengenauigkeit *eps* ist.
+B und D prüfen formal korrekt auf Gleichheit. E hat aber den Vorteil, dass nicht nur zurückgegeben wird, ob Gleichheit vorliegt, sondern ob der Unterschied kleiner als eine vorgegebene Genauigkeit *eps*. 
+Diese sollte in der Praxis etwas größer gewählt werden, als die Maschinengenauigkeit.
 
 
 
-Tipp: Probieren Sie: In R: `abs(foo(1) - 0.1)` in Python: "math.abs(foo(1.0). 0.1)`
+Tipp: Probieren Sie:
+
+- in R: `abs(foo(1) - 0.1)` 
+- in Python: `math.abs(foo(1.0) - 0.1)`
+
+und wählen Sie dann geeignete Werte für *eps*.
 :::
 
 
