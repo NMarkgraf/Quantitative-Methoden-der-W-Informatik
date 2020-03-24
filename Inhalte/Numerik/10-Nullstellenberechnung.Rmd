@@ -59,7 +59,7 @@ $$
     c_i = \frac{a_i + b_i}{2}; \qquad
     [a_{i+1}\,;\, b_{i+1}] = 
         \begin{cases}
-            \left[a_i \,;\, c \right] & \text{ falls } f(a_i) \cdot f(c) < 0 \\[1.ex]
+            \left[a_i \,;\, c \right] & \text{ falls } f(a_i) \cdot f(c) \leq 0 \\[1.ex]
             \left[c\,;\, b_i \right] & \text{ sonst }
         \end{cases}
 $$
@@ -128,7 +128,7 @@ bisektion <- function(fkt, a, b, maxiter=1000, minwidth=1/1000){
             "\nb=", b, "\t fkt(b)=", fkt(b), "\n\n");
         i <- i + 1
         if (i > maxiter) break
-        if (fkt(a)*fkt(c) <= 0) { b <- c} else { a <- c }
+        if (fkt(a)*fkt(c) <= 0) { b <- c } else { a <- c }
         iw <- (b-a)
     }
     erg <- list(fkt=fkt, a=a, b=b); return(erg)
@@ -168,7 +168,7 @@ oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann viell
 
 ### Python-Code für das Bisektionsverfahren (I/ II){.shrink include-only=use_python}
 
-Zuerst etwas Vorbereitenden Code:
+Zuerst etwas vorbereitenden Code:
 
 ::: {.footnotesize}
 
@@ -178,7 +178,7 @@ from math import exp
 
 def print_iter_info(i, a, b, c, f):
     print('Iter. %i: a=%2.8F f(a)=%2.8F c=(a+b)/2=%2.8F f(c)= %2.8F' %
-          (i, a, f(a), c, f(b)) +
+          (i, a, f(a), c, f(c)) +
           ' b=%2.8F  f(b)=%2.8F\n' % (b, f(b)))
 
 ````
@@ -192,19 +192,18 @@ def print_iter_info(i, a, b, c, f):
 ::: {.footnotesize}
 
 ```{python}
-def bisection(f, a, b, maxitr=1000, minwidth=1.0/1000):
+def bisection(f, a, b, max_iter=1000, epsilon=1.0/1000):
     if f(a) * f(b) > 0:
         raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
                               "ein Vorzeichenwechsel haben!")
     if a > b:
         a, b = b, a
-    iw = b - a
-    i = 1
-    while iw > minwidth:
-        c = (a+b)/2.0
-        print_iter_info(i, a, b, c, f)
+    i, iw = 0, b - a
+    while iw > epsilon:
         i = i + 1
-        if i > maxitr:
+        c = (a + b)/2.0
+        print_iter_info(i, a, b, c, f)
+        if i > max_iter:
             break
         if f(a)*f(c) <= 0:
             b = c
@@ -377,8 +376,7 @@ def print_iter_info(i, x, fx, dfx):
 def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
     x = x_start
     for i in range(1, max_iter):
-        fx = f(x)
-        dfx = df(x)
+        fx, dfx = f(x), df(x)
         print_iter_info(i, x, fx, dfx)
         if abs(fx) < epsilon: 
             break
@@ -437,13 +435,6 @@ $$K(x) = 2x^3-25x^2+134x+60$$
 ::: {.column width="40%"}
 
 ```{python, echo=FALSE}
-# ========================================================================
-# Uebung Newtonverfahren in Python                 rev. 1.0 (22.Mrz 2020)
-# =================================---------------------------------------
-# (C)opyleft in 2020 by N. Markgraf (nmarkgraf@hotmail.com)
-#
-# ========================================================================
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -505,8 +496,7 @@ def print_iter_info_newton(i, x, fx, dfx):
 def newton(f, df, x_start, max_iter=1000, epsilon=1.0/1000):
     x = x_start
     for i in range(1, max_iter):
-        fx = f(x)
-        dfx = df(x)
+        fx, dfx = f(x), df(x)
         print_iter_info_newton(i, x, fx, dfx)
         if abs(fx) < epsilon: 
             break
@@ -701,9 +691,6 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 
 <!-- -->
 
-### Regular-Falsi {include-only=NEWNUM}
-
-Kombination aus Bisektions- und Sekantenverfahren.
 
 ### Übung `r nextExercise()`: Sekanten- und Newtonverfahren {.exercise}
 
@@ -730,7 +717,7 @@ def dfkt(x):
 
 ::::::::: {.columns}
 :::::: {.column width="48%"}
-::::::::: {.footnotesize}
+::::::::: {.scriptsize}
 
 Für das Sekantenverfahren:
 
@@ -745,7 +732,7 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 :::::::::
 ::::::
 :::::: {.column width="48%"}
-::::::::: {.footnotesize}
+::::::::: {.scriptsize}
 Für das Newtwonverfahren:
 
 ```{python, echo=FALSE, results="asis"}
@@ -761,6 +748,126 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 :::::::::
 :::
 
+### Regular-Falsi (I / II)
+
+Das Verfahren mit dem Namen "Regular-Falsi", (lateinisch regula falsi ‚Regel des Falschen‘), ist eine Kombination aus Bisektions- und Sekantenverfahren. Wir wollen also das Beste beider Verfahren kombinieren.
+
+Das Bisektionsverfahren gibt uns mit Hilfe der Intervallschachtelung immer ein Intervall an, in dem sich die Nullstelle befindet.
+
+Das Sekantenverfahren bringt die Geschwindigkeit des Newtonverfahrens (Stichwort: *quadratische Konvergenz*), ohne das wir eine Ableitung berechnen müssen.
+
+Im Bisektionsverfahren haben wir in jedem Schritt ein neues $c$ als die Mitte des Intervalls von $a$ und $b$ bestimmt und danach entschieden, wo wir weitersuchen wollen.
+
+
+Zur Bestimmung von $c$ benutzen wir nun aber die Idee des Sekantenverfahrens, also möglichst durch die Sekante an die Nullstelle zu geraten. 
+
+### Regular-Falsi (II / II)
+
+
+Wir ersetzen die Bestimmung von $c_i = \frac{a_{i-1} + b_{i-1}}{2}$ durch:
+$$
+\begin{aligned}
+c_i &= a_{i-1} - \frac{f(a_{i-1})}{\Delta f}; \quad \text{mit} \quad\Delta f = \frac{f(b_{i-1})- f(a_{i-1})}{b_{i-1}- a_{i-1}} \\
+    &=  a_{i-1} - \frac{b_{i-1}- a_{i-1}}{f(b_{i-1})- f(a_{i-1})} \cdot f(a_{i-1}) \\
+    &= \frac{a_{i-1} \cdot f(b_{i-1})- b_{i-1}\cdot f(a_{i-1})}{f(b_{i-1})- f(a_{i-1})}
+\end{aligned}
+$$
+Und passen die Entscheidung, in welchem Teilintervall es weitergehen soll, etwas an:
+
+$$
+[a_{i}\,;\, b_{i}] = 
+        \begin{cases}
+            \left[a_{i-1} \,;\, c_i \right] & \text{ falls } f(a_{i-1}) \cdot f(c_i) \leq 0 \\[1.ex]
+            \left[c_i\,;\, b_{i-1} \right] & \text{ sonst }
+        \end{cases}
+$$
+
+### Python-Code für das Regular-Falsi-Verfahren (I/ II){.shrink include-only=use_python}
+
+Zuerst etwas vorbereitenden Code:
+
+::: {.footnotesize}
+
+```{python}
+# Regular-Falsi-Verfahren in Python
+from math import exp
+
+def print_iter_info(i, a, b, c, f):
+    print('Iter. %i: a=%2.8F f(a)=%2.8F c=%2.8F f(c)= %2.8F' %
+          (i, a, f(a), c, f(c)) +
+          ' b=%2.8F  f(b)=%2.8F\n' % (b, f(b)))
+
+````
+
+:::
+
+<!-- --->
+
+### Python-Code für das Regular-Falsi-Verfahren (II/ II){.shrink include-only=use_python}
+
+::: {.footnotesize}
+
+```{python}
+def regularfalsi(f, a, b, max_iter=1000, epsilon=1.0/1000):
+    if f(a) * f(b) > 0:
+        raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
+                              "ein Vorzeichenwechsel haben!")
+    if a > b:
+        a, b = b, a
+    fa, fb, iw , i = f(a), f(b), b - a, 0
+    while iw > epsilon:
+        i = i + 1
+        c = a - iw / (fb - fa) * fa
+        fc = f(c)
+        print_iter_info(i, a, b, c, f)
+        if i > max_iter:
+            break
+        if fb*fc <= 0:
+            a, fa = c, fc
+        else:
+            b, fb = c, fc
+        iw = b - a
+
+    return(a, b)
+```
+
+:::
+
+<!-- --->
+
+### Beispiel: Bisectionsverfahren (I / II) {include-only=use_python}
+
+```{python, echo=FALSE}
+def fkt(x):
+    return(exp(-x**2)-x)
+```
+
+Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=-0.6321205588285577$
+
+```{python}
+def fkt(x):
+  return(exp(-x**2)-x)
+  
+fkt(0)
+fkt(1)
+```
+
+<!-- --->
+
+### Beispiel: Bisektionsverfahren (II/ II) {.shrink inlcude-only=use_python}
+
+::: {.footnotesize}
+
+```{python, results = "asis"}
+if __name__== "__main__":
+    print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
+```
+
+:::
+
+<!-- --->
+
+
 
 ### Das Wissen Sie nun!
 
@@ -773,6 +880,8 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 - Das Newtonverfahren benötigt zur Nullstellenberechnung die 1. Ableitung. Mit dieser Hilfe findet es häufig recht schnell ein Nullstelle durch Approximation mit Hilfe der Tangente.
 
 - Beim Sekantenverfahren wird im Newtonverfahren die Ableitung durch die Sekantensteigung der letzten zwei Punkte ersetzt.
+
+- Das Regular-Falsi-Verfahren versucht die Vorteile des Bisektionsverfahrens und des Sekantenverfahrens zu kombinieren.
 
 
 
