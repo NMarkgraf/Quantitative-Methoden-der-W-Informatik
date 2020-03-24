@@ -883,6 +883,61 @@ if __name__== "__main__":
 
 - Das Regular-Falsi-Verfahren versucht die Vorteile des Bisektionsverfahrens und des Sekantenverfahrens zu kombinieren.
 
+### Weiterführende Literatur {include-only=BIGSTUFF}
+
+Es gibt viele Versuche die positiven Eigenschaften bestimmter Verfahren zu erhalten. Lesen Sie zum Beispiel
+
+- http://www.math.nthu.edu.tw/~amen/2008/070227-1.pdf
+- https://www.jstor.org/stable/2001916?seq=1
+
+### Müllers-Methode {include-only=BIFSTUFF}
+
+```{python, eval=TRUE}
+def mueller(f, a, b, r, max_iter=1000, epsilon=1.0 / 1000):
+    x = [a, b, r]
+    x.sort()
+    x = [x[1], x[2], x[0]]
+    root = x[1]
+    for i in range(1, max_iter):
+        print(i)
+        x.sort()
+        x = [x[1], x[2], x[0]]
+        y = list(map(f, x))
+        h1 = x[1] - x[0]
+        h2 = x[0] - x[2]
+        lam = h2 / h1
+        c = y[0]
+        a = (lam * y[1] - y[0] * ((1.0 + lam)) + y[2]) / (lam * h1 ** 2.0 * (1 + lam))
+        b = (y[1] - y[0] - a * ((h1) ** 2.0)) / (h1)
+        last_root = root
+        if b > 0:
+            root = x[0] - ((2.0 * c) / (b + (b ** 2 - 4.0 * a * c) ** 0.5))
+        else:
+            root = x[0] - ((2.0 * c) / (b - (b ** 2 - 4.0 * a * c) ** 0.5))
+
+        if abs(last_root-root) < epsilon:
+            break
+
+        print("a = %.5f b = %.5f c = %.5f" % (a,b,c))
+        print("x_0= %.5f x_1=%.5f x_2=%.5f root=%.5f" % (x[0], x[1], x[2],root))
+        print("Current approximation is %.9f" % root)
+
+        if abs(f(root)) > x[0]:
+            x = [x[1], x[0], root]
+        else:
+            x = [x[2], x[0], root]
+        x.sort()
+        x = [x[1], x[2], x[0]]
+    return(root)
+
+
+def fkt(x):
+  return(exp(-x**2)-x)
+
+
+if __name__== "__main__":
+    print(mueller(fkt, 0, 1, 0.5, epsilon=0.0000001))
+```
 
 
 ```{r finish-Nullstellenberechnung, include=FALSE}
