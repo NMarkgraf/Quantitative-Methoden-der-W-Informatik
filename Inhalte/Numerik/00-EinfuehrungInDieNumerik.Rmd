@@ -467,7 +467,7 @@ rd(x) = \text{sign}(x) \cdot
 $$
 
 #### {.fact}
-Es gilt immer $(0.z_1z_2z_3\dots z_n) \cdot 2^E \leq |x| \leq |rd(x)|$! 
+Es gilt immer $(0.z_1z_2z_3\dots z_n) \cdot 2^E \leq |x| < (0.z_1z_2z_3\dots z_n + 2^{-n})\cdot 2^E$! 
 
 
 ### Beispiel: Runden bei dezimalen Gleitpunktzahlen
@@ -660,7 +660,8 @@ $$
     \end{aligned}
 $$
 
-Beachte: Die Reihenfolge der Terme spielt eine Rolle in der Gleitpunktarithmetik (Assoziativität der Additivität ist verloren)!
+*Beachte:* Die Reihenfolge der Terme spielt eine Rolle in der Gleitpunktarithmetik (Assoziativität der Additivität ist verloren)!
+
 
 ### Übung `r nextExercise()`:  {.exercise}
 
