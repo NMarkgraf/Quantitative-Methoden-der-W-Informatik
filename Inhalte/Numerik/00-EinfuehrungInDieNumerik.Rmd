@@ -563,7 +563,7 @@ Schreiben Sie ein Programm, welches die *Maschinengenauigkeit* **eps** berechnet
 
 [Tipp:]{.cemph} Nutzen Sie die Formel ($B=2$):
 
-$$\tilde{x} +_M \tilde{y} = \tilde{x}, \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
+$$\tilde{x} +_M \tilde{y} = \tilde{x} \qquad  \text{ für } |y| \leq \frac{|x|}{B} \cdot eps$$
 
 mit $x=1$ und variieren Sie $y$ geschickt.
 
@@ -739,7 +739,7 @@ Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdo
 
 
 - *Addition*:
-    - absoluter Fehler: $\tilde{x} + \tilde{y} = x + y - e_x \cdot x - e_y \cdot y$
+    - absoluter Fehler: $\tilde{x} + \tilde{y} = x + y - (e_x \cdot x + e_y \cdot y)$
     - relativer Fehler: $\displaystyle \frac{x+y- (\tilde{x}+\tilde{y})}{x + y} = \frac{x}{x+y}\cdot e_x + \frac{y}{x+y}\cdot e_y$
     
 - *Multiplikation*:
