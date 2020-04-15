@@ -1,5 +1,5 @@
 # ========================================================================
-# Bisection-Verfahren in Python                    rev. 1.0 (22.Mrz 2020)
+# Bisection-Verfahren in Python                  Rev. 2.0 (13. Apr. 2020)
 # =============================-------------------------------------------
 # (C)opyleft in 2020 by N. Markgraf (nmarkgraf@hotmail.com)
 #
@@ -9,25 +9,22 @@ from math import exp, fabs
 
 
 def print_iter_info(i, a, b, c, f):
-    print('Iter. %i: a=%2.8F fkt(a)=%2.8F c=(a+b)/2=%2.8F fkt(c)= %2.8F' %
-          (i, a, f(a), c, f(b)) +
-          ' b=%2.8F  fkt(b)=%2.8F\n' % (b, f(b)))
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}')
 
 
-def bisection(f, a, b, maxitr=1000, minwidth=1.0/1000):
+def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
     if f(a) * f(b) > 0:
-        raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
+        raise ArithmeticError("Das Produkt der Intervallgrenzen muss "
                               "ein Vorzeichenwechsel haben!")
     if a > b:
         a, b = b, a
     iw = b - a
-    i = 1
-    while iw > minwidth:
+    for i in range(1, max_iter):
+        if iw < epsilon:
+            break
         c = (a+b)/2.0
         print_iter_info(i, a, b, c, f)
-        i = i + 1
-        if i > maxitr:
-            break
         if f(a)*f(c) <= 0:
             b = c
         else:
@@ -42,5 +39,5 @@ def fkt(x):
 
 if __name__ == "__main__":
     intervall_links, intervall_rechts = bisection(fkt, 0, 1)
-    print('Der x-Wert liegt zwischen %2.8F und %2.8F \n' %
-          (intervall_links, intervall_rechts))
+    print(f'Der x-Wert liegt zwischen {intervall_links:.10F} '
+          f'und {intervall_rechts:.10F}')

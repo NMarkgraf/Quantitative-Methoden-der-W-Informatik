@@ -24,6 +24,10 @@ initPrelude(
 # 'eval=FALSE' einstellen!
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Bitte oben auch den entsprechenden TAG setzen! -- Danke!
+use_python <<- TRUE    # Python-Skripts oder
+use_R <<- !use_python  # R-Skripte als Beispiele 
+
 privateVorstellung <<- FALSE   # Zeige die Private Vorstellung
 showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
 showuseR <<- FALSE
@@ -50,7 +54,7 @@ theme_set(
   theme.fom  
 )
 ```
-```{r setup_python, include=FALSE}
+```{r setup_python, include=FALSE, eval=use_python}
 # Wichtig! Ggf. R neu starten! Alle Programme brauchen Python3 und sind in Python2 nicht lauffähig!
 Sys.setenv(RETICULATE_PYTHON = "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3")
 library(reticulate)
@@ -78,9 +82,13 @@ childrenToInclude <- c(
   "Organisatorisches", "Hinweise", 
   "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung"
 )
+
 includeChild <- function(name, children=childrenToInclude, all=FALSE) {
     ifelse(all, TRUE, ifelse(name %in% children, TRUE, FALSE))
 }
+```
+
+```{r child = './Test.Rmd', eval=includeChild("Test")}
 ```
 
 ```{r child = './Inhalte/QMWI-Organisatorisches.Rmd', eval=includeChild("Organisatorisches")}
