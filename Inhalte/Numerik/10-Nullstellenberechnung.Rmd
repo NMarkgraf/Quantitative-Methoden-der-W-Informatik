@@ -792,7 +792,6 @@ def print_iter_info(i, a, b, c, f):
     print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
           f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}')
 
-          
 def regularfalsi(f, a, b, max_iter=1000, epsilon=0.0001):
     if f(a) * f(b) > 0:
         raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
