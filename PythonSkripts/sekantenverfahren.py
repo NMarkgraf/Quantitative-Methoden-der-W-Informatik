@@ -13,14 +13,14 @@ def print_iter_info(i, x, fx, dfx):
 
 
 def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
-    x_last, x_cur, fx = x_0, x_1, f(x_last)
+    x_last, x_cur, fx = x_0, x_1, f(x_0)
     for i in range(1, max_iter):
         fxl, fx = fx, f(x_cur)
         dfx = (fxl - fx) / (x_last - x_cur)
         print_iter_info(i, x_cur, fx, dfx)
         if abs(fx) < epsilon: 
             break
-        x_last, x_cur = x_cur, x_last - (fx / dfx)
+        x_last, x_cur =  x_cur, x_cur - (fx / dfx)
     return x_cur
 
 

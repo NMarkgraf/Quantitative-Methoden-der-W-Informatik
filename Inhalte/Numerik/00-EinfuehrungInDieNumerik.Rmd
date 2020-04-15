@@ -561,8 +561,7 @@ $$\begin{aligned}
     &x_2 = (0.11111111) \cdot 2^4, \\
     x_3 = (0.101010101)_2 \cdot 2^{-3}, \quad
     &x_4 = (0.11111111) \cdot 2^{-4} 
-\end{aligned}
-$$
+\end{aligned}$$
 
 A) Geben Sie die Werte von $x_1$ bis $x_4$ an.
 
@@ -610,10 +609,10 @@ $$\left| \frac{x -\tilde{x}}{x}\right|
    \leq \frac{B^{E-n}}{2} \cdot \frac{1}{|(0.z_1z_2\dots z_n)| \cdot B^E}
    = \frac{B^{-n}}{2} \cdot \frac{B}{|(0.z_1z_2\dots z_n)| \cdot B }
    \leq \frac{B^{-n}}{2} \cdot \frac{B}{1}
-   \leq \frac{B^{-n+1}}2 $$
+   \leq \frac{B^{-n+1}}{2}$$
 :::
 
-durch den $eps = \frac{B^{1-n}}2$ nach oben beschränkt.  
+durch den $eps = \frac{B^{1-n}}{2}$ nach oben beschränkt.  
 
 Der Wert $eps$ wird auch [Maschinengenauigkeit]{.cstrong} genannt. Es gilt damit:
 
@@ -958,22 +957,30 @@ M <- abs(df(x)) # Da monoton fallend!
 
 ::: {.notes}
 
-a) Absoluter Fehler: $`r absFehler`$
+a) Absoluter Fehler: $|x - \tilde{x}| = |`r x` - `r x_tilde`| = `r absFehler`$
 
-   Relativer Fehler: $`r relFehler`$
+   Relativer Fehler: $\frac{|x - \tilde{x}|}{|x|} = \frac{|`r x` - `r x_tilde`|}{|`r x`|} = `r relFehler`$
    
 b) Absoluter Fehler: $| f(x) - f(\tilde{x}) | \approx |f'(\tilde{x})| \cdot |x - \tilde{x}| = `r abs(df(x_tilde))` \cdot `r absFehler` = `r abs(df(x_tilde)) * absFehler`$
 
    Relativer Fehler: $\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = `r abs(df(x_tilde))` \cdot `r abs(x_tilde)/abs(f(x_tilde))` \cdot `r absFehler` = `r abs(df(x_tilde)) * abs(x_tilde)/abs(f(x_tilde)) * absFehler`$
    
-c) Da $f'$ monoton fallend auf $I=[`r x`; `r x_tilde`]$ gilt $M = \max\limits_{x_0 \in I} |f'(x_0)| = `r M`$ und somit:
+c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x_0 \in I} |f'(x_0)| = `r M`$ und somit:
 
+    Absoluter Fehler: $$\begin{aligned}
+    | f(x) - f(\tilde{x}) | \leq M \cdot |x - \tilde{x}| &= `r M` \cdot `r absFehler`\\ &= `r M * absFehler`
+    \end{aligned}$$
 
-    Absoluter Fehler: $| f(x) - f(\tilde{x}) | \leq M \cdot |x - \tilde{x}| = `r M` \cdot `r absFehler` = `r M * absFehler`$
-
-   Relativer Fehler: $\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq M \cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = `r M` \cdot `r abs(x_tilde)/abs(f(x_tilde))` \cdot `r absFehler` = `r M * abs(x_tilde)/abs(f(x_tilde)) * absFehler`$
+   Relativer Fehler: $$\begin{aligned}
+   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 in |f(\tilde{x})|}} \cdot |x - \tilde{x}| \\ 
+   &= `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r absFehler` \\ 
+   &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r absFehler` \\ 
+   &= `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * absFehler`
+   \end{aligned}$$
    
-d) $K = M \cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x| = `r M` \cdot `r abs(x_tilde)/abs(f(x_tilde))` \cdot `r abs(x)` = `r M  * abs(x_tilde)/abs(f(x_tilde)) * abs(x)`$
+d) $K = M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 in |f(\tilde{x})|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
+    Und damit:
+    $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x) * relFehler`$$
 
 :::
 
