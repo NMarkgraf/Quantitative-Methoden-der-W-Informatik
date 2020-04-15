@@ -1,5 +1,5 @@
 # ========================================================================
-# Sekantenverfahren in Python                      Rev. 2.0 (13. Apr 2020)
+# Sekantenverfahren in Python                     Rev. 2.0 (13. Apr 2020)
 # ===========================---------------------------------------------
 # (C)opyleft in 2020 by N. Markgraf (nmarkgraf@hotmail.com)
 #
