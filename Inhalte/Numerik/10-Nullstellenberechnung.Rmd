@@ -788,45 +788,30 @@ Zuerst etwas vorbereitenden Code:
 
 ```{python, eval=use_python, include=use_python}
 # Regular-Falsi-Verfahren in Python
-from math import exp
-
 def print_iter_info(i, a, b, c, f):
-    print('Iter. %i: a=%2.8F f(a)=%2.8F c=%2.8F f(c)= %2.8F' %
-          (i, a, f(a), c, f(c)) +
-          ' b=%2.8F  f(b)=%2.8F\n' % (b, f(b)))
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}')
 
-````
-
-:::
-
-<!-- --->
-
-### Python-Code für das Regular-Falsi-Verfahren (II/ II){.shrink include-only=use_python}
-
-::: {.footnotesize}
-
-```{python, eval=use_python, include=use_python}
-def regularfalsi(f, a, b, max_iter=1000, epsilon=1.0/1000):
+          
+def regularfalsi(f, a, b, max_iter=1000, epsilon=0.0001):
     if f(a) * f(b) > 0:
         raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
                               "ein Vorzeichenwechsel haben!")
     if a > b:
         a, b = b, a
-    fa, fb, iw , i = f(a), f(b), b - a, 0
-    while iw > epsilon:
-        i = i + 1
+    fa, fb = f(a), f(b)
+    for i in range(1, max_iter):
+        iw = b - a
+        if iw < epsilon:
+            break
         c = a - iw / (fb - fa) * fa
         fc = f(c)
         print_iter_info(i, a, b, c, f)
-        if i > max_iter:
-            break
         if fb*fc <= 0:
             a, fa = c, fc
         else:
             b, fb = c, fc
-        iw = b - a
-
-    return(a, b)
+    return a, b
 ```
 
 :::
@@ -864,9 +849,6 @@ if __name__== "__main__":
 :::
 
 <!-- --->
-
-
-
 
 ### Weiterführende Literatur {include-only=BIGSTUFF}
 
