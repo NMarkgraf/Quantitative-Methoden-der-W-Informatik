@@ -955,7 +955,8 @@ df <- D(f(x) ~ x)
 M <- abs(df(x)) # Da monoton fallend!
 ```
 
-::: {.notes}
+:::::: {.notes}
+::: {.small}
 
 a) Absoluter Fehler: $|x - \tilde{x}| = |`r x` - `r x_tilde`| = `r absFehler`$
 
@@ -983,6 +984,7 @@ d) $K = M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 in |f(\tilde{x})|}} \cdot
     $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x) * relFehler`$$
 
 :::
+::::::
 
 
 ### Das wissen sie nun!

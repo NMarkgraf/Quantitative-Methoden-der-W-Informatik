@@ -149,7 +149,7 @@ Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 3. https://www.jetbrains.com/de-de/pycharm/ PyCharm als IDE für ihren Rechner.
 4. Installieren Sie numpy mittels:
 
-::: {.tiny}
+::: {.scriptsize}
 
 ```
 > python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
@@ -158,7 +158,7 @@ Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 
 oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann vielleicht:
 
-::: {.tiny}
+::: {.scriptsize}
 
 ```
 > python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
@@ -166,9 +166,7 @@ oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann viell
 
 :::
 
-### Python-Code für das Bisektionsverfahren (I/ II){.shrink include-only=use_python}
-
-Zuerst etwas vorbereitenden Code:
+### Python-Code für das Bisektionsverfahren {.shrink include-only=use_python}
 
 ::: {.footnotesize}
 
@@ -178,25 +176,15 @@ from math import exp, fabs
 def print_iter_info(i, a, b, c, f):
     print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
           f'f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}')
-````
 
-:::
-
-<!-- --->
-
-### Python-Code für das Bisektionsverfahren (II/ II){.shrink include-only=use_python}
-
-::: {.footnotesize}
-
-```{python eval=use_python, include=use_python}
 def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
     if f(a) * f(b) > 0:
-        raise ArithmeticError("Das Produkt der Intervallgrenzen muss "
-                              "ein Vorzeichenwechsel haben!")
+        raise ArithmeticError('Das Produkt der Intervallgrenzen muss '
+                              'ein Vorzeichenwechsel haben!')
     if a > b:
         a, b = b, a
-    iw = b - a
     for i in range(1, max_iter):
+        iw = b - a
         if iw < epsilon:
             break
         c = (a+b)/2.0
@@ -205,7 +193,6 @@ def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
             b = c
         else:
             a = c
-        iw = b - a
     return a, b
 ```
 
@@ -233,6 +220,12 @@ fkt(1)
 <!-- --->
 
 ### Beispiel: Bisektionsverfahren (II/ II) {.shrink inlcude-only=use_python}
+```{python eval=use_python, include=use_python, echo=FALSE}
+
+def print_iter_info(i, a, b, c, f):
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}\n')
+```
 
 ::: {.footnotesize}
 
@@ -398,6 +391,10 @@ def dfkt(x):
 <!-- --->
 
 ### Beispiel: Newtonverfahren (II/ II) {include-only=use_python}
+```{python, eval=use_python, include=use_python, echo=FALSE}
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}\n')
+```
 
 ```{python, results = "asis", eval=use_python, include=use_python}
 newton(fkt, dfkt, 4)
@@ -479,7 +476,7 @@ from math import exp, fabs
 
 
 def print_iter_info(i, x, fx, dfx):
-    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}')
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
 
 def newton(f, df, x_start, max_iter=1000, epsilon=0.0001):
@@ -538,6 +535,13 @@ def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
 ```
 
 :::
+
+```{python, eval=use_python, include=use_python, echo=FALSE}
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F}'
+          ' \\ensuremath{\\Delta}'
+          f'f(x)={dfx:.8F}\n')
+```
 
 <!-- --->
 
@@ -643,7 +647,7 @@ from math import exp, fabs
 
 
 def print_iter_info(i, x, fx, dfx):
-    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} \u0394f(x)={dfx:.8F}')
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
 
 def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
@@ -708,6 +712,10 @@ def dfkt(x):
 Für das Sekantenverfahren:
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
 print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
 x = sekantenverfahren(fkt, 1.0, 3.0, epsilon=0.0000001)
@@ -722,6 +730,10 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 Für das Newtwonverfahren:
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
 print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
 x = newton(fkt, dfkt, 3.0, epsilon=0.0000001)
