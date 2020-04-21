@@ -23,7 +23,7 @@ def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
     for i in range(1, max_iter):
         if iw < epsilon:
             break
-        c = (a+b)/2.0
+        c = (a + b) / 2.0
         print_iter_info(i, a, b, c, f)
         if f(a)*f(c) <= 0:
             b = c

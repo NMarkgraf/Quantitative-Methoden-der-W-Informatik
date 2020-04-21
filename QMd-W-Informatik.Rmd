@@ -25,6 +25,7 @@ initPrelude(
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Bitte oben auch den entsprechenden TAG setzen! -- Danke!
+use_python <- TRUE
 use_python <<- TRUE    # Python-Skripts oder
 use_R <<- !use_python  # R-Skripte als Beispiele 
 
@@ -32,7 +33,7 @@ privateVorstellung <<- FALSE   # Zeige die Private Vorstellung
 showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
 showuseR <<- FALSE
 UseCache <<- FALSE
-useWordcloud <<- TRUE
+useWordcloud <<- FALSE  # TRUE
 
 Vorlesungstermine <<- "Duesseldorf"
 

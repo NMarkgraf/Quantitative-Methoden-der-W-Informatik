@@ -23,7 +23,7 @@ def regularfalsi(f, a, b, max_iter=1000, epsilon=0.0001):
         iw = b - a
         if iw < epsilon:
             break
-        c = a - iw / (fb - fa) * fa
+        c = a - (iw / (fb - fa)) * fa
         fc = f(c)
         print_iter_info(i, a, b, c, f)
         if fb*fc <= 0:

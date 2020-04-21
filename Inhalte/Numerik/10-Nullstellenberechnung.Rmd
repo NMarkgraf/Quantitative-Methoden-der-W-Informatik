@@ -200,7 +200,7 @@ def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
 
 <!-- --->
 
-### Beispiel: Bisectionsverfahren (I / II) {include-only=use_python}
+### Beispiel: Bisektionsverfahren (I / II) {include-only=use_python}
 
 ```{python, echo=FALSE, eval=use_python, include=use_python}
 def fkt(x):
@@ -287,7 +287,7 @@ ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
 
 Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
 
-```{r, out.width="60%", eval=use_python, include=use_python}
+```{r, out.width="60%", eval=use_python, include=use_python, echo=FALSE}
 fkt <- makeFun(sqrt( (x-2)^2 + 1) - 2*(x+1)^2 ~ x)
 p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
 ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
@@ -862,6 +862,7 @@ Es gibt viele Versuche die positiven Eigenschaften bestimmter Verfahren zu erhal
 
 - http://www.math.nthu.edu.tw/~amen/2008/070227-1.pdf
 - https://www.jstor.org/stable/2001916?seq=1
+
 
 ### Müllers-Methode {include-only=BIFSTUFF}
 

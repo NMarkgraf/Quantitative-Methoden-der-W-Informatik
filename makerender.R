@@ -72,6 +72,11 @@ privateVorstellung <<- TRUE   # Zeige die Private Vorstellung
 showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
 showuseR <<- TRUE             # Zeige Umfrage an
 
+# Bitte oben auch den entsprechenden TAG setzen! -- Danke!
+use_python <- TRUE
+use_python <<- TRUE    # Python-Skripts oder
+use_R <<- !use_python  # R-Skripte als Beispiele 
+
 # Default Werte für "private.yaml":
 if (use_private) {
   source("private/private.R")

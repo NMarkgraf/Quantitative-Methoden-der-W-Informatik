@@ -18,7 +18,7 @@ def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
         fxl, fx = fx, f(x_cur)
         dfx = (fxl - fx) / (x_last - x_cur)
         print_iter_info(i, x_cur, fx, dfx)
-        if abs(fx) < epsilon: 
+        if abs(fx) < epsilon or abs(dfx) < epsilon:
             break
         x_last, x_cur =  x_cur, x_cur - (fx / dfx)
     return x_cur
