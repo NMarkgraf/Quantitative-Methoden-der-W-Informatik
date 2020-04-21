@@ -12,3 +12,5 @@
 - Teschl, Gerald; Teschl, Susanne: *Mathematik für Informatiker Band 2*, 3. Auflage, Springer Spektrum, 2014
 
 - Luderer, Bernd; Würker, Uwe: *Einstieg in die Wirtschaftsmathematik*, 9. Auflage, Springer Gabler Verlag, 2015
+
+- Knorrenschild, Michael: *Numerische Mathematik*, 6. Auflage, Fachbuchverlag Leipzig im Carl Hanser Verlag, 2017

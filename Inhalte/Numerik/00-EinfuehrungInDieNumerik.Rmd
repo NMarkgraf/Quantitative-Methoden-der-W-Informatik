@@ -23,19 +23,18 @@ library(mosaic)
 ### Ein Gedanke zum Anfang^[Dieses Kapitel orientiert sich an Kap. 1 aus Knorrenschild, M. (2008). *Numerische Mathematik*. München: Hauser.]
 
 
-\begin{quote}
-\small Über den Umgang mit ausgedruckten Ergebnissen einer numerischen Rechnung:
-\vspace{0.5cm}
-\begin{itemize}
-  \item Der (naive) Anfänger glaubt an jede einzelne Ziffer.
+::: {.small}
+Über den Umgang mit ausgedruckten Ergebnissen einer numerischen Rechnung:
+
+- Der (naive) Anfänger glaubt an jede einzelne Ziffer.
   
-  \item Der (erfahrene) Programmierer vertraut auf die Hälfte der Stellen.
+- Der (erfahrene) Programmierer vertraut auf die Hälfte der Stellen.
   
-  \item Der (wissende) Pessimist mißtraut sogar dem Vorzeichen.
-\end{itemize}
-\vspace{0.5cm}
-\scriptsize -- \href[https://de.wikipedia.org/wiki/Karl_Nickel]{Professor Karl Nickel} (Informatikpionier der Universität Karlsruhe)  
-\end{quote} 
+- Der (wissende) Pessimist mißtraut sogar dem Vorzeichen.
+
+
+[-- [Professor Karl Nickel](https://de.wikipedia.org/wiki/Karl_Nickel) (Informatikpionier der Universität Karlsruhe)]{.scriptsize}  
+:::
 
 
 ### Grundbegriffe
@@ -89,7 +88,7 @@ a) Runden ist in der Tat schwerer als gedacht:
 5.000000000001-5
 ```
 
-richtig wäre $`python 0.000000000001`$!
+richtig wäre $0.000000000001$!
 
 b) Berechnen wir $1/10$ in kompliziert:
 ```{python}
@@ -160,6 +159,19 @@ dem *Exponenten* $E$
 zur *Basis* $B$
 
 
+### Beispiele für Gleitpunktzahlen
+
+- Eine vierstellige dezimale Gleitpunktzahl mit negativem Vorzeichen:
+  $-(0.1234)_{10} \cdot 10^{4} = -1234,0$
+  
+  *Es ist somit:* $n=4$, $B=10$, $s=1$ und $(z_1,z_2,z_3,z_4) = (1,2,3,4)$
+  
+- Eine vierstellige duale Gleitpunktzahl mit positiven Vorzeichen:
+  $+(0.1101)_{2} \cdot 2^2 = (0.1101)_2 \cdot 2^2 = (11.01)_2 = 3{,}25$
+  
+  *Es ist somit:* $n=4$, $B=2$, $s=0$ und $(z_1,z_2,z_3,z_4) = (1,1,0,1)$
+
+
 ### Die Wahl der Basis
 
 *Wahl der Basis:* Verschiedene Werte von $B$ sind möglich bzw. werden
@@ -189,7 +201,7 @@ knitr::include_graphics(file.path(pathToImages, "VerteilungGleitpunktzahlen_norm
 
 *Die charakteristischen Größen dieses Systems sind:*
 
-Mantissenlänge $n=3$, größte normalisierte Zahl $x_{max} = (0.111)_2 \cdot 2^1 = 2.75$, kleinste normalisierte positive Zahl $x_{min} = (0.100)_2 \cdot 2^{-1} = 0.25$, Maschinengenauigkeit $eps$ ist wegen $(0.101)_2 - (0.100)_2 = (0.001)_2 \approx 0 \Rightarrow eps=0.25$. 
+Mantissenlänge $n=3$, größte normalisierte Zahl $x_{max} = (0.111)_2 \cdot 2^1 = 1{,}75$, kleinste normalisierte positive Zahl $x_{min} = (0.100)_2 \cdot 2^{-1} = 0{,}25$, Maschinengenauigkeit $eps$ ist wegen $(0.101)_2 - (0.100)_2 = (0.001)_2 \approx 0 \Rightarrow eps=0{,}25$. 
 
 ### Ein kleines, konstruiertes Beispiel (II/II)
 
@@ -281,18 +293,38 @@ Von den theoretisch 48 Möglichkeiten werden also nur 25 für die Gleitpunktzahl
 
 :::
 
+### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen
+
+Bei einer ***normalisierten** dualen Gleitpunktzahl* beginnt die Mantisse immer mit $0.1$, d.h. $z_1=1$. Das machen wir, damit wir die begrenze Anzahl an Stellen ($n$) in der Mantisse maximal ausnützen können.
+
+Bei der **Normalisierung** einer Gleitpunktzahl verschieben wir, mit der Hilfe des Exponenten, die Darstellung immer so weit, dass wir $z_1=1$ (und somit am Anfang $0.1$) erhalten!
+
+Es gibt aber auch Gleitpunktzahlen die *nicht-normalisiert* sind. Je nach Expontent (der ja zwischen m und M liegt) gibt es aber eine *normalisierte* Darstellung des gleichen Wertes. In diesen Fällen wollen wir mit den normalisierten Gleitpunktzahlen weiterarbeiten. -- Wir normalisieren daher nach jedem (Rechen-)Schritt.
+
+Jedoch ist nicht jede Zahl *normalisierbar*! Z.B. fehlen uns passende Werte im Exponenten. Es gibt u.U. auch Werte, die durch durch mehrere normalisierte und/oder nicht-normalisierte Gleitpunktzahlen dargestellt werden. -- Falls möglich wählen die normalisierte Darstellung.
+
+Sollte es keine *normalisierte Darstellung* geben, dann können wir dennoch **eine** *nicht-normalisierte*  Darstellung zulassen und verwenden! -- Wir haben somit potentiell mehr Werte, die wir *exakt* als Gleitpunktzahl darstellen können!
+
+
+#### {.example}
+In eine sechstellige Gleitpunktzahl ($+(0.000011)_2 \cdot 2^2$) ist wegen
+$$+(0.000011)_2 \cdot 2^2 = +(0.001100)_2 \cdot 2^0 =+(0.110000)_2 \cdot 2^{-2}$$
+normalisiert durch $+(0.110000)_2 \cdot 2^{-2}$ darstellbar.
+
+
 
 ### Ein kleines konstruiertes Beispiel - Der Bias Trick 
 
-Bisher haben wir den Exponenten in 2 Bits gespeichert und damit 3 Zahlen (-1, 0 und 1), dargestellt. In 2 Bits können aber 4 Werte kodiert werden (z.B.: 0,1,2,3).
+Bisher haben wir den Exponenten in 2 Bits gespeichert und damit 3 Werte ($(1,0)=-1$, $(0,0)=0$ und $(0,1)=1$), dargestellt. In 2 Bits können aber 4 Werte kodiert werden (z.B.: $(0,0)=0$, $(0,1)=1$, $(1,0)=2$ und $(1,1)=3$).
 
-Das liegt daran, das wir ein Bit zum Kodieren des Vorzeichens benutzt haben. Dieses Bit können wir einsparen, wenn wir noch eine Verschiebung (engl. *bias*) festlegen. 
+Bisher haben wir ein Bit zum Kodieren des Vorzeichens benutzt. Dieses Bit können wir einsparen, wenn wir eine Verschiebung (engl. *bias*) des Exponenten (vorab und fix) festlegen. 
 
 Der wahre Exponent $e$ ergibt sich dann aus der Kodierung $E$ Minus der Verschiebung $bias$:
 
 $$e = E - bias$$
 
-Wir wählen für unser Beispiel einen Biaswert von $2$ und haben somit die vier möglichen Exponenten $-2, -1, 0, 1$.
+Wählen wir in unserem Beispiel einen *Bias*wert von $2$, dann haben wir $(0,0)=0-2=-2$, $(0,1)=1-2=-1$, $(1,0)=2-2=0$ und $(1,1)=3-2=1$ als möglichen Exponenten (in 2 Bits kodiert).
+
 
 #### {.exercise}
 
