@@ -701,13 +701,13 @@ $$rd(x) = (1 + \epsilon)\cdot x \text{ mit } |\epsilon| < eps$$
 
 ### Korrektheit gerundeter Gleitpunktzahlen
 
-Die Machinenzahlen $\mathbf{M}$ sind bezüglich der elementaren arithmetischen
+Die Maschinenzahlen $\mathbf{M}$ sind bezüglich der elementaren arithmetischen
 Operationen (Addition, Subtraktion, Multiplikation und Division) nicht
 abgeschlossen (selbst wenn wir für die Exponenten beliebige Werte erlauben).
 
 **Beispiele:**
 
-- Die Zahl $x = 0.11 \cdot 10^1$ ist eine Gleipunktzahl zur Basis 10 mit Mantissenlänge 2, während $x \cdot x = 0.121 \cdot 10^1$  eine dreistellige Mantissenlänge hat.
+- Die Zahl $x = 0.11 \cdot 10^1$ ist eine Gleitpunktzahl zur Basis 10 mit Mantissenlänge 2, während $x \cdot x = 0.121 \cdot 10^1$  eine dreistellige Mantissenlänge hat.
 
 - Im IEEE-Single Format sind $1$ und $2^{-24}$ beides Maschinenzahlen, deren Summe $1+2^{-24}$ hingegen nicht.
 
@@ -716,7 +716,7 @@ abgeschlossen (selbst wenn wir für die Exponenten beliebige Werte erlauben).
 
 Die arithmetischen Grundoperationen $+, -,  \cdot, /$ werden auf Rechenanlagen durch entsprechende *Maschinenoperationen* $+_M, -_M, \cdot_M, /_M$ ersetzt, die Maschinenzahlen in Maschinenzahlen überführen.
 
-Für ein $\bot \in \{+, -, \cdot, /\}$, zwei reelle Zahlen $x$ und $y$ und zwei Machinenzahlen $\tilde{x}=rd(x)$ und $\tilde{y}=rd(y)$ gilt daher, falls weder Unter- noch Überläufe eintreten:
+Für ein $\bot \in \{+, -, \cdot, /\}$, zwei reelle Zahlen $x$ und $y$ und zwei Maschinenzahlen $\tilde{x}=rd(x)$ und $\tilde{y}=rd(y)$ gilt daher, falls weder Unter- noch Überläufe eintreten:
 
 $$\tilde{x} \bot_M \tilde{y} = rd(x \bot y) = (x \bot y)\cdot(1+\epsilon), \qquad  |\epsilon| < eps$$
 
