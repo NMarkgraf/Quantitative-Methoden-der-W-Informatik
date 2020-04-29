@@ -23,7 +23,176 @@ options(xtable.timestamp = "")
 
 # Polynominterpolation
 
-### Interpolation
+### Über Punkte und Graden die diese Verbinden.
+
+"Durch je zwei Punkte führt eine Gerade!" klingt es in den Ohren. Doch was meint das genau?
+
+Nehmen wir zwei Punkte in der Ebene ($\mathbf{R^2}$) mit den Koordinaten $(x_0, y_0)$ und $(x_1, y_1)$. Dann können wir eine **lineare Funktion** $f$ (also eine **Gerade**) der Form 
+
+$$f(x) = m\cdot x + b,$$ 
+
+mit der **Steigung $m$** und dem **$Y$-Achsenabschnitt $b$** wie folgt konstruieren:
+
+:::::: {.columns}
+::: {.column width="49%"}
+
+1. Wir stellen das folgende lineare Gleichungssystem auf: 
+
+$$\begin{aligned}
+m \cdot x_0 + b &= y_0 \\
+m \cdot x_1 + b &= y_1
+\end{aligned}$$
+
+:::
+::: {.column width="49%"}
+
+2. Wir lösen dieses (ganz allgemein) durch:
+
+   $m = \frac{y_0 - y_1}{x_0 - y_1}$ und $b = y_0 - m \cdot x_0$
+
+:::
+::::::
+
+Wir spechen dann davon, dass $f$ eine **Interpolation** der Punkte $(x_0,y_0)$, $(x_1, y_1)$ darstellt.
+
+Doch was ist, wenn wir drei, vier oder noch mehr Punkte haben?
+
+### Ein anderer Startpunkt und die Konsequenzen.
+
+Geraden stellt man klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderern Ansatz wählen:
+
+$$f(x) = a_1 \cdot (x - x_0) + a_0$$
+
+Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist das (nach Koeffizentenvergleich) nichts anderes also $f(x) = m \cdot x + b$ mit $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
+
+Jedoch kann man für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizenten $a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
+
+:::::: {.columns}
+::: {.column width="49%"}
+
+1. Das folgende lineare Gleichungssystem: 
+
+$$\begin{aligned}
+a_1 \cdot (x_0-x_0) + a_0 &= y_0 \\
+a_1 \cdot (x_1-x_0) + a_0 &= y_1
+\end{aligned}$$
+
+:::
+::: {.column width="49%"}
+
+2. Und damit:
+
+   $a_0 = y_0$ und $a_1 = \frac{y_1-y_0}{x_1-x_0}$
+   
+:::
+::::::
+
+
+### Beispiel mit zwei Punkten
+
+Es seien die folgenden Punkte gegeben:
+
+```{r, echo=FALSE, results="asis"}
+library(xtable)
+fkt <- function(x) {
+  return(-1.5*x + 1)
+}
+
+x <- c(1, 3)
+y <- fkt(x)
+
+df <- data.frame(i = 1:2, x = x, y = y)
+
+tab <- xtable(df, align = c("c", "c","l","r"))
+digits(tab) <- 4
+
+colnames(tab) <- c("i", "$x_i$", "$y_i$")
+
+print(tab, 
+      booktabs=TRUE, 
+      sanitize.text.function = function(x) {x},
+      add.to.row=list(list(1),rep("\\rowcolor[gray]{.8} ",1)),
+      floating = TRUE, 
+      latex.environments = "center",
+      include.rownames = FALSE,
+      comment=FALSE)
+      #scalebox = 0.9)
+
+a0 <- df$y[1]
+a1 <- (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
+```
+
+Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit $f(x) = `r a1` \cdot (x-`r df$x[1]`) + `r a0`$ 
+
+
+### Drei Punkte und quadratische Funktionen
+
+Wie sieht das mit drei Punkten ($(x_0, y_0)$, $(x_1, y_1)$ und $(x_2, y_2)$) aus? -- Diese liegen nicht zwangsläufig auf einer Geraden! -- Aber es gibt eine quadratische Funktion $f(x) = a x^2 + b x + c$, die durch alle drei Punkte verläuft.
+
+Wir wollen auch hier gleich den Trick von den Geraden übernehmen und mit $f(x) = a_2 (x-x_0)\cdot (x-x_1) + a_1 (x-x_0) + a_0$ rechnen: 
+
+:::::: {.columns}
+::: {.column width="49%"}
+
+1. Das folgende lineare Gleichungssystem: 
+
+$$\begin{aligned}
+a_2 \cdot (x_0-x_0)\cdot (x_0-x_1) + a_1 \cdot (x_0-x_0) + a_0 &= y_0 \\
+a_2 \cdot (x_1-x_0)\cdot (x_1-x_1) + a_1 \cdot (x_1-x_0) + a_0 &= y_1 \\
+a_2 \cdot (x_2-x_0)\cdot (x_2-x_1) + a_1 \cdot (x_2-x_0) + a_0 &= y_2
+\end{aligned}$$
+
+:::
+::: {.column width="49%"}
+
+2. Und damit:
+
+   $a_0 = y_0$, $a_1 = \frac{y_1-y_0}{x_1-x_0}$ und 
+   $a_2 = \frac{y_2-y_0}{x_2-x_0} - \frac{y_1-y_0}{x_1-x_0}$
+   
+:::
+::::::
+
+
+### Beispiel mit drei Punkten
+
+Es seien die folgenden Punkte gegeben:
+
+```{r, echo=FALSE, results="asis"}
+library(xtable)
+fkt <- function(x) {
+  return(-1.5*x^2 + 2*x - 1)
+}
+
+x <- c(1, 3, 5)
+y <- fkt(x)
+
+df <- data.frame(i = 1:3, x = x, y = y)
+
+tab <- xtable(df, align = c("c", "c","l","r"))
+digits(tab) <- 4
+
+colnames(tab) <- c("i", "$x_i$", "$y_i$")
+
+print(tab, 
+      booktabs=TRUE, 
+      sanitize.text.function = function(x) {x},
+      add.to.row=list(list(1,3),rep("\\rowcolor[gray]{.8} ",1)),
+      floating = TRUE, 
+      latex.environments = "center",
+      include.rownames = FALSE,
+      comment=FALSE)
+      #scalebox = 0.9)
+
+a0 <- df$y[1]
+a1 <- (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
+a2 <- (df$y[3]-df$y[1])/(df$x[3]-df$x[1]) - (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
+```
+
+Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit $f(x) = `r a1` \cdot (x-`r df$x[1]`) + `r a0`$ 
+
+
+### Das allgemeine Interpolationsproblem
 
 **Ziel:** An wenige gegebene Datenpunkte eine Funktion so anpassen, dass die
 Funktion durch diese Punkte geht.

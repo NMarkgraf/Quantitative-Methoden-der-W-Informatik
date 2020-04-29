@@ -29,7 +29,7 @@ library(mosaicCalc)
 - Zielwertbestimmung: $f(x) = c \Longleftrightarrow f(x) - c=0$
 
 
-**Zwischenwertsatz:** Sei $f$ eine reelwertige, stetige Funktion auf dem Intervall $[a, b]$ mit entweder $f(a) \leq c \leq f(b)$ oder $f(b) \leq c \leq f(a)$. Dann gibt es ein $x_c$ aus $[a, b]$ mit $f(x_c)=c$.
+**Zwischenwertsatz:** Sei $f$ eine reellwertige, stetige Funktion auf dem Intervall $[a, b]$ mit entweder $f(a) \leq c \leq f(b)$ oder $f(b) \leq c \leq f(a)$. Dann gibt es ein $x_c$ aus $[a, b]$ mit $f(x_c)=c$.
 
 ($c$ liegt bei einer stetigen Funktion zwischen den Funktionswerten von $a$ und $b$, dann gibt es ein $x_c$ zwischen $a$ und $b$, dass $c$ als Funktionswert hat.)
 
@@ -412,7 +412,7 @@ Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P
 $$P(x) = 100-x$$
 Für die Erlöse $E$ gilt damit: 
 
-$$E(x) = P \cdot x= 100 x - x^2$$ 
+$$E(x) = P(x) \cdot x = (100-x) \cdot x =100 x - x^2$$  
 
 Die Kosten lassen sich darstellen durch: 
 
@@ -468,6 +468,8 @@ plt.show()
 Wo liegt, ausgehend von $x_0=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
 
 ::: {.notes}
+
+Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 60$ und für die Grenzgewinnfunktion $G'(x)= -6 x^2 +48 x - 34$, der Startwert $x_0 = 4$.
 
 Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Newtonverfahren:
 
@@ -548,7 +550,7 @@ def print_iter_info(i, x, fx, dfx):
 
 ### Beispiel: Sekantenverfahren (I/ II) {include-only=use_python}
 
-Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
+Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15 \cdot x$. 
 Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
 
 Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4$?
@@ -583,7 +585,7 @@ Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P
 $$P(x) = 100-x$$
 Für die Erlöse $E$ gilt damit: 
 
-$$E(x) = P \cdot x= 100 x - x^2$$ 
+$$E(x) = P(x) \cdot x = (100-x) \cdot x =100 x - x^2$$ 
 
 Die Kosten lassen sich darstellen durch: 
 
@@ -639,6 +641,8 @@ plt.show()
 Wo liegt, ausgehend von $x_0=2$ und $x_1=4$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Sekantenverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$.
 
 ::: {.notes}
+
+Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 60$. Die Startwerte lauten $x_0 = 2$, $x_1 = 4$.
 
 Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Sekantenverfahren:
 
