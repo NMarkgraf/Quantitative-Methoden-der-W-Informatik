@@ -432,9 +432,12 @@ $$
     p(-2) = 12 - 5 (-2+1) + (-2+1)(-2) = 12+5+2 = 19
 $$
 
+
 ### Python-Code (I/II) {include-only=use_python}
 
-```{python, eval=F}
+::: {.footnotesize}
+
+```{python, eval=T}
 import numpy as np
 
 def divdiff(x, y):
@@ -444,7 +447,8 @@ def divdiff(x, y):
         T[i][0] = y[n-i-1]
     for level in range(1, n):
         for i in range(n - level):
-            T[i][level] = (T[i+1][level-1] - T[i][level-1]) / (x[n-(i+level)-1]-x[n-i-1])
+            T[i][level] = (T[i+1][level-1] - T[i][level-1]) / \
+                          (x[n-(i+level)-1]-x[n-i-1])
     return T
 
 def newton_koeffizenten(divdif, n):
@@ -453,10 +457,13 @@ def newton_koeffizenten(divdif, n):
 
 ```
 
+:::
 
 ### Python-Code (II/II) {include-only=use_python}
 
-```{python, eval=F}
+::: {.footnotesize}
+
+```{python, eval=T}
 
 def newtonpolyeval(r, x, koeff):
     n = len(koeff) - 1
@@ -468,81 +475,16 @@ def newtonpolyeval(r, x, koeff):
 if __name__ == "__main__":
     x = [-1,0,1]
     y = [12, 7, 4]
-
     divdif = divdiff(x, y)
     print(f'Dividierte Differenzen:{divdif}')
-
     koeff = newton_koeffizenten(divdif, len(x))
     print(f'Newton-Koeffizenten: {koeff}')
-
     print(f'f(-2)={newtonpolyeval(-2, x, koeff)}')
     
 ```
 
+:::
 
-
-### R-Code zur Polynominterpolation (I/ IV) {include-only=use_r}
-
-```{r}
-polynewton <- function(x,y){
-    # Polynominterpolation mit Hife des Newton Verfahrens
-
-        # Korrektur für Poylnome a_0, a_n (Länge n+1)
-    n <- length(x) - 1
-    a <- y
-    # Berechnung der dividierten Differenzen
-    for (j in 1:n)
-        for (i in n:j){
-            a[i+1] <- (a[i+1]-a[i])/(x[i+1]-x[i-j+1])
-        }
-    erg <- list(x=x, y=y, a=a)
-    return(erg)
-}
-
-```
-
-### R-Code zur Polynominterpolation (II/ IV) {include-only=use_r}
-
-```{r}
-interpoly <- function(x, ergnewton){
-    # Polynominterpolation mit Newtonverfahren
-    n <- length(x)
-    y <- numeric(n)
-    
-    # Polynomberechnung für einzelnen x-Wert
-    for (i in 1:n) {
-        y[i] <- internewton(x[i], ergnewton)
-    }
-    return(y)
-}
-```
-
-### R-Code zur Polynominterpolation (III/ IV) {include-only=use_r}
-
-```{r}
-internewton <- function(x, ergpoly){
-    # Berechnung der Interpolation mit Hilfe des Newton-Verfahrens
-    a <- ergpoly$a; xa <- ergpoly$x
-    # Korrektur der Länge
-    n <- length(xa) - 1
-    y <- a[1]
-    for (i in 1:n) {
-        xd <- 1
-        for (j in 1:i) {
-            xd <- xd * (x - xa[j])
-        }
-        y <- y + a[i+1] * xd
-    }
-    return(y)
-}
-```
-
-### R-Code zur Polynominterpolation (IV/ IV) {include-only=use_r}
-
-```{r}
-erg <- polynewton(x = c(-1, 0, 1), y = c(12, 7, 4))
-interpoly(-2, erg)
-```
 
 
 ### Übung `r nextExercise()`: Newtonverfahren zur Polynominterpolation {.exercise}
@@ -654,8 +596,10 @@ Das gesuchte Polynom kann mit Hilfe eines Linearen Gleichungssystems gefunden
 werden, in der Regel funktioniert aber das auf den
 dividierten Differenzen basierende Newtonverfahren schneller.
 
-- $\longleftarrow$ (kubische) Spline-Interpolation
-- $\longleftarrow$ [Tschebyschow](https://de.wikipedia.org/wiki/Pafnuti_Lwowitsch_Tschebyschow)-Interpolation
+- $\longrightarrow$ (kubische) Spline-Interpolation
+- $\longrightarrow$ [Tschebyschow](https://de.wikipedia.org/wiki/Pafnuti_Lwowitsch_Tschebyschow)-Interpolation
+
+<!-- --->
 
 
 ### Splineinterpolation {include-only=BIGSTUFF}
@@ -690,6 +634,9 @@ print(plt3)
 </div>
 </div>
 
+<!-- --->
+
+
 ### Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
 Interpolation mit (natürlichen) kubischen Splines
@@ -708,6 +655,9 @@ Kubische Splines haben unter den *glatten* Interpolierenden die geringste
 Krümmung.
 
 Die Berechnung *per Hand* ist möglich, mit Hilfe eines Computers sogar einfach.
+
+<!-- --->
+
 
 ###  R-Code zur Interpolation mit kubischen Splines (I/ V) {.shrink include-only=BIGSTUFF}
 
@@ -739,6 +689,8 @@ natspline <- function(x,y){
 }
 ```
 
+<!-- --->
+
 
 ###  R-Code zur Interpolation mit kubischen Splines (II/ IV) {.shrink include-only=BIGSTUFF}
 
@@ -756,6 +708,8 @@ splinterpol <- function(x, ergspline){
     return(y)
 }
 ```
+
+<!-- --->
 
 
 ###  R-Code zur Interpolation mit kubischen Splines (III/ IV) {.shrink include-only=BIGSTUFF}
@@ -786,6 +740,8 @@ splint <- function(x, erg){
 }
 ```
 
+<!-- --->
+
 
 ###  R-Code zur Interpolation mit kubischen Splines (IV/ IV) {.shrink include-only=BIGSTUFF}
 
@@ -802,6 +758,8 @@ fkt(1.5)
 splint(1.5, erg)
 ```
 
+<!-- --->
+
 
 ### Anwendung des R-Code zur Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
@@ -816,6 +774,8 @@ print(p2, more=TRUE)
 print(p3)
 ```
 
+<!-- --->
+
 
 ### Fehlerbetrachtung der kubischen Splineinterpolation {include-only=BIGSTUFF}
 
@@ -824,6 +784,9 @@ xx <- seq(-3, 3, 0.1)
 yy <- fkt(xx) - splinterpol(xx, erg)
 xyplot(yy ~ xx, type="l", xlim=c(-3, 3), xlab="x", ylab="f(x)-S(x)")
 ```
+
+<!-- --->
+
 
 ### Beispiel: Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
@@ -876,6 +839,9 @@ print(plt3)
 </div>
 </div>
 
+<!-- --->
+
+
 ### Das wissen Sie nun! {include-only=BIGSTUFF}
 
 - Mit Hilfe von Polynomen lassen sich Funktionen an gegebene Datenpunkte anpassen.
@@ -892,6 +858,11 @@ print(plt3)
   steigen ersten und zweiten Ableitungen.
   Sie haben von allen *glatten* Interpolierenden die geringste Krümmung.
 
+<!-- --->
+
+### Ende Teil 1
+
+Ende Teil 1
 
 ```{r finish-Polynominterpolation, include=FALSE}
 rm(pathToImages)
