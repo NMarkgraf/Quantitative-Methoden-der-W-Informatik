@@ -14,6 +14,7 @@ pathToImages = getPathToImages()
 
 library(mosaic)
 library(mosaicCalc)
+library(latex2exp)
 
 library(xtable)
 options(xtable.floating = FALSE)
@@ -25,7 +26,7 @@ options(xtable.timestamp = "")
 
 ### Über Punkte und Graden die diese Verbinden.
 
-"Durch je zwei Punkte führt eine Gerade!" klingt es in den Ohren. Doch was meint das genau?
+Zwei Punkte in der Ebene liegen auf einer gemeinsamen Gerade. Doch wie kommt man an eine möglichst einfache Funktion, welche vorgegebene Punkte beinhaltet?
 
 Nehmen wir zwei Punkte in der Ebene ($\mathbf{R^2}$) mit den Koordinaten $(x_0, y_0)$ und $(x_1, y_1)$. Dann können wir eine **lineare Funktion** $f$ (also eine **Gerade**) der Form 
 
@@ -46,24 +47,25 @@ m \cdot x_1 + b &= y_1
 :::
 ::: {.column width="49%"}
 
-2. Wir lösen dieses (ganz allgemein) durch:
+2. Wir lösen dieses LGS (ganz allgemein) mittels:
 
    $m = \frac{y_0 - y_1}{x_0 - y_1}$ und $b = y_0 - m \cdot x_0$
 
 :::
 ::::::
 
-Wir spechen dann davon, dass $f$ eine **Interpolation** der Punkte $(x_0,y_0)$, $(x_1, y_1)$ darstellt.
+Wir spechen dann davon, dass $f$ eine **Interpolierende** der Punkte $(x_0,y_0)$, $(x_1, y_1)$ darstellt.
 
 Doch was ist, wenn wir drei, vier oder noch mehr Punkte haben?
 
+
 ### Ein anderer Startpunkt und die Konsequenzen.
 
-Geraden stellt man klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderern Ansatz wählen:
+Geraden stellt man klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderen Ansatz wählen:
 
 $$f(x) = a_1 \cdot (x - x_0) + a_0$$
 
-Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist das (nach Koeffizentenvergleich) nichts anderes also $f(x) = m \cdot x + b$ mit $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
+Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist das (nach Koeffizentenvergleich) nichts anderes als $f(x) = m \cdot x + b$ mit $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
 
 Jedoch kann man für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizenten $a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
 
@@ -90,6 +92,9 @@ a_1 \cdot (x_1-x_0) + a_0 &= y_1
 
 ### Beispiel mit zwei Punkten
 
+:::::: {.columns}
+::: {.column width="49%"}
+
 Es seien die folgenden Punkte gegeben:
 
 ```{r, echo=FALSE, results="asis"}
@@ -111,7 +116,7 @@ colnames(tab) <- c("i", "$x_i$", "$y_i$")
 print(tab, 
       booktabs=TRUE, 
       sanitize.text.function = function(x) {x},
-      add.to.row=list(list(1),rep("\\rowcolor[gray]{.8} ",1)),
+      add.to.row=list(list(1), rep("\\rowcolor[gray]{.8} ", 1)),
       floating = TRUE, 
       latex.environments = "center",
       include.rownames = FALSE,
@@ -122,7 +127,53 @@ a0 <- df$y[1]
 a1 <- (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
 ```
 
-Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit $f(x) = `r a1` \cdot (x-`r df$x[1]`) + `r a0`$ 
+:::
+::: {.column width="50%"}
+```{r, echo=F, eval=T, out.width="95%"}
+linPoly <- function(x, x0=0, a=c(1,2)) {
+    return (a[1+1]*(x-x0)+a[0+1])
+}
+
+P <- c(df$x[1], df$y[1])
+Q <- c(df$x[2], df$y[2])
+
+x0 <- P[1]
+y0 <- P[2]
+
+x1 <- Q[1]
+y1 <- Q[2]
+
+
+a <- c( 
+       y0, 
+       (y1-y0)/(x1-x0)
+      )
+
+x <- seq(from=-1, to=8, by=0.1)
+
+if (a[1] < 0) {
+  v1 = "-"
+} else {
+  v1 = "+"
+}
+
+fx <- paste0("$f(x)=",a[2],"\\cdot (x - ",x0,") ",v1,"",abs(a[1]),"$")
+
+gf_line(linPoly(x, x0=x0, a=a) ~ x, color = "green") %>%
+    gf_point(P[2] ~ P[1], size=3.5, color = "blue") %>%
+    gf_point(Q[2] ~ Q[1], size=3.5, color = "blue") %>%
+    gf_labs(
+      title="Interpolation zweier Punkte mittels einer Geraden",
+      x = "x",
+      y = TeX(fx)
+    )
+```
+
+:::
+
+::::::
+
+Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit `r fx` 
 
 
 ### Drei Punkte und quadratische Funktionen
@@ -131,30 +182,36 @@ Wie sieht das mit drei Punkten ($(x_0, y_0)$, $(x_1, y_1)$ und $(x_2, y_2)$) aus
 
 Wir wollen auch hier gleich den Trick von den Geraden übernehmen und mit $f(x) = a_2 (x-x_0)\cdot (x-x_1) + a_1 (x-x_0) + a_0$ rechnen: 
 
-:::::: {.columns}
-::: {.column width="49%"}
+::::::::: {.columns}
+:::::: {.column width="49%"}
 
 1. Das folgende lineare Gleichungssystem: 
 
+::: {.footnotesize}
 $$\begin{aligned}
 a_2 \cdot (x_0-x_0)\cdot (x_0-x_1) + a_1 \cdot (x_0-x_0) + a_0 &= y_0 \\
 a_2 \cdot (x_1-x_0)\cdot (x_1-x_1) + a_1 \cdot (x_1-x_0) + a_0 &= y_1 \\
 a_2 \cdot (x_2-x_0)\cdot (x_2-x_1) + a_1 \cdot (x_2-x_0) + a_0 &= y_2
 \end{aligned}$$
-
 :::
-::: {.column width="49%"}
+
+::::::
+:::::: {.column width="49%"}
 
 2. Und damit:
 
-   $a_0 = y_0$, $a_1 = \frac{y_1-y_0}{x_1-x_0}$ und 
-   $a_2 = \frac{y_2-y_0}{x_2-x_0} - \frac{y_1-y_0}{x_1-x_0}$
+   - $a_0 = y_0$, 
+   - $a_1 = \frac{y_1-y_0}{x_1-x_0}$ und 
+   - $a_2 = \frac{\frac{y_2-y_0}{x_2-x_0} - \frac{y_1-y_0}{x_1-x_0}}{x_2-x_1}$
    
-:::
 ::::::
+:::::::::
 
 
 ### Beispiel mit drei Punkten
+
+:::::: {.columns}
+::: {.column width="49%"}
 
 Es seien die folgenden Punkte gegeben:
 
@@ -169,7 +226,7 @@ y <- fkt(x)
 
 df <- data.frame(i = 1:3, x = x, y = y)
 
-tab <- xtable(df, align = c("c", "c","l","r"))
+tab <- xtable(df, align = c("c", "c", "l", "r"))
 digits(tab) <- 4
 
 colnames(tab) <- c("i", "$x_i$", "$y_i$")
@@ -177,7 +234,7 @@ colnames(tab) <- c("i", "$x_i$", "$y_i$")
 print(tab, 
       booktabs=TRUE, 
       sanitize.text.function = function(x) {x},
-      add.to.row=list(list(1,3),rep("\\rowcolor[gray]{.8} ",1)),
+      add.to.row=list(list(1,3),rep("\\rowcolor[gray]{.8} ", 2)),
       floating = TRUE, 
       latex.environments = "center",
       include.rownames = FALSE,
@@ -186,10 +243,83 @@ print(tab,
 
 a0 <- df$y[1]
 a1 <- (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
-a2 <- (df$y[3]-df$y[1])/(df$x[3]-df$x[1]) - (df$y[2]-df$y[1])/(df$x[2]-df$x[1])
+a2 <- ((df$y[3]-df$y[1])/(df$x[3]-df$x[1]) - (df$y[2]-df$y[1])/(df$x[2]-df$x[1]))/(df$x[3]-df$x[2])
+```
+:::
+::: {.column width="50%"}
+```{r, echo=F, eval=T, out.width="95%"}
+quadPoly <- function(x, x0=0, x1=0, a=c(1,2,3)) {
+    return (a[2+1]*(x-x1)*(x-x0) + a[1+1]*(x-x0) + a[0+1])
+}
+
+P <- c(df$x[1], df$y[1])
+Q <- c(df$x[2], df$y[2])
+R <- c(df$x[3], df$y[3])
+
+x0 <- P[1]
+y0 <- P[2]
+
+x1 <- Q[1]
+y1 <- Q[2]
+
+x2 <- R[1]
+y2 <- R[2]
+
+a <- c( 
+       y0, 
+       (y1-y0)/(x1-x0),
+       ( (y2-y0)/(x2-x0)-(y1-y0)/(x1-x0) )/(x2-x1)
+      )
+
+x <- seq(from=-1, to=8, by=0.1)
+
+if (a[1] < 0) {
+  v1 = "-"
+} else {
+  v1 = "+"
+}
+
+if (a[2] < 0) {
+  v2 = "-"
+} else {
+  v2 = "+"
+}
+
+fx <- paste0("$f(x)=",a[3],"\\cdot (x - ", x1,") \\cdot (x - ",x0,")",v2,abs(a[2]),"\\cdot (x - ",x0,") ",v1,"",abs(a[1]),"$")
+
+gf_line(quadPoly(x, x0=x0, x1=x1, a=a) ~ x, color = "green") %>%
+    gf_point(P[2] ~ P[1], size=3.5, color = "blue") %>%
+    gf_point(Q[2] ~ Q[1], size=3.5, color = "blue") %>%
+    gf_point(R[2] ~ R[1], size=3.5, color = "blue") %>%
+    gf_labs(
+      title="Interpolation dreier Punkte mittels einer Parabel",
+      x = "x",
+      y = TeX(fx)
+    )
 ```
 
-Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit $f(x) = `r a1` \cdot (x-`r df$x[1]`) + `r a0`$ 
+:::
+
+::::::
+
+
+Wir erhalten $a_0 = `r a0`$, $a_1=`r a1`$ sowie $a_2=`r a2`$ und somit `r fx`. 
+
+
+### Eine Vermutung, eine Idee, eine Vereinfachung
+
+Die Vermutung liegt nahe, dass wir für je $n+1$ Punkte ein Polynom vom Grade $n$ finden, welches alle Punkte beinhaltet.
+
+Eine Idee, wie wir dieses Polynom finden, können wir (vielleicht) aus den bisherigen Bobachtungen ableiten. Dabei wäre es Hilfreich die Koeffizenten des Polynoms relativ einfach berechnen zu können.
+
+Auch sollte das Polynom relativ einfach auszuwerden sein. 
+
+Das *quadratische Polynom* (die *Parabel*) kann man z.B. wie folgt auswerten:
+
+$$\begin{aligned}
+  f(x) &= a_2 \cdot (x-x_0)\cdot (x-x_1) + a_1 \cdot (x-x_0) + a_0 \\
+       &= \left(a_2 \cdot (x-x_1) + a_1\right)  \cdot (x-x_0) + a_0
+  \end{aligned}$$
 
 
 ### Das allgemeine Interpolationsproblem
@@ -217,90 +347,24 @@ wird **Interpolierende** genannt
 
 ### Polynominterpolation
 
-**Satz:** Seien n+1 Wertepaare $(x_i,y_i)$ gegeben.
-Dann gibt es genau ein Polynom $p$ vom höchsten Grad $n$, so dass gilt
-$p(x_i)=y_i$ für $i=0, 1, \dots, n$:
+**Satz:** Seien n+1 Wertepaare $(x_i, y_i)$ gegeben.
+Dann gibt es genau ein Polynom $p$ vom höchstens Grad $n$, so dass $p(x_i)=y_i$ für $i=0, 1, \dots, n$ gilt.
 
-*Existenz und Eindeutigkeit:* Für $n+1$ gegebene Stützpunkte gibt es also immer
-genau ein Polynom mit dem höchsten Exponenten $n$, so dass das Polynom genau
-durch die Stützpunkte geht
+*Existenz und Eindeutigkeit:* Für $n+1$ gegebene Stützpunkte gibt es also immer genau ein Polynom mit dem höchsten Exponenten $n$, so dass das Polynom genau durch die Stützpunkte geht.
 
 
+### Newton-Darstellung von Interpolationspolynomen
 
-### Beispiel: Polynominterpolation
+Die Idee das Polynom mit Hilfe der Stützstellen $x_0, \ldots, x_n$ zu definieren für zur foldenen Darstellung
 
-Prinzipiell kann also ein lineares Gleichungssystem aufgestellt und gelöst
-werden:
+$$\begin{aligned}
+  p(x) &= && a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdots\cdot(x-x_0) + \\
+       &  &&\quad a_{n-1} \cdot (x-x_{n-2})\cdot(x-x_{n-3})\cdots\cdot(x-x_0)+ \\
+       &  &&\quad \cdots + a_1 \cdot(x-x0) + a_0 \\
+       &= &&\sum_{i=0}^{n} a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})
+  \end{aligned}$$
 
-:::::: {.columns}
-<div class="column" width="40%">
-
-
-**Wertetabelle:**
-
-```{r eval=TRUE, echo=FALSE}
-tab.df <- data.frame( x = c(-1, 0, 1), y = c(12, 7, 4))
-colnames(tab.df) <- c("$x_i$", "$y_i$")
-rws <- c(0,1,2)
-col <- c("\\rowcolor[gray]{0.7}", "\\rowcolor[gray]{0.95} ", "\\rowcolor[gray]{0.7}")
-
-xtab <- xtable(tab.df)
-
-knitr::asis_output(
-    tyxtable(
-        print(
-            xtab, 
-            booktabs = FALSE,  
-            sanitize.text.function = function(x) {x},
-            add.to.row = list(
-                pos = as.list(rws), 
-                command = col
-            )
-        )
-     )
-)
-```
-
-
-**Plot:**
-
-```{r echo=FALSE, fig.align="center", out.width="80%"}
-fkt = makeFun( x^2 - 4*x + 7 ~ x)
-tab.df <- data.frame( x = c(-1, 0, 1), y = c(12, 7, 4))
-plt <- xyplot(tab.df$y ~ tab.df$x,  ylim=range(3,16), xlim=range(-1.5, 1.5), pch=21, fill="red", col="red", ylab="p(x)", xlab="x")
-plt2 <- plotFun(fkt(x) ~ x, x.lim=range(-1.5, 1.5), ylim=range(3,16), ylab="p(x)", xlab="x")
-print(plt, more=TRUE)
-print(plt2)
-```
-
-
-</div>
-<div class="column" width="60%">
-
-Aus $p(x) = a_2 x^2 + a_1 x + a_0$ folgt
-
-$$
-    \begin{pmatrix} 1 & -1 & 1 \\ 0 & 0 & 1 \\ 1 & 1 & 1 \end{pmatrix} 
-    \cdot 
-    \begin{pmatrix} a_2 \\ a_1 \\ a_0 \end{pmatrix}
-    = 
-    \begin{pmatrix} 12 \\ 7 \\ 4 \end{pmatrix}
-$$
-
-mit Gauß-(Jordan-)Elimination dann
-
-$$
-    \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} 
-    \cdot 
-    \begin{pmatrix} a_2 \\ a_1 \\ a_0 \end{pmatrix} 
-    = 
-    \begin{pmatrix} 1 \\ -4 \\ 7 \end{pmatrix}
-$$
-
-und somit $p(x) = x^2 -4 x + 7$.
-
-</div>
-::::::
+Zum berechnen der $a_i$ verwenden wir **(Newtons) Dividierte Differenzen** zu den Stützstellen $(x_0, y_0),\ldots, (x_n, y_n)$.
 
 ### Dividierte Differenzen {.shrink}
 
@@ -331,16 +395,15 @@ f[x_n] & \rightarrow  & f[x_{n-1}, x_n] & \rightarrow & f[x_{n-2},x_{n-1},x_n]
   & \cdots & \rightarrow & f[x_1\ldots x_n] & \rightarrow & f[x_0\ldots x_n]
 \end{array}$$
 
+
 ### Newtonverfahren zur Polynominterpolation
 
-Ein Polynom lässt sich auch wie folgt darstellen
-$$
-    p(x) = a_0 + a_1\cdot(x-x_0) + a_2\cdot(x-x_0)(x-x_1) + \cdots a_n(x-x_0)(x-x_1)\cdot(x-x_{n-1})
-$$
+Die gesuchten $a_i$ ergeben sich nun aus dem Schema der *dividierten Differenzen*. Dabei gilt:
+
 Im Newtonschen Interpolationspolynom sind die $a_i$ die dividierten Differenzen $a_i = f[x_0, x_1, \dots, x_{i}]$.
 
 **Anmerkung:**
-Im Newtonverfahren werden also nur die dividierten Differenzen verwendet, die im „oberen Dreieckschenkel“ stehen
+Im Newtonverfahren werden also nur die dividierten Differenzen verwendet, die im „oberen Dreieckschenkel“ stehen.
 
 
 ### Beispiel: Newtonverfahren zur Polynominterpolation
@@ -361,12 +424,63 @@ $$
              &= 12-5x+5+x^2+x = 7 -4x +x^2
     \end{aligned}
 $$
+
 Als Beispiel das Auswerten an der Stelle $x=-2$:
+
 $$
     p(-2) = 12 - 5 (-2+1) + (-2+1)(-2) = 12+5+2 = 19
 $$
 
-### R-Code zur Polynominterpolation (I/ IV)
+### Python-Code (I/II) {include-only=use_python}
+
+```{python, eval=F}
+import numpy as np
+
+def divdiff(x, y):
+    n = len(y)
+    T = [[0] * (n-i) for i in range(n)]
+    for i in range(n):
+        T[i][0] = y[n-i-1]
+    for level in range(1, n):
+        for i in range(n - level):
+            T[i][level] = (T[i+1][level-1] - T[i][level-1]) / (x[n-(i+level)-1]-x[n-i-1])
+    return T
+
+def newton_koeffizenten(divdif, n):
+    ret = [divdif[n - i - 1][i] for i in range(n)]
+    return ret
+
+```
+
+
+### Python-Code (II/II) {include-only=use_python}
+
+```{python, eval=F}
+
+def newtonpolyeval(r, x, koeff):
+    n = len(koeff) - 1
+    temp = koeff[n]
+    for i in range(n-1, -1, -1):
+        temp = temp * (r - x[i]) + koeff[i]
+    return temp
+
+if __name__ == "__main__":
+    x = [-1,0,1]
+    y = [12, 7, 4]
+
+    divdif = divdiff(x, y)
+    print(f'Dividierte Differenzen:{divdif}')
+
+    koeff = newton_koeffizenten(divdif, len(x))
+    print(f'Newton-Koeffizenten: {koeff}')
+
+    print(f'f(-2)={newtonpolyeval(-2, x, koeff)}')
+    
+```
+
+
+
+### R-Code zur Polynominterpolation (I/ IV) {include-only=use_r}
 
 ```{r}
 polynewton <- function(x,y){
@@ -386,7 +500,7 @@ polynewton <- function(x,y){
 
 ```
 
-### R-Code zur Polynominterpolation (II/ IV)
+### R-Code zur Polynominterpolation (II/ IV) {include-only=use_r}
 
 ```{r}
 interpoly <- function(x, ergnewton){
@@ -402,7 +516,7 @@ interpoly <- function(x, ergnewton){
 }
 ```
 
-### R-Code zur Polynominterpolation (III/ IV)
+### R-Code zur Polynominterpolation (III/ IV) {include-only=use_r}
 
 ```{r}
 internewton <- function(x, ergpoly){
@@ -422,7 +536,7 @@ internewton <- function(x, ergpoly){
 }
 ```
 
-### R-Code zur Polynominterpolation (IV/ IV)
+### R-Code zur Polynominterpolation (IV/ IV) {include-only=use_r}
 
 ```{r}
 erg <- polynewton(x = c(-1, 0, 1), y = c(12, 7, 4))

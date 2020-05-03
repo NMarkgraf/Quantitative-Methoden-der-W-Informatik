@@ -1,5 +1,6 @@
 ---
-title: "Quantitative Methoden der (Wirtschafts-)Informatik (Teil 1+2)"
+title: "Quantitative Methoden der (Wirtschafts-)Informatik"
+subtitle: "Revision 2020.0503"
 tag:
     - bachelor
     - shiny
@@ -81,7 +82,10 @@ childrenToInclude <- c(
 )
 childrenToInclude <- c(
   "Organisatorisches", "Hinweise", 
-  "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung"
+  "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung" #, "20-Polynominterpolation"
+)
+childrenToInclude <- c(
+  "20-Polynominterpolation"
 )
 
 includeChild <- function(name, children=childrenToInclude, all=FALSE) {
@@ -112,6 +116,10 @@ includeChild <- function(name, children=childrenToInclude, all=FALSE) {
 
 ```{r child = './Inhalte/Numerik/10-Nullstellenberechnung.Rmd', eval=includeChild("10-Nullstellenberechnung")}
 ```
+
+```{r child = './Inhalte/Numerik/20-Polynominterpolation.Rmd', eval=includeChild("20-Polynominterpolation")}
+```
+
 
 ```{r child = './Inhalte/Grundlagen-QuantDat.Rmd', eval=includeChild("Grundlagen-QuantDat")}
 ```
