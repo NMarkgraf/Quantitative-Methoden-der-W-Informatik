@@ -366,6 +366,7 @@ $$\begin{aligned}
 
 Zum berechnen der $a_i$ verwenden wir **(Newtons) Dividierte Differenzen** zu den Stützstellen $(x_0, y_0),\ldots, (x_n, y_n)$.
 
+
 ### Dividierte Differenzen {.shrink}
 
 Rekursiv definierte dividierte Differenzen:
@@ -642,7 +643,7 @@ print(plt3)
 sowie das Interpolationspolynom (rot) sowie den wahren Funktionsverlauf (grün).
 
 
-### Zusammenfassung Polynominterpolation
+### Zusammenfassung Polynominterpolation {exclude-only=BIGSTUFF}
 
 Theoretisch kann ein Polynom an beliebig viele Punkte genau angepasst werden.
 Häufig wird dieses Polynom aber zu viele Schwingungen aufweisen und
@@ -650,11 +651,14 @@ insbesondere an den Randbereichen aufgrund der starken Schwankung unbrauchbar
 sein.
 
 Das gesuchte Polynom kann mit Hilfe eines Linearen Gleichungssystems gefunden
-werden, in der Regel funktioniert aber das Newtonverfahren basierend auf den
-dividierten Differenzen schneller.
+werden, in der Regel funktioniert aber das auf den
+dividierten Differenzen basierende Newtonverfahren schneller.
+
+- $\longleftarrow$ (kubische) Spline-Interpolation
+- $\longleftarrow$ [Tschebyschow](https://de.wikipedia.org/wiki/Pafnuti_Lwowitsch_Tschebyschow)-Interpolation
 
 
-### Splineinterpolation
+### Splineinterpolation {include-only=BIGSTUFF}
 
 Um den Nachteil der zu großen Schwankungen auszugleichen wird das Intervall
 in mehrere Teilintervalle aufgeteilt.
@@ -686,7 +690,7 @@ print(plt3)
 </div>
 </div>
 
-### Interpolation mit kubischen Splines
+### Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
 Interpolation mit (natürlichen) kubischen Splines
 
@@ -705,7 +709,7 @@ Krümmung.
 
 Die Berechnung *per Hand* ist möglich, mit Hilfe eines Computers sogar einfach.
 
-###  R-Code zur Interpolation mit kubischen Splines (I/ V) {.shrink}
+###  R-Code zur Interpolation mit kubischen Splines (I/ V) {.shrink include-only=BIGSTUFF}
 
 ```{r}
 natspline <- function(x,y){
@@ -736,7 +740,7 @@ natspline <- function(x,y){
 ```
 
 
-###  R-Code zur Interpolation mit kubischen Splines (II/ IV) {.shrink}
+###  R-Code zur Interpolation mit kubischen Splines (II/ IV) {.shrink include-only=BIGSTUFF}
 
 ```{r}
 
@@ -754,7 +758,7 @@ splinterpol <- function(x, ergspline){
 ```
 
 
-###  R-Code zur Interpolation mit kubischen Splines (III/ IV) {.shrink}
+###  R-Code zur Interpolation mit kubischen Splines (III/ IV) {.shrink include-only=BIGSTUFF}
 
 ```{r}
 splint <- function(x, erg){
@@ -783,7 +787,7 @@ splint <- function(x, erg){
 ```
 
 
-###  R-Code zur Interpolation mit kubischen Splines (IV/ IV) {.shrink}
+###  R-Code zur Interpolation mit kubischen Splines (IV/ IV) {.shrink include-only=BIGSTUFF}
 
 ```{r}
 fkt <- makeFun( 1 / (x^2 + 1) ~ x)
@@ -799,7 +803,7 @@ splint(1.5, erg)
 ```
 
 
-### Anwendung des R-Code zur Interpolation mit kubischen Splines
+### Anwendung des R-Code zur Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
 ```{r echo=FALSE, fig.align="center", out.width="80%"}
 xx <- seq(-3, 3, 0.1)
@@ -813,7 +817,7 @@ print(p3)
 ```
 
 
-### Fehlerbetrchtung der kubischen Splineinterpolation
+### Fehlerbetrachtung der kubischen Splineinterpolation {include-only=BIGSTUFF}
 
 ```{r echo=FALSE, fig.align="center", out.width="80%"}
 xx <- seq(-3, 3, 0.1)
@@ -821,7 +825,7 @@ yy <- fkt(xx) - splinterpol(xx, erg)
 xyplot(yy ~ xx, type="l", xlim=c(-3, 3), xlab="x", ylab="f(x)-S(x)")
 ```
 
-### Beispiel: Interpolation mit kubischen Splines
+### Beispiel: Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
 Betrachten wir die Funktion $f(x)=\frac{1}{x^2+1}$, die Wertpaare,
 
@@ -872,7 +876,7 @@ print(plt3)
 </div>
 </div>
 
-### Das wissen Sie nun!
+### Das wissen Sie nun! {include-only=BIGSTUFF}
 
 - Mit Hilfe von Polynomen lassen sich Funktionen an gegebene Datenpunkte anpassen.
 
