@@ -513,9 +513,21 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 
 <!-- -->
 
-### Sekantenverfahren {include-only=use_python}
 
-Ist die Ableitung schwer zu bestimmen, dann kann man die Tangentensteigung durch die Sekantensteigung der letzen beiden Werte ersetzt. Wir erhalten so das **Sekantenverfahren**.
+### Sekantenverfahren 
+
+Möchte man die Bestimmung und Auswertung der Ableitung in jedem Schritt umgehen, weil z.B. die Ableitung schwer zu bestimmen ist, dann kann man die Tangentensteigung duch die Sekantensteigung der letzen zwei Punkte ersetzen.
+
+So erhalten wir das **Sekantenverfahren** mit der folgenden Rekursionsformel zur Bestimmung der nächsten Näherungslösung:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{\frac{f(x_n)- f(x_{n-1})}{x_n-x_{n-1}}}= x_n - \frac{f(x_n)\cdot(x_n-x_{n-1})}{f(x_n)- f(x_{n-1})}$$
+
+Statt wie beim Newton-Verfahren mit einem Startwert $x_1$ brauchen wir dafür aber nun zwei Startwerte $x_0$ und $x_1$ (in der Nähe der Nullstelle).
+
+<!-- -->
+
+
+### Python-Code Sekantenverfahren {include-only=use_python}
 
 ::: {.small}
 ```{python, eval=use_python, include=use_python}
