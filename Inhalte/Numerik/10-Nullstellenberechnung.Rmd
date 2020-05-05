@@ -555,7 +555,7 @@ Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$.
 
 Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4$?
 
-Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwenidige Funktion in Python: 
+Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwendige Funktion in Python: 
 
 
 ```{python, eval=use_python, include=use_python}
@@ -694,9 +694,9 @@ Menge bezeichnet.
 
 Die Kosten $K$ sind gegeben durch $K(x) = 0{,}5\cdot x^2 +18 \cdot x + 18$.
 
-a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$.
+a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$. Startwerte $x_0=1$ und $x_1=3$
 
-b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$.
+b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$. Startwert $x_0=3$
 
 ::: {.notes}
 Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)= 3x+12$ erhalten wir:
@@ -717,7 +717,7 @@ Für das Sekantenverfahren:
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
 def print_iter_info(i, x, fx, dfx):
-    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+    print(f'{i-1} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
 
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
@@ -735,7 +735,7 @@ Für das Newtwonverfahren:
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
 def print_iter_info(i, x, fx, dfx):
-    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+    print(f'{i-1} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
 
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
