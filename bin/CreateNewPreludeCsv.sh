@@ -1,5 +1,5 @@
 #! /bin/sh
-grep -o "library(.*)" Inhalte/*/*.Rmd | \
+grep -o "library(.*)" Inhalte/*.Rmd Inhalte/*/*.Rmd | \
     sort | uniq | \
     awk 'BEGIN{FS=":|\\(|\\)"; 
          print "\"mosaic\", \"1.2.0\""
