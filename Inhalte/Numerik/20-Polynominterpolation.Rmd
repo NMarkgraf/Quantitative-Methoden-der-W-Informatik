@@ -65,9 +65,12 @@ Geraden stellt man klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können
 
 $$f(x) = a_1 \cdot (x - x_0) + a_0$$
 
-Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist das (nach Koeffizentenvergleich) nichts anderes als $f(x) = m \cdot x + b$ mit $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
+Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist 
+das (nach Koeffizientenvergleich) nichts anderes als $f(x) = m \cdot x + b$ mit 
+$m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
 
-Jedoch kann man für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizenten $a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
+Jedoch kann man für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizienten 
+$a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
 
 :::::: {.columns}
 ::: {.column width="49%"}
@@ -310,9 +313,9 @@ Wir erhalten $a_0 = `r a0`$, $a_1=`r a1`$ sowie $a_2=`r a2`$ und somit `r fx`.
 
 Die Vermutung liegt nahe, dass wir für je $n+1$ Punkte ein Polynom vom Grade $n$ finden, welches alle Punkte beinhaltet.
 
-Eine Idee, wie wir dieses Polynom finden, können wir (vielleicht) aus den bisherigen Bobachtungen ableiten. Dabei wäre es Hilfreich die Koeffizenten des Polynoms relativ einfach berechnen zu können.
+Eine Idee, wie wir dieses Polynom finden, können wir (vielleicht) aus den bisherigen Beobachtungen ableiten. Dabei wäre es Hilfreich die Koeffizienten des Polynoms relativ einfach berechnen zu können.
 
-Auch sollte das Polynom relativ einfach auszuwerden sein. 
+Auch sollte das Polynom relativ einfach auszuwerten sein. 
 
 Das *quadratische Polynom* (die *Parabel*) kann man z.B. wie folgt auswerten:
 
@@ -338,7 +341,7 @@ Zwischenwerte (näherungsweise) bestimmt werden.
   Punkte $i=0, 1, \dots, n$.
 
 
-Die Wertpaare werden auch **Stützpunkte**, die $y$-Werte der Stützpunkte auch
+Die Wertepaare werden auch **Stützpunkte**, die $y$-Werte der Stützpunkte auch
 **Stützwerte**, die $x$-Wert **Stützstellen** genannt.
 
 Eine Funktion $f$ für die $f(x_i)=y_i$ für alle Punkte $i=0, 1, \dots, n$ gilt
@@ -347,7 +350,7 @@ wird **Interpolierende** genannt
 
 ### Polynominterpolation
 
-**Satz:** Seien n+1 Wertepaare $(x_i, y_i)$ gegeben.
+**Satz:** Seien $n+1$ Wertepaare $(x_i, y_i)$ gegeben.
 Dann gibt es genau ein Polynom $p$ vom höchstens Grad $n$, so dass $p(x_i)=y_i$ für $i=0, 1, \dots, n$ gilt.
 
 *Existenz und Eindeutigkeit:* Für $n+1$ gegebene Stützpunkte gibt es also immer genau ein Polynom mit dem höchsten Exponenten $n$, so dass das Polynom genau durch die Stützpunkte geht.
@@ -355,7 +358,7 @@ Dann gibt es genau ein Polynom $p$ vom höchstens Grad $n$, so dass $p(x_i)=y_i$
 
 ### Newton-Darstellung von Interpolationspolynomen
 
-Die Idee das Polynom mit Hilfe der Stützstellen $x_0, \ldots, x_n$ zu definieren für zur foldenen Darstellung
+Die Idee das Polynom mit Hilfe der Stützstellen $x_0, \ldots, x_n$ zu definieren führt zur folgenden Darstellung:
 
 $$\begin{aligned}
   p(x) &= && a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdots\cdot(x-x_0) + \\
@@ -451,7 +454,7 @@ def divdiff(x, y):
                           (x[n-(i+level)-1]-x[n-i-1])
     return T
 
-def newton_koeffizenten(divdif, n):
+def newton_koeffizienten(divdif, n):
     ret = [divdif[n - i - 1][i] for i in range(n)]
     return ret
 
@@ -477,8 +480,8 @@ if __name__ == "__main__":
     y = [12, 7, 4]
     divdif = divdiff(x, y)
     print(f'Dividierte Differenzen:{divdif}')
-    koeff = newton_koeffizenten(divdif, len(x))
-    print(f'Newton-Koeffizenten: {koeff}')
+    koeff = newton_koeffizienten(divdif, len(x))
+    print(f'Newton-Koeffizienten: {koeff}')
     print(f'f(-2)={newtonpolyeval(-2, x, koeff)}')
     
 ```
@@ -490,7 +493,7 @@ if __name__ == "__main__":
 ### Übung `r nextExercise()`: Newtonverfahren zur Polynominterpolation {.exercise}
 
 
-Gegeben Seien die folgenden 4 Wertepaare:
+Gegeben Seien die folgenden vier Wertepaare:
 
 ```{r eval=TRUE, echo=FALSE}
 tab.df <- data.frame( x = c(0, 1, 3, 4), y = c(-4, -1, 29, 80) )
@@ -532,7 +535,7 @@ print(plt2)
 
 ### Ein weiteres Beispiel Polynominterpolation
 
-Betrachten wir die Funktion $f(x)=\frac{1}{x^2+1}$, die Wertpaare,
+Betrachten wir die Funktion $f(x)=\frac{1}{x^2+1}$, die Wertepaare,
 
 
 <div class="columns">
@@ -641,7 +644,7 @@ print(plt3)
 
 Interpolation mit (natürlichen) kubischen Splines
 
-- Stetiges, stückweises Interploationspolynom dritten Grades durch die
+- Stetiges, stückweises Interpolationspolynom dritten Grades durch die
   Stützpunkte
 
 - Stetige erste und zweite Ableitung im Intervall $[a, b]$
@@ -790,7 +793,7 @@ xyplot(yy ~ xx, type="l", xlim=c(-3, 3), xlab="x", ylab="f(x)-S(x)")
 
 ### Beispiel: Interpolation mit kubischen Splines {include-only=BIGSTUFF}
 
-Betrachten wir die Funktion $f(x)=\frac{1}{x^2+1}$, die Wertpaare,
+Betrachten wir die Funktion $f(x)=\frac{1}{x^2+1}$, die Wertepaare,
 
 
 <div class="columns">
@@ -860,9 +863,6 @@ print(plt3)
 
 <!-- --->
 
-### Ende Teil 1
-
-Ende Teil 1
 
 ```{r finish-Polynominterpolation, include=FALSE}
 rm(pathToImages)

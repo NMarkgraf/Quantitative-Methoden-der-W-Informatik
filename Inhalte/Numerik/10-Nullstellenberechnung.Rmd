@@ -522,7 +522,7 @@ So erhalten wir das **Sekantenverfahren** mit der folgenden Rekursionsformel zur
 
 $$x_{n+1} = x_n - \frac{f(x_n)}{\frac{f(x_n)- f(x_{n-1})}{x_n-x_{n-1}}}= x_n - \frac{f(x_n)\cdot(x_n-x_{n-1})}{f(x_n)- f(x_{n-1})}$$
 
-Statt wie beim Newton-Verfahren mit einem Startwert $x_1$ brauchen wir dafür aber nun zwei Startwerte $x_0$ und $x_1$ (in der Nähe der Nullstelle).
+Statt wie beim Newton-Verfahren mit einem Startwert $x_1$ brauchen wir für das Sekantenverfahren zwei Startwerte, $x_0$ und $x_1$, in der Nähe der Nullstelle.
 
 <!-- -->
 
