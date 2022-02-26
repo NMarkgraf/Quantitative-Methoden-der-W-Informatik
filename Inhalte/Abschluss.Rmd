@@ -3,6 +3,9 @@ source("../prelude.R")
 pathToImages = getPathToImages("Abschluss")
 
 ```
+## ENDE Numerik ...
+
+Aber die Statistik folgt sofort! ;-)
 
 ### Klausur
 

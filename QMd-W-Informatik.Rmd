@@ -1,5 +1,6 @@
 ---
-title: "Quantitative Methoden der (Wirtschafts-)Informatik"
+#title: "Quantitative Methoden der (Wirtschafts-)Informatik"
+title: "Quantitative Methoden der Informatik"
 subtitle: "Revision 2022.0226"
 tag:
     - bachelor

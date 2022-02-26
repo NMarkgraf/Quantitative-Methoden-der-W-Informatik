@@ -7,6 +7,7 @@
 
 from math import exp
 
+
 def print_iter_info(i, a, b, c, f):
     print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
           f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}')

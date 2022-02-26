@@ -56,12 +56,12 @@ if (!exists("prelude.panflute")) {
                                              pattern = ".py$",
                                              all.files = FALSE,
                                              include.dirs = FALSE,
-                                             full.name = TRUE, 
+                                             full.names = TRUE, 
                                              recursive = FALSE)
-            mode_uga_exec = "111"  # execution für user, group und all
+            mode_uga_exec <- "111"  # execution für user, group und all
             # Aktueller Mode der Datei lesen
             prelude.panflute.tmp <- file.info(prelude.panflute.f)$mode
-            if (prelude.panflute.tmp != (prelude.panflute.tmp | mode_uga_exec)){
+            if (any(prelude.panflute.tmp != (prelude.panflute.tmp | mode_uga_exec))) {
                 # Falls der aktuelle Mode keine "execution" Rechte vorsieht,
                 # dann "excution" Recht hinzufügen!
                 Sys.chmod(prelude.panflute.f, prelude.panflute.tmp | mode_uga_exec)

@@ -30,8 +30,8 @@ def newtonpolyeval(r, x, koeff):
     return temp
 
 if __name__ == "__main__":
-    x = [-1,0,1]
-    y = [12, 7, 4]
+    x = [-2, -1, 0, 2, 3]
+    y = [0, 0, -6, -12, 0]
 
     divdif = divdiff(x, y)
     print(f'Dividierte Differenzen:{divdif}')
@@ -39,4 +39,4 @@ if __name__ == "__main__":
     koeff = newton_koeffizenten(divdif, len(x))
     print(f'Newton-Koeffizenten: {koeff}')
 
-    print(f'f(-2)={newtonpolyeval(-2, x, koeff)}')
+    print(f'f(-2)={newtonpolyeval(1, x, koeff)}')
