@@ -449,7 +449,8 @@ if (exists("parsedArguments") && hasName(parsedArguments,"options")) {
     if (hasName(parsedArguments$options, "verbose")) {
         print(parsedArguments$options$verbose)
         if (parsedArguments$options$verbose) {
-            cat(summary(warnings()), file = filename_warn)
+            summary(warnings())
+            #cat(summary(warnings()), file = filename_warn)
         }
     }
 }
