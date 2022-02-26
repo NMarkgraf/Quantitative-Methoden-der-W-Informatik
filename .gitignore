@@ -54,3 +54,6 @@ private.yaml
 include-notes.tex
 .DS_Store
 
+**/__pycache__/**
+pandoc-filter/alt/**
+pandoc-filter/neu/**
