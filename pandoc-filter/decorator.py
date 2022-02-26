@@ -4,7 +4,7 @@
 """
   Quick-Typographie-Filter-Decorator-Class: decorator.py
 
-  (C)opyleft in 2018/19 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2018-2022 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========
@@ -56,6 +56,7 @@ class Decorator:
     FONTFAMILYCLASSES = (
         "normalfont", "romanfont", "sansserif", "teletype",
         "italic", "smallcaps", "slanted", "upright")
+        
 
     def __init__(self):
         self.pre = ""
@@ -99,6 +100,8 @@ class Decorator:
     def handle_div_and_span(self, elem):
         pass
 
+    def handle_comments(self, elem):
+        pass
 
 class LaTeXDecorator(Decorator):
     """
@@ -194,14 +197,14 @@ class LaTeXDecorator(Decorator):
             if width == "fill":
                 self.add_pre("\n\\vfill\n")
             else:
-                self.add_pre("\n\\vspace*{"+width+"}\n")
+                self.add_pre(f"\n\\vspace*{{{width}}}\n")
 
         if 'bottom' in attrib:
             width = attrib["bottom"]
             if width == "fill":
                 self.add_pre("\n\\vfill\n")
             else:
-                self.add_post("\n\\vspace*{"+width+"}\n")
+                self.add_post(f"\n\\vspace*{{{width}}}\n")
 
     def handle_div(self, elem):
         """Handle DIV Blocks in LaTeX Context.
@@ -251,26 +254,14 @@ class LaTeXDecorator(Decorator):
             self.add_pre("\n\\begin{columns}[T]\n\t\\begin{column}[t]{0.74\\textwidth}")
             self.add_post("\n\t\\end{column}\n\t\\begin{column}[t]{0.24\\textwidth}\n\\personDB{" + elem.attributes[
                 "person"] + "}\n\t\\end{column}\n\\end{columns}")
+                
+        if 'streching' in elem.attributes:
+            self.add_pre(r"{\setstretch{"+elem.attributes['streching']+"}")
+            self.add_post(r"}")
 
 
 class HTMLDecorator(Decorator):
-    def handle_class_columns(self, elem):
-      if "style" not in elem.attributes:
-          elem.attributes["style"] = "grid-template-columns:"
-
-    def handle_class_column(self, elem):
-      if "style" not in elem.parent.attributes:
-          elem.parent.attributes["style"] = "grid-template-columns:"
-      elem.parent.attributes["style"] = elem.parent.attributes["style"] + " " + elem.attributes["width"]
-      elem.attributes.pop("width", None)
-  
-    def handle_div(self, elem):
-        """Handle DIV Blocks in HTML Context.
-        """
-        if 'columns' in elem.classes:
-            self.handle_class_columns(elem)
-        if 'column' in elem.classes:
-            self.handle_class_column(elem)
+    pass
 
 
 def main():

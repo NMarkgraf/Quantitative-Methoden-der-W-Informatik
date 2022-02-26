@@ -7,7 +7,7 @@
 
   A Quick-Watermark-Pandoc-Panflute-Filter. 
 
-  (C)opyleft in 2019 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2019-2020 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========

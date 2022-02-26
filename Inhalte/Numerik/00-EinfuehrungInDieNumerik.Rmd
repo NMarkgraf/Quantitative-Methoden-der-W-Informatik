@@ -293,7 +293,7 @@ Von den theoretisch 48 Möglichkeiten werden also nur 25 für die Gleitpunktzahl
 
 :::
 
-### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen
+### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen (I/III)
 
 Bei einer ***normalisierten** dualen Gleitpunktzahl* beginnt die Mantisse immer mit $0.1$, d.h. $z_1=1$. Das machen wir, damit wir die begrenze Anzahl an Stellen ($n$) in der Mantisse maximal ausnützen können.
 
@@ -301,10 +301,13 @@ Bei der **Normalisierung** einer Gleitpunktzahl verschieben wir, mit der Hilfe d
 
 Es gibt aber auch Gleitpunktzahlen die *nicht-normalisiert* sind. Je nach Expontent (der ja zwischen m und M liegt) gibt es aber eine *normalisierte* Darstellung des gleichen Wertes. In diesen Fällen wollen wir mit den normalisierten Gleitpunktzahlen weiterarbeiten. -- Wir normalisieren daher nach jedem (Rechen-)Schritt.
 
+### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen (I/III)
+
 Jedoch ist nicht jede Zahl *normalisierbar*! Z.B. fehlen uns passende Werte im Exponenten. Es gibt u.U. auch Werte, die durch durch mehrere normalisierte und/oder nicht-normalisierte Gleitpunktzahlen dargestellt werden. -- Falls möglich wählen die normalisierte Darstellung.
 
 Sollte es keine *normalisierte Darstellung* geben, dann können wir dennoch **eine** *nicht-normalisierte*  Darstellung zulassen und verwenden! -- Wir haben somit potentiell mehr Werte, die wir *exakt* als Gleitpunktzahl darstellen können!
 
+### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen (III/III)
 
 #### {.example}
 In eine sechstellige Gleitpunktzahl ($+(0.000011)_2 \cdot 2^2$) ist wegen
@@ -344,13 +347,13 @@ tab <- xtable(cbind(df[1:8,], df[9:16,], df[17:24,], df[25:32,]), align = c("c",
 digits(tab) <- 4
 colnames(tab) <- rep(c("Gleitpunktzahl", "Wert"), 4)
 print(tab, 
-      booktabs=TRUE, 
+      booktabs = TRUE, 
       sanitize.text.function = function(x) {x},
-      add.to.row=list(list(1,3,5,7),rep("\\rowcolor[gray]{.8} ",4)),
+      add.to.row = list(list(1,3,5,7), rep("\\rowcolor[gray]{.8} ", 4)),
       floating = TRUE, 
       latex.environments = "center",
       include.rownames = FALSE,
-      comment=FALSE,
+      comment = FALSE,
       scalebox = 0.6)
 ```
 
@@ -365,13 +368,13 @@ tab <- xtable(cbind(df[1:6,], df[7:12,], df[13:18,], df[19:24,]), align = c("c",
 digits(tab) <- 4
 colnames(tab) <- rep(c("Gleitpunktzahl", "Wert"), 4)
 print(tab, 
-      booktabs=TRUE, 
+      booktabs = TRUE, 
       sanitize.text.function = function(x) {x},
-      add.to.row=list(list(1,3,5),rep("\\rowcolor[gray]{.8} ",3)),
+      add.to.row = list(list(1,3,5), rep("\\rowcolor[gray]{.8} ", 3)),
       floating = TRUE, 
       latex.environments = "center",
       include.rownames = FALSE,
-      comment=FALSE,
+      comment = FALSE,
       scalebox = 0.6)
 ```
 
@@ -654,21 +657,48 @@ D) Bestimmen Sie jeweils den absoluten und relativen Fehler der Rundungen und B)
 :::::: {.notes}
 ::: {.small}
 
-A) $x_1=5{,}328125$, $x_2=15{,}96875$, $x_3=0{,}083251953125$, $x_4=0{,}0623779296875$
+A) $x_1=5{,}328125$, 
+   $x_2=15{,}9375$, 
+   $x_3=0{,}083251953125$, 
+   $x_4=0{,}062255859375$
 
-B) $x_1 = (0.10101)_2 \cdot 2^3$, $x_2 = (0.10000)_2 \cdot 2^5$, $x_3 = (0.10101)_2 \cdot 2^{-3}$, $x_4 = (0.10000)_2 \cdot 2^{-3}$
+B) $x_1 = (0.10101)_2 \cdot 2^3$, 
+   $x_2 = (0.10000)_2 \cdot 2^5$, 
+   $x_3 = (0.10101)_2 \cdot 2^{-3}$, 
+   $x_4 = (0.10000)_2 \cdot 2^{-3}$
 
-   $rd(x_1) = 5{,}25$, $rd(x_2)=16$, $rd(x_3)=0{,}08203125$, $rd(x_4)=0{,}0625$
+   $rd(x_1) = 5{,}25$, 
+   $rd(x_2)=16$, 
+   $rd(x_3)=0{,}08203125$, 
+   $rd(x_4)=0{,}0625$
 
-C) $x_1 = (0.1011)_2 \cdot 2^3$, $x_2 = (0.1000)_2 \cdot 2^5$, $x_3 = (0.1011)_2 \cdot 2^{-3}$, $x_4 = (0.1000)_2 \cdot 2^{-3}$
+C) $x_1 = (0.1011)_2 \cdot 2^3$, 
+   $x_2 = (0.1000)_2 \cdot 2^5$, 
+   $x_3 = (0.1011)_2 \cdot 2^{-3}$, 
+   $x_4 = (0.1000)_2 \cdot 2^{-3}$
 
-   $rd(x_1) = 5{,}5$, $rd(x_2)=16$, $rd(x_3)=0{,}0859375$, $rd(x_4)=0{,}0625$
+   $rd(x_1) = 5{,}5$, 
+   $rd(x_2)=16$, 
+   $rd(x_3)=0{,}0859375$, 
+   $rd(x_4)=0{,}0625$
 
-D) Für B): $|rd(x_1)-x_1| = 0{,}078125$, $|rd(x_2)-x_2| = 0{,}03125$, $|rd(x_3)-x_3| = 0{,}002685547$, $|rd(x_4)-x_4| = 0{,}0001220703$
-   $|rd(x_1)-x_1|/|x_1|=0{,}01466276$, $|rd(x_2)-x_2|/|x_2|=0{,}001956947$, $|rd(x_3)-x_3|/|x_3|=0{,}03225807$, $|rd(x_4)-x_4|/|x_4|=0{,}001956947$
+D) Für B): $|rd(x_1)-x_1| = 0{,}078125$, 
+   $|rd(x_2)-x_2| = 0{,}03125$, 
+   $|rd(x_3)-x_3| = 0{,}0001220703125$, 
+   $|rd(x_4)-x_4| = 0{,}000244140625$
+   
+   $|rd(x_1)-x_1|/|x_1|=|rd(x_3)-x_3|/|x_3|=0{,}\overline{014662756598240469208211143695}$, 
+   $|rd(x_2)-x_2|/|x_2|= |rd(x_4)-x_4|/|x_4|=0{,}0\overline{03921586862745098}$
 
-   Für C): $|rd(x_1)-x_1| = 0{,}171875$, $|rd(x_2)-x_2| = 0{,}03125$, $|rd(x_3)-x_3| = 0{,}001220703$, $|rd(x_4)-x_4| = 0{,}0001220703$
-   $|rd(x_1)-x_1|/|x_1|=0{,}03225806$, $|rd(x_2)-x_2|/|x_2|=0{,}001956947$, $|rd(x_3)-x_3|/|x_3|=0{,}01466276$, $|rd(x_4)-x_4|/|x_4|=0{,}001956947$
+   Für C): $|rd(x_1)-x_1| = 0{,}171875$, 
+   $|rd(x_2)-x_2| = 0{,}03125$, 
+   $|rd(x_3)-x_3| = 0{,}001220703125$, 
+   $|rd(x_4)-x_4| = 0{,}0001220703125$
+   
+   $|rd(x_1)-x_1|/|x_1|=0{,}03225806$, 
+   $|rd(x_2)-x_2|/|x_2|=0{,}001956947$, 
+   $|rd(x_3)-x_3|/|x_3|=0{,}01466276$, 
+   $|rd(x_4)-x_4|/|x_4|=0{,}0\overline{03921586862745098}$
 :::
 ::::::
 

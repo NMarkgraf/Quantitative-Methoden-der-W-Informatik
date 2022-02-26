@@ -4,7 +4,7 @@
 """
   Quick-Pandoc-Typographie-Filter: typography.py
 
-  (C)opyleft in 2017-19 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2017-2020 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========
@@ -79,7 +79,6 @@ elif os.path.exists("typography.loglevel.error"):
 else:
     DEBUGLEVEL = logging.ERROR  # .ERROR or .DEBUG  or .INFO
 
-
 logging.basicConfig(filename='typography.log', level=DEBUGLEVEL)
 
 """
@@ -123,7 +122,7 @@ SUCC_HTML = pf.RawInline("", format="html")
  Dieses Pattern sucht nach x.y. in den Fassungen:
     x.y. / (x.y. / (x.y.: / (x.y.) / x.y.: ...
  für alle Buchstaben x und y abdecken.
- Wichtig ... \D, damit keine Datumsangaben in die Mangel genommen werden!
+ Wichtig ... \\D, damit keine Datumsangaben in die Mangel genommen werden!
  So soll z.B. 15.9.  eben _nicht_ in Muster fallen!
 """
 pattern1 = "([\(,\[,<,\{]?\w\.)(?:[~|\xa0]?)(\D\.[\),\],>]?[:,\,,\.,\!,\?]?[\),\],\},>]?)"
@@ -226,7 +225,7 @@ def make_inline(a, frmt):
     """
     if frmt in ("latex", "beamer"):
         return make_latex_inline(a)
-    if frmt == ("html", "reaveljs"):
+    if frmt == "html":
         return make_html_inline(a)
 
 
@@ -249,7 +248,7 @@ def get_narrow_slash_html():
 def get_narrow_slash(frmt):
     if frmt in ("latex", "beamer"):
         return get_narrow_slash_latex()
-    if frmt in ("html", "reaveljs"):
+    if frmt == "html":
         return get_narrow_slash
 
 
@@ -447,13 +446,6 @@ def _prepare(doc):
 
 
 def _finalize(doc):
-    def __add_header_includes(rawstr, frmt):
-        logging.debug("Append line '"+rawstr+"' to `header-includes`")
-        if not rawstr in doc.get_metadata("header-includes"):
-            doc.metadata[hdr_inc].append(
-                pf.MetaInlines(pf.RawInline(rawstr, frmt))
-            )
-
     logging.debug("Finalize doc!")
     hdr_inc = "header-includes"
     # Add header-includes if necessary
@@ -468,10 +460,6 @@ def _finalize(doc):
     # Convert header-includes to MetaList if necessary
 
     logging.debug("Append background packages to `header-includes`")
-    
-    for x in doc.metadata[hdr_inc]:
-        logging.debug("Pre:"+str(x))
-
 
     if not isinstance(doc.metadata[hdr_inc], pf.MetaList):
         logging.debug("The '" + hdr_inc + "' is not a list? Converted!")
@@ -482,11 +470,12 @@ def _finalize(doc):
         frmt = "latex"
 
     if doc.format in ("tex", "latex", "beamer"):
-        __add_header_includes("\\usepackage{xspace}", frmt)
-        __add_header_includes("\\usepackage{trimclip}", frmt)
-
-    for x in doc.metadata[hdr_inc]:
-        logging.debug("Post:"+str(x))
+        doc.metadata[hdr_inc].append(
+            pf.MetaInlines(pf.RawInline("\\usepackage{xspace}", frmt))
+        )
+        doc.metadata[hdr_inc].append(
+            pf.MetaInlines(pf.RawInline("\\usepackage{trimclip}", frmt))
+        )
 
 
 def main(doc=None):

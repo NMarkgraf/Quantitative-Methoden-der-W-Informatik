@@ -220,19 +220,27 @@ fkt(1)
 <!-- --->
 
 ### Beispiel: Bisektionsverfahren (II/ II) {.shrink inlcude-only=use_python}
-```{python eval=use_python, include=use_python, echo=FALSE}
 
+```{python, eval=use_python, include=use_python, R.options = list(width = 400), echo=FALSE}
 def print_iter_info(i, a, b, c, f):
-    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
-          f'f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}\n')
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}\n')
+
 ```
 
 ::: {.footnotesize}
 
-```{python, results = "asis", eval=use_python, include=use_python}
+```{python eval=FALSE, do_bisection_1, results="asis"}
 if __name__== "__main__":
     print(bisection(fkt, 0, 1))
+    
 ```
+\begin{verbatim}
+```{r, results="asis", echo=FALSE, R.options=list(width = 300)}
+library(here)
+cat(readr::read_file(here("bisection-output.txt")))
+```
+\end{verbatim}
+
 
 :::
 
@@ -240,7 +248,7 @@ if __name__== "__main__":
 
 ### Beispiel: Bisektionsverfahren (I/ II) {include-only=use_r}
 
-```{r, echo=FALSE, eval=use_R, include=use_R}
+```{r, echo=FALSE}
 fkt <- makeFun( exp(-x*x)-x ~ x )
 ```
 
@@ -465,7 +473,7 @@ plt.show()
 :::
 ::::::
 
-Wo liegt, ausgehend von $x_1=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
+Wo liegt, ausgehend von $x_1=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.00001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
 
 ::: {.notes}
 
@@ -650,7 +658,7 @@ plt.show()
 :::
 ::::::
 
-Wo liegt, ausgehend von $x_0=2$ und $x_1=4$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Sekantenverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$.
+Wo liegt, ausgehend von $x_0=2$ und $x_1=4$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Sekantenverfahrens ($epsilon=0.00001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$.
 
 ::: {.notes}
 
@@ -680,6 +688,7 @@ def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
     
 def fkt(x):
     return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
+
 ```
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
@@ -709,12 +718,12 @@ Menge bezeichnet.
 
 Die Kosten $K$ sind gegeben durch $K(x) = 0{,}5\cdot x^2 +18 \cdot x + 18$.
 
-a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$. Startwerte $x_0=1$ und $x_1=3$
+a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.00001$. Startwerte $x_0=1$ und $x_1=3$
 
-b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.000001$. Startwert: $x_1=3$
+b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.00001$. Startwert: $x_1=3$
 
 ::: {.notes}
-Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)= 3x+12$ erhalten wir:
+Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)=-3x+12$ erhalten wir:
 
 ```{python, echo=FALSE, eval=use_python, include=use_python}
 def fkt(x):
@@ -738,7 +747,7 @@ x0 = 1
 x1 = 3
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
 print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
-print(f'{x0} & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
+print(f'0  & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
 x = sekantenverfahren(fkt, 1.0, 3.0, epsilon=0.0000001)
 print('\n\\bottomrule\n\\end{tabular}\n \n')
 print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
@@ -748,7 +757,7 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 ::::::
 :::::: {.column width="48%"}
 ::::::::: {.scriptsize}
-Für das Newtwonverfahren:
+Für das Newtonverfahren:
 
 ```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
 def print_iter_info(i, x, fx, dfx):
@@ -861,18 +870,23 @@ fkt(1)
 
 ```{python, results = "asis", eval=use_python, include=use_python, echo=FALSE}
 def print_iter_info(i, a, b, c, f):
-    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
+    print(f'Iter. {i}:\na={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
           f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}\n')
 
 ```
 
 ::: {.footnotesize}
 
-```{python, results = "asis", eval=use_python, include=use_python}
+```{python, results = "asis", eval=FALSE, include=use_python}
 if __name__== "__main__":
     print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
 ```
-
+\begin{verbatim}
+```{python, results = "asis", eval=use_python, R.options = list(width = 400), echo=FALSE}
+if __name__== "__main__":
+    print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
+```
+\end{verbatim}
 :::
 
 <!-- --->

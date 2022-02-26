@@ -36,7 +36,7 @@ Die Studierenden können nach erfolgreichem Abschluss des Moduls:
 - die Anwendbarkeit quantitativer Methoden im Unternehmen beurteilen.
 
 
-```{r child = './Organisatorisches/QMWI-Wordcloud.Rmd', eval = useWordcloud}
+```{r child = './Organisatorisches/QMWI-Wordcloud.Rmd', eval = FALSE}
 ```
 
 
@@ -56,7 +56,7 @@ Workload:
 **Beachten Sie die im OC hinterlegten Fristen!**
 
 
-```{r child = './Organisatorisches/Vorlesungsplan.Rmd', eval = showVorlesungsplan}
+```{r child = './Organisatorisches/Vorlesungsplan.Rmd', eval = FALSE}
 ```
 
 ```{r, include=FALSE}

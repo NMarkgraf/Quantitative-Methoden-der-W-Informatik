@@ -1,14 +1,14 @@
 ---
 title: "Quantitative Methoden der (Wirtschafts-)Informatik"
-subtitle: "Revision 2020.0503"
+subtitle: "Revision 2022.0226"
 tag:
     - bachelor
     - shiny
     - qmwinf
     - use_python # use_r
 ---
-
 ```{r setup, include=FALSE}
+
 # ---------------------------------------------------------------------------
 # Einige Funktionen und Variabeln sind in die Datei 'prelude.R' ausgelagert.
 # Diese werden hier nachgeladen und angepasst.
@@ -18,6 +18,12 @@ initPrelude(
     "QMWI-",       # Prefix für Terminlisten etc.
     TRUE           # Soll geprüft werden ob alle Pakete installiert sind?
 )
+# Bitte oben auch den entsprechenden TAG setzen! -- Danke!
+use_python <- TRUE
+use_python <<- TRUE    # Python-Skripts oder
+use_R <- !use_python  # R-Skripte als Beispiele 
+use_R <<- !use_python  # R-Skripte als Beispiele 
+
 ```
 ```{r localKnitrButtonSetup, eval=!RENDEREDBYSCRIPT, echo=FALSE, include=FALSE}
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -25,24 +31,19 @@ initPrelude(
 # 'eval=FALSE' einstellen!
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Bitte oben auch den entsprechenden TAG setzen! -- Danke!
-use_python <- TRUE
-use_python <<- TRUE    # Python-Skripts oder
-use_R <<- !use_python  # R-Skripte als Beispiele 
-
-privateVorstellung <<- FALSE   # Zeige die Private Vorstellung
-showVorlesungsplan <<- FALSE  # Zeige den Vorlesungsplan
-showuseR <<- FALSE
-UseCache <<- FALSE
-useWordcloud <<- FALSE  # TRUE
-
-Vorlesungstermine <<- "Duesseldorf"
-
 if (!exists("prelude.rendertools")) {
     loadPrelude("prelude_rendertools.R")
 }
 
-createPrivateYaml("Dozent*in", "SoSe 2020", "Studienort")
+assign("abschluss", TRUE, envir = .GlobalEnv)
+
+my.options$set(
+  privateVorstellung = FALSE,   # ZeigecPrivate Vorstellung?
+  showuser = FALSE,
+  Corona = FALSE
+)
+
+createPrivateYaml("FOM-Dozent*in", "SoSe 2022", "FOM")
 
 # Erzeuge Skript "DozentenSkript", "StudierendenSkript" oder "LösungsSkript": 
 makeSkriptOfType("DozentenSkript") 
@@ -56,87 +57,33 @@ theme_set(
   theme.fom  
 )
 ```
-```{r setup_python, include=FALSE, eval=use_python}
+```{r setup_python, include=FALSE, eval=FALSE}
 # Wichtig! Ggf. R neu starten! Alle Programme brauchen Python3 und sind in Python2 nicht lauffähig!
-Sys.setenv(RETICULATE_PYTHON = "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3")
+Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
 library(reticulate)
-use_python("/Library/Frameworks/Python.framework/Versions/3.7/bin/python3", required = TRUE)
+use_python("/usr/local/bin/python3", required = TRUE)
 knitr::knit_engines$set(python = reticulate::eng_python)
 ```
-```{r setup_data, include=FALSE}
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Sichert zu, dass die entsprechenden Daten auch vorhanden sind. 
-# Ggf. werden sie von dem übergebenden Link geladen und lokal gespeichert.
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#tips <- assertData("tips.csv", "https://goo.gl/whKjnl")
-
-# ---------------------------------------------------------------------------
-```
-
 ```{r setUpChildren, eval=TRUE, include=FALSE}
-childrenToInclude <- c(
-  "Organisatorisches", "Hinweise", "Einfuehrung-R", "07-MatheInR", "Grundlagen-QuantDat",
-  "EDA", "Regression", "Inferenz", "Inferenz-Beispiele",
-  "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung",
-  "Abschluss"
+ChildList <- c(
+    "QMWI-Organisatorisches.Rmd",
+    "../private/private-Vorstellung.Rmd",
+    "Organisatorisches/Hinweise.Rmd",
+    "Numerik/00-EinfuehrungInDieNumerik.Rmd",
+    "Numerik/10-Nullstellenberechnung.Rmd",
+    "Numerik/20-Polynominterpolation.Rmd",
+    "Abschluss.Rmd"
 )
-childrenToInclude <- c(
-  "Organisatorisches", "Hinweise", 
-  "00-EinfuehrungInDieNumerik", "10-Nullstellenberechnung" #, "20-Polynominterpolation"
-)
-childrenToInclude <- c(
-  "20-Polynominterpolation"
-)
-
-includeChild <- function(name, children=childrenToInclude, all=FALSE) {
-    ifelse(all, TRUE, ifelse(name %in% children, TRUE, FALSE))
+if (FALSE) { # Zum Debuggen einfach auf TRUE setzen!
+  ChildList <- c(
+    "QMWI-Organisatorisches.Rmd", 
+    "Abschluss.Rmd"
+  )
 }
+IncludeChildList <- file.path('Inhalte', na.omit(ChildList))
 ```
 
-```{r child = './Test.Rmd', eval=includeChild("Test")}
-```
-
-```{r child = './Inhalte/QMWI-Organisatorisches.Rmd', eval=includeChild("Organisatorisches")}
-```
-
-```{r child = './private/private-Vorstellung.Rmd', eval=privateVorstellung}
-```
-
-```{r child = './Inhalte/Organisatorisches/Hinweise.Rmd', eval=includeChild("Hinweise")}
-```
-
-```{r child = './Inhalte/Numerik/00-EinfuehrungInDieNumerik.Rmd', eval=includeChild("00-EinfuehrungInDieNumerik")}
-```
-
-```{r child = './Inhalte/Einfuehrung-R.Rmd', eval=includeChild("Einfuehrung-R")}
-```
-
-```{r child = './Inhalte/Numerik/07-MatheInR.Rmd', eval=includeChild("07-MatheInR")}
-```
-
-```{r child = './Inhalte/Numerik/10-Nullstellenberechnung.Rmd', eval=includeChild("10-Nullstellenberechnung")}
-```
-
-```{r child = './Inhalte/Numerik/20-Polynominterpolation.Rmd', eval=includeChild("20-Polynominterpolation")}
-```
-
-
-```{r child = './Inhalte/Grundlagen-QuantDat.Rmd', eval=includeChild("Grundlagen-QuantDat")}
-```
-
-```{r child = './Inhalte/EDA.Rmd', eval=includeChild("EDA")}
-```
-
-```{r child = './Inhalte/Regression.Rmd', eval=includeChild("Regression")}
-```
-
-```{r child = './Inhalte/Inferenz.Rmd', eval=includeChild("Inferenz")}
-```
-
-```{r child = './Inhalte/Inferenz-Beispiele.Rmd', eval=includeChild("Inferenz-Beispiele")}
-```
-
-```{r child = './Inhalte/Abschluss.Rmd', eval=includeChild("Abschluss")}
+```{r child = IncludeChildList}
 ```
 
 ```{r finalize, include=FALSE}

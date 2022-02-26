@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-  style.py (Release: 0.6.3)
+  style.py (Release: 0.6.5)
   ========-----------------
   
   A Quick-Typographie-Pandoc-Panflute-Filter.
 
-  (C)opyleft in 2018/19 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2018-2022 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========
@@ -28,6 +28,10 @@
   0.6.1 - 13.07.2019 (nm) - Die "moreblocks" Idee langsam integrieren.
   0.6.2 - 17.07.2019 (nm) - Bugfix. - "slide_level" wird nun korrekt ausgelesen.
   0.6.3 - 30.07.2019 (nm) - .spacing mit top und bottom eingebaut.
+  0.6.4 - 06.07.2019 (nm) - Umgang mit "HTML-Kommentaren" verbessern.
+  0.6.5 - 25.07.2021 (nm) - .spacing etwas verbessert und Beispiel eingefügt.
+  0.6.6 - 04.02.2022 (nm) - Attribut 'streching' wird ausgewertet. Dafür ist
+                            ein "usepackge{setspace}" nötig!
 
 
   WICHTIG:
@@ -82,7 +86,7 @@ elif os.path.exists("style.loglevel.warning"):
 elif os.path.exists("style.loglevel.error"):
     DEBUGLEVEL = logging.ERROR
 else:
-    DEBUGLEVEL = logging.ERROR  # .ERROR or .DEBUG  or .INFO
+    DEBUGLEVEL = logging.ERROR # .ERROR or .DEBUG  or .INFO
 
 logging.basicConfig(filename='style.log', level=DEBUGLEVEL)
 
@@ -123,22 +127,16 @@ slidelevel = 2
 def set_decorator(doc):
     global dec
 
-    logging.debug("Set decorator to:"+str(doc.format))
-    
     if doc.format in ["latex", "beamer"]:
-        logging.debug("LaTeXDecorator('latex')")
         dec = LaTeXDecorator("latex")
 
     if doc.format == "tex":
-        logging.debug("LaTeXDecorator('tex')")
         dec = LaTeXDecorator("tex")
 
     if doc.format == "context":
-        logging.debug("LaTeXDecorator('context')")
         dec = LaTeXDecorator("context")
 
-    if doc.format in ["html", "revealjs"]:
-        logging.debug("HTMLDecorator()")
+    if doc.format == "html":
         dec = HTMLDecorator()
 
 
@@ -150,7 +148,7 @@ def handle_div(e):
 
 def handle_div_and_span(e, doc):
     """
-     Handle DIV and SPAN Blocks in gerneral
+     Handle DIV and SPAN Blocks and (HTML-)Comments in gerneral
     """
 
     global dec
@@ -253,6 +251,22 @@ def handle_header(e, doc):
         return [pf.RawBlock("\\end{" + str(tag) + "}\n", frmt), e]
 
 
+def handle_comments(e, doc):
+    logging.debug("handle_comments:")
+    if isinstance(e, pf.RawBlock):
+        if e.text.startswith('<!--') and e.text.endswith('-->'):
+            if doc.format == "latex":
+                logging.debug("handle_comments old:"+e.text)
+                e.format = "latex"
+                e.text = "% "+e.text[4:-3]+ "\n"
+                logging.debug("handle_comments new:"+e.text)
+                return e
+
+#            if doc.format == "beamer":
+#                logging.debug("handle_comments remove comment:"+e.text)
+#                return []
+
+
 def action(e, doc):
     """Main action function for panflute.
     """
@@ -268,6 +282,9 @@ def action(e, doc):
 
     if isinstance(e, (pf.Div, pf.Span)):
         return handle_div_and_span(e, doc)
+
+    if isinstance(e, pf.RawBlock):
+        return handle_comments(e, doc)
 
     if isinstance(e, pf.Header):
         if e.level > slidelevel:
@@ -297,7 +314,6 @@ def _finalize(doc):
     :return: current document
     """
     def __add_header_includes(rawstr, frmt):
-        logging.debug("Append line '"+rawstr+"' to `header-includes`")
         if not rawstr in doc.get_metadata("header-includes"):
             doc.metadata[hdr_inc].append(
                 pf.MetaInlines(pf.RawInline(rawstr, frmt))
@@ -319,9 +335,6 @@ def _finalize(doc):
 
     logging.debug("Append background packages to `header-includes`")
 
-    for x in doc.metadata[hdr_inc]:
-        logging.debug("Pre:"+str(x))
-
     if not isinstance(doc.metadata[hdr_inc], pf.MetaList):
         logging.debug("The '" + hdr_inc + "' is not a list? Converted!")
         doc.metadata[hdr_inc] = pf.MetaList(doc.metadata[hdr_inc])
@@ -335,9 +348,6 @@ def _finalize(doc):
         __add_header_includes("\\usepackage[german=quotes]{csquotes}", frmt)
         __add_header_includes("\\usepackage{xspace}", frmt)
         __add_header_includes("\\InputIfFileExists{header.tex}{\\relax}{\\relax}", frmt)
-    
-    for x in doc.metadata[hdr_inc]:
-        logging.debug("Post:"+str(x))
 
 
 def main(doc=None):
