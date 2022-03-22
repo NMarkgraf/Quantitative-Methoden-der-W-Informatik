@@ -1132,16 +1132,16 @@ c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x
 
     Absoluter Fehler: $$\begin{aligned}
     | f(x) - f(\tilde{x}) | \leq M \cdot |x - \tilde{x}| &= `r M` \cdot `r absFehler`\\ &= `r M * absFehler`
-    \end{aligned}$$
+\end{aligned}$$ $$
 
-   Relativer Fehler: $$\begin{aligned}
-   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 \in I}{|f(x_0)|}} \cdot |x - \tilde{x}| 
+   Relativer Fehler:$$\begin{aligned}
+   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x - \tilde{x}| 
    = `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r absFehler` \\ 
    &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r absFehler` \\ 
    = `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * absFehler`
    \end{aligned}$$
    
-d) $K = M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 \in I}{|f(x_0})|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
+d) $K = M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
     Und damit:
     $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x) * relFehler`$$
 
