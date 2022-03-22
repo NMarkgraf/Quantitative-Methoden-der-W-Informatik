@@ -383,7 +383,9 @@ $$
 
 Also Schema:
 
-$$\footnotesize
+:::{.footnnotesize}
+
+$$
 \begin{array}{crcrccrcrc}
 f[x_0] \\
        & \searrow \\{}
@@ -397,7 +399,10 @@ f[x_{n-1}] & \rightarrow  & f[x_{n-2}, x_{n-1}] & \rightarrow & f[x_{n-3},x_{n-2
   & \searrow     &                & \searrow    & &              & \searrow && \searrow\\{}
 f[x_n] & \rightarrow  & f[x_{n-1}, x_n] & \rightarrow & f[x_{n-2},x_{n-1},x_n]
   & \cdots & \rightarrow & f[x_1\ldots x_n] & \rightarrow & f[x_0\ldots x_n]
-\end{array}$$
+\end{array}
+$$
+
+:::
 
 
 ### Newtonverfahren zur Polynominterpolation
@@ -436,7 +441,7 @@ $$
 $$
 
 
-### Python-Code (I/II) {include-only=use_python}
+### Python-Code (I/II)
 
 ::: {.footnotesize}
 
@@ -462,7 +467,7 @@ def newton_koeffizienten(divdif, n):
 
 :::
 
-### Python-Code (II/II) {include-only=use_python}
+### Python-Code (II/II)
 
 ::: {.footnotesize}
 

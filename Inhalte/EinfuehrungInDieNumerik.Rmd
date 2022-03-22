@@ -299,7 +299,8 @@ Bei einer ***normalisierten** dualen Gleitpunktzahl* beginnt die Mantisse immer 
 
 Bei der **Normalisierung** einer Gleitpunktzahl verschieben wir, mit der Hilfe des Exponenten, die Darstellung immer so weit, dass wir $z_1=1$ (und somit am Anfang $0.1$) erhalten!
 
-Es gibt aber auch Gleitpunktzahlen die *nicht-normalisiert* sind. Je nach Exponent (der ja zwischen m und M liegt) gibt es aber eine *normalisierte* Darstellung des gleichen Wertes. In diesen Fällen wollen wir mit den normalisierten Gleitpunktzahlen weiterarbeiten. -- Wir normalisieren daher nach jedem (Rechen-)Schritt.
+Es gibt aber auch Gleitpunktzahlen die *nicht-normalisiert* sind. Je nach Exponent (der ja zwischen $m$ und $M$ liegt) gibt es aber eine *normalisierte* Darstellung des gleichen Wertes. In diesen Fällen wollen wir mit den normalisierten Gleitpunktzahlen weiterarbeiten. -- Wir normalisieren daher nach jedem (Rechen-)Schritt.
+
 
 ### Unterschied *normalisierte* und *nicht-normalisierte* Gleitpunktzahlen (I/III)
 
@@ -861,7 +862,7 @@ $$
     \end{aligned}
 $$
 
-Berechnen wir nun x+y so ergibt sich:
+Berechnen wir nun $x+y$ so ergibt sich:
 
 $$
 \begin{aligned}
@@ -874,9 +875,9 @@ $$
 
 ### Beispiel: Rechenarithmetik (II/II)
 
-Was passiert nun, wenn wir $x+y+z$ berechnen wollen? -- Wir haben dazu zwei Möglichkeiten:
+Was passiert nun, wenn wir $x+y+z$ berechnen wollen?
 
-Entweder a) $(x+y)+z$ oder b) $x+(y+z)$!
+Wir haben dazu zwei Möglichkeiten: Entweder $(x+y)+z$ oder $x+(y+z)$!
 
 Es ist:
 
@@ -1134,10 +1135,10 @@ c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x
     \end{aligned}$$
 
    Relativer Fehler: $$\begin{aligned}
-   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 \in I}{|f(x_0)|}} \cdot |x - \tilde{x}| \\ 
-   &= `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r absFehler` \\ 
+   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 \in I}{|f(x_0)|}} \cdot |x - \tilde{x}| 
+   = `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r absFehler` \\ 
    &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r absFehler` \\ 
-   &= `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * absFehler`
+   = `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * absFehler`
    \end{aligned}$$
    
 d) $K = M \cdot \frac{\max_{x_0 \in I}|x_0|}{\min_{x_0 \in I}{|f(x_0})|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
