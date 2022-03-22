@@ -545,7 +545,7 @@ x0 = 2.0
 x1 = 4.0
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
 print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
-print(f'{x0} & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
+print(f'0 & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
 x = sekantenverfahren(fkt, x0, x1, epsilon=0.0000001)
 print('\n\\bottomrule\n\\end{tabular}\n\n')
 print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
