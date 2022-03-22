@@ -115,8 +115,8 @@ releaseCompare <- function(relA, relB) {
       
       new.pkgs <- needed_pkgs[!(needed_pkgs %in% installed.packages())]
       del.pkgs <- unwanted_pkgs[(unwanted_pkgs %in% installed.packages())]
-      print(new.pkgs)
-      print(del.pkgs)
+      #print(new.pkgs)
+      #print(del.pkgs)
       if (length(new.pkgs)) {
           install.packages(new.pkgs, dependencies = dependencies, repos = repos)
       }
@@ -124,7 +124,7 @@ releaseCompare <- function(relA, relB) {
           remove.packages(del.pkgs)
       }
       message("... erledigt!")
-      message("Ggf. müssen noch Updates gemacht werden. Ich prüfe das ...")
+      message("Ggf. müssen noch Updates gemacht werden. Ich prüfe das ...", appendLF = FALSE)
       # Prüfe ob Updates nötig sind
       currel <- c()
       for (pkg in needed_pkgs_df[needed_pkgs_df$minrelease != "-",]$packages)
@@ -136,7 +136,7 @@ releaseCompare <- function(relA, relB) {
       # Ggf. wird hier ein Update durchgeführt oder eine Mitteilung gesendet!
       for (pkg in update.pkgs)
       {
-          if (noupdates || pkg %in% loadedNamespaces()) {
+          if (noupdates || (pkg %in% loadedNamespaces())) {
               warning(paste0("WARNUNG: ",
                              "Das Paket `", pkg, "` muss upgedatet werden!"))
           }

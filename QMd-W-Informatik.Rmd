@@ -1,29 +1,27 @@
 ---
 #title: "Quantitative Methoden der (Wirtschafts-)Informatik"
 title: "Quantitative Methoden der Informatik"
-subtitle: "Revision 2022.0226"
+subtitle: "Revision 2022.0322"
 tag:
     - bachelor
     - shiny
     - qmwinf
-    - use_python # use_r
 ---
 ```{r setup, include=FALSE}
-
 # ---------------------------------------------------------------------------
 # Einige Funktionen und Variabeln sind in die Datei 'prelude.R' ausgelagert.
 # Diese werden hier nachgeladen und angepasst.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+library(knitr)
+library(here)
+#print(knitr::opts_knit$get("output.dir"))
+knitr::opts_knit$set(base.dir = here())
+#print(knitr::opts_knit$get("base.dir"))
 source("prelude.R")
 initPrelude(
     "QMWI-",       # Prefix für Terminlisten etc.
     TRUE           # Soll geprüft werden ob alle Pakete installiert sind?
 )
-# Bitte oben auch den entsprechenden TAG setzen! -- Danke!
-use_python <- TRUE
-use_python <<- TRUE    # Python-Skripts oder
-use_R <- !use_python  # R-Skripte als Beispiele 
-use_R <<- !use_python  # R-Skripte als Beispiele 
 
 ```
 ```{r localKnitrButtonSetup, eval=!RENDEREDBYSCRIPT, echo=FALSE, include=FALSE}
@@ -60,19 +58,19 @@ theme_set(
 ```
 ```{r setup_python, include=FALSE, eval=FALSE}
 # Wichtig! Ggf. R neu starten! Alle Programme brauchen Python3 und sind in Python2 nicht lauffähig!
-Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
-library(reticulate)
-use_python("/usr/local/bin/python3", required = TRUE)
-knitr::knit_engines$set(python = reticulate::eng_python)
+#Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
+#library(reticulate)
+#use_python("/usr/local/bin/python3", required = TRUE)
+#knitr::knit_engines$set(python = reticulate::eng_python)
 ```
 ```{r setUpChildren, eval=TRUE, include=FALSE}
 ChildList <- c(
     "QMWI-Organisatorisches.Rmd",
     "../private/private-Vorstellung.Rmd",
     "Organisatorisches/Hinweise.Rmd",
-    "Numerik/00-EinfuehrungInDieNumerik.Rmd",
-    "Numerik/10-Nullstellenberechnung.Rmd",
-    "Numerik/20-Polynominterpolation.Rmd",
+    "EinfuehrungInDieNumerik.Rmd",
+    "Nullstellenberechnung.Rmd",
+    "Polynominterpolation.Rmd",
     "Abschluss.Rmd"
 )
 if (FALSE) { # Zum Debuggen einfach auf TRUE setzen!

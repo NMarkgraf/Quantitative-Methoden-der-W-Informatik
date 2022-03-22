@@ -50,6 +50,8 @@ QMd-W-Informatik*.nav
 QMd-W-Informatik*.snm
 QMd-W-Informatik*.toc
 QMd-W-Informatik*.vrb
+QMd-W-Informatik*.fls
+QMd-W-Informatik*.fdb_latexmk
 private.yaml
 include-notes.tex
 .DS_Store

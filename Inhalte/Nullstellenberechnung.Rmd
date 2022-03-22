@@ -1,0 +1,816 @@
+```{r setup-Nullstellenberechnung, include=FALSE}
+# ---------------------------------------------------------------------------
+#% maintainer:
+#%   - Norman Markgraf
+#%
+# ---------------------------------------------------------------------------
+source("../prelude.R")
+initPart(
+    "Nullstellenberechnung",  # Dateiname ohne Suffix
+    "Nullstellenberechnung"      # Verzeichnisname im Bilderverzeichnis 
+    )
+pathToImages = getPathToImages()
+# ---------------------------------------------------------------------------
+
+library(mosaic)
+library(mosaicCalc)
+```
+
+
+# Nullstellenberechnung
+
+
+### Die Nullstellenberechnung
+
+[Ziel:]{.cemph} Das finden von Nullstellen von Funktionen, z.B.:
+
+- Break Even Menge ($x_{BE}$) bei Gewinnfunktionen
+- Interner Zinssatz ($i_{int}$) bei Normalinvestitionen 
+- Zielwertbestimmung: $f(x) = c \Longleftrightarrow f(x) - c=0$
+
+
+**Zwischenwertsatz:** Sei $f$ eine reellwertige, stetige Funktion auf dem Intervall $[a, b]$ mit entweder $f(a) \leq c \leq f(b)$ oder $f(b) \leq c \leq f(a)$. Dann gibt es ein $x_c$ aus $[a, b]$ mit $f(x_c)=c$.
+
+($c$ liegt bei einer stetigen Funktion zwischen den Funktionswerten von $a$ und $b$, dann gibt es ein $x_c$ zwischen $a$ und $b$, dass $c$ als Funktionswert hat.)
+
+**Zwei Fälle:**
+
+- Ableitung bekannt und einfach zu bestimmen:  
+    - $\rightarrow$ **Newtonverfahren (zur Nullstellenberechnung)** (**Tangentenverfahren**)
+    
+- Ableitung unbekannt oder schwer zu berechnen: 
+    - $\rightarrow$ **Bisektionsverfahren**
+    - $\rightarrow$ **Sekantenverfahren**
+    - $\rightarrow$ **Regular Falsi** 
+
+
+### Das Bisektionsverfahren
+
+Gegeben ist eine (stetige) Funktion und zwei Stellen $a_0$, $b_0$, mit $f(a_0) \cdot f(b_0) < 0$. Dann gibt es, nach dem Zwischenwertsatz, eine Stelle $x_0 \in [a_0\,;\,b_0]$ mit $f(x_0)=0$ ist.
+
+**Das Bisektionsverfahren:** 
+
+[Startbedingung:]{.cemph} Gegeben sei ein Intervall $[a_0\,;\, b_0]$ durch seine Grenzen $a_0$, $b_0$ mit 
+$a_0 < b_0$ und $f(a_0) \cdot f(b_0) < 0$. Dann liegt (mindestens) eine Nullstelle in diesem Intervall.^[Genauer gesagt eine ungerade Anzahl und hoffentlich nur eine Nullstellen.]
+
+[Im (i+1). Schritt:]{.cemph} Halbiere das Intervall $[a_i\,;\,b_i]$ an der Stelle $c_i = (a_i+b_i)/2$ und verwende als nächstes Intervall diejenige Hälfte weiter, in der eine Nullstelle liegt:
+
+$$
+    c_i = \frac{a_i + b_i}{2}; \qquad
+    [a_{i+1}\,;\, b_{i+1}] = 
+        \begin{cases}
+            \left[a_i \,;\, c_i \right] & \text{ falls } f(a_i) \cdot f(c_i) \leq 0 \\[1.ex]
+            \left[c_i\,;\, b_i \right] & \text{ sonst }
+        \end{cases}
+$$
+
+**Interaktives Beispiel:**
+
+<https://fomshinyapps.shinyapps.io/bisektionsverfahren/>
+
+<!-- --->
+
+
+### Die Programmiersprache Python
+
+Sie müssen Python nicht unbedingt auf ihrem Rechner installieren. 
+Sie können für unsere Programme auch diesen Online-IDE für Python nutzen: https://repl.it/languages/python3
+
+Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
+
+1. https://www.python.org als Quelle für Python
+2. https://www.python-kurs.eu/python3_kurs.php als gute Quelle, wie man in Python programmiert.
+3. https://www.jetbrains.com/de-de/pycharm/ PyCharm als IDE für ihren Rechner.
+4. Installieren Sie numpy mittels:
+
+::: {.scriptsize}
+
+```
+> python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+:::
+
+oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann vielleicht:
+
+::: {.scriptsize}
+
+```
+> python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+
+:::
+
+### Python-Code für das Bisektionsverfahren
+
+::: {.footnotesize}
+
+```{python}
+from math import exp
+
+def print_iter_info(i, a, b, c, f):
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}')
+
+def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
+    if f(a) * f(b) > 0:
+        raise ArithmeticError('Das Produkt der Intervallgrenzen muss '
+                              'ein Vorzeichenwechsel haben!')
+    if a > b:
+        a, b = b, a
+    for i in range(1, max_iter):
+        iw = b - a
+        if iw < epsilon:
+            break
+        c = (a+b)/2.0
+        print_iter_info(i, a, b, c, f)
+        if f(a)*f(c) <= 0:
+            b = c
+        else:
+            a = c
+    return a, b
+```
+
+:::
+
+<!-- --->
+
+### Beispiel: Bisektionsverfahren (I/II) 
+
+```{python, echo=FALSE}
+def fkt(x):
+    return(exp(-x**2)-x)
+```
+
+Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=-0.6321205588285577$
+
+```{python}
+def fkt(x):
+  return(exp(-x**2)-x)
+  
+fkt(0)
+fkt(1)
+```
+
+<!-- --->
+
+### Beispiel: Bisektionsverfahren (II/II) {.shrink}
+
+```{python, R.options = list(width = 400), echo=FALSE}
+def print_iter_info(i, a, b, c, f):
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}\n')
+
+```
+
+::: {.footnotesize}
+
+```{python do_bisection_1, eval=FALSE,  results="asis"}
+if __name__== "__main__":
+    print(bisection(fkt, 0, 1))
+    
+```
+\begin{verbatim}
+```{r, results="asis", echo=FALSE, R.options=list(width = 300)}
+library(here)
+cat(readr::read_file(here("bisection-output.txt")))
+```
+\end{verbatim}
+
+
+:::
+
+<!-- --->
+
+
+### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise}
+
+Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
+
+```{r, out.width="60%", echo=FALSE}
+fkt <- makeFun(sqrt( (x-2)^2 + 1) - 2*(x+1)^2 ~ x)
+p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
+ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
+```
+
+<!-- --->
+
+### Das Newtonverfahren (Tangentenverfahren)
+
+Gegeben ist eine differenzierbare Funktion $f$. Eine Nullstelle ausgehend von einem Punkt $x_1$ wird dann iterativ als Schnittpunkt der Tangente (1. Ableitung) der Funktion an dem Punkt $x_1$ und der x-Achse bestimmt:
+$$
+    x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}
+$$
+
+**Interaktives Beispiel:**
+
+<https://fomshinyapps.shinyapps.io/newtonverfahren/>
+
+<!-- --->
+
+### Python-Code für das Newtonverfahren
+
+
+```{python}
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}')
+
+def newton(f, df, x_start, max_iter=1000, epsilon=0.0001):
+    x = x_start
+    for i in range(1, max_iter):
+        fx, dfx = f(x), df(x)
+        print_iter_info(i, x, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x = x - (fx / dfx)
+    return x
+```
+
+<!-- --->
+
+
+### Beispiel: Newtonverfahren (I/II)
+
+Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass $E(x) = 15\cdot x$ für die Erlöse gilt. 
+Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
+
+Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
+
+Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$, sowie die Grenzgewinnfunktion $G'(x)=-3x^2+16x-9$ und definieren die notwendigen Funktionen in Python: 
+
+```{python}
+def fkt(x):
+    return -x**3+8*x**2-9*x-18
+
+def dfkt(x):
+    return -3*x**2+16*x-9
+```
+
+<!-- --->
+
+### Beispiel: Newtonverfahren (II/II)
+
+```{python echo=FALSE}
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}\n')
+```
+
+```{python, results = "asis"}
+newton(fkt, dfkt, 4)
+```
+
+<!-- --->
+
+### Übung `r nextExercise()`: Newtonverfahren {.exercise}
+
+Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P$ abhängig von der verkauften Menge $x$ gemäß folgender Preisabsatzfunktion ist:
+
+:::::: {.columns}
+::: {.column width="60%"}
+
+$$P(x) = 100-x$$
+Für die Erlöse $E$ gilt damit: 
+
+$$E(x) = P(x) \cdot x = (100-x) \cdot x =100 x - x^2$$  
+
+Die Kosten lassen sich darstellen durch: 
+
+$$K(x) = 2x^3-25x^2+134x+60$$
+
+:::
+::: {.column width="40%"}
+
+```{python UebungNewtonVerfahrenPlot, echo=FALSE}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Betrachteter Bereich 0 - 10,5
+x = np.arange(0, 10.5, 0.1)
+
+# Gewinnfunktion G(x) = P(x)*x - K(X)
+y = (100-x)*x - (2*x**3-25*x**2+134*x+60)
+
+# Bereich plotten
+plt.plot(x, y)
+
+# X-Achse benennen
+plt.xlabel('Menge [x]')
+
+# Y-Achse benennen
+plt.ylabel('Gewinn [y=G(x)]')
+
+# Titel fuer den Graphen:
+plt.title('Gewinnfunktion')
+
+# Gitterraster zeichnen
+plt.grid(True)
+
+# Fette X-Achse in schwarz
+plt.axhline(0, color='black', lw=2)
+
+# Nullstellen der Funktion mit roten Punkten markieren
+plt.plot([3, 10], [0, 0], 'ro')
+
+# Bemerkung welcher Punkt (hier Break Even Point) gesucht ist
+plt.annotate('Break Even Point', xy=(3, 0.01), xytext=(0, 50),
+             arrowprops=dict(facecolor='green', shrink=0.08),
+             )
+
+# Graphik anzeigen
+plt.show()
+
+```
+
+:::
+::::::
+
+Wo liegt, ausgehend von $x_1=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
+
+::: {.notes}
+
+Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 60$ und für die Grenzgewinnfunktion $G'(x)= -6 x^2 +48 x - 34$, der Startwert $x_1 = 2$.
+
+Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Newtonverfahren:
+
+```{python NewtonVerfahrenDefinieren, echo=FALSE}
+from math import exp, fabs
+
+
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+
+def newton(f, df, x_start, max_iter=1000, epsilon=0.0001):
+    x = x_start
+    for i in range(1, max_iter):
+        fx, dfx = f(x), df(x)
+        print_iter_info(i, x, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x = x - (fx / dfx)
+    return x
+    
+def fkt(x):
+    return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
+    
+def dfkt(x):
+    return 100 - 2*x - (6*x**2-50*x+134)
+```
+
+```{python NewtonverfahrenAusgabeErzeugen, echo=FALSE, results="asis"}
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
+x = newton(fkt, dfkt, 2.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+
+**Wichtig:** In Klausuren wird genau so eine Tabelle beim Newtonverfahren erwartet!
+
+:::
+
+<!-- -->
+
+
+### Sekantenverfahren 
+
+Möchte man die Bestimmung und Auswertung der Ableitung in jedem Schritt umgehen, weil z.B. die Ableitung schwer zu bestimmen ist, dann kann man die Tangentensteigung durch die Sekantensteigung der letzen zwei Punkte ersetzen.
+
+So erhalten wir das **Sekantenverfahren** mit der folgenden Rekursionsformel zur Bestimmung der nächsten Näherungslösung:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{\frac{f(x_n)- f(x_{n-1})}{x_n-x_{n-1}}}= x_n - \frac{f(x_n)\cdot(x_n-x_{n-1})}{f(x_n)- f(x_{n-1})}$$
+
+Statt wie beim Newton-Verfahren mit einem Startwert $x_1$ brauchen wir für das Sekantenverfahren zwei Startwerte, $x_0$ und $x_1$, in der Nähe der Nullstelle.
+
+<!-- -->
+
+
+### Python-Code Sekantenverfahren
+
+::: {.small}
+```{python SekantenverfahrenDefinieren}
+from math import exp, fabs
+
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} \u0394f(x)={dfx:.8F}')
+
+def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
+    x_last, x_cur, fx = x_0, x_1, f(x_0)
+    for i in range(1, max_iter):
+        fxl, fx = fx, f(x_cur)
+        dfx = (fxl - fx) / (x_last - x_cur)
+        print_iter_info(i, x_cur, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x_last, x_cur =  x_cur, x_cur - (fx / dfx)
+    return x_cur
+```
+
+:::
+
+```{python, echo=FALSE}
+def print_iter_info(i, x, fx, dfx):
+    print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F}'
+          ' \\ensuremath{\\Delta}'
+          f'f(x)={dfx:.8F}\n')
+```
+
+<!-- --->
+
+
+### Beispiel: Sekantenverfahren (I/II) 
+
+Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15 \cdot x$. 
+Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
+
+Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4$?
+
+Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwendige Funktion in Python: 
+
+
+```{python}
+def fkt(x):
+    return -x**3+8*x**2-9*x-18
+```
+
+Da wir die Grenzgewinnfunktion $G'(x)$ durch die Sekantensteigungen $\frac{\Delta G(x)}{\Delta x}$ approximieren, bedarf es keiner expliziten Angabe von $G'(x)$!
+
+<!-- --->
+
+### Beispiel: Sekantenverfahren (II/II) 
+
+```{python SekantenVerfahrenAusfuehren, results = "asis"}
+sekantenverfahren(fkt, 2, 4, epsilon=0.0000001)
+```
+
+<!-- --->
+
+### Übung `r nextExercise()`: Sekantenverfahren {.exercise}
+
+Ein Unternehmen (mit Marktmacht) weiß aus Erfahrung, dass der erzielte Preis $P$ abhängig von der verkauften Menge $x$ gemäß folgender Preisabsatzfunktion ist:
+
+:::::: {.columns}
+::: {.column width="60%"}
+
+$$P(x) = 100-x$$
+Für die Erlöse $E$ gilt damit: 
+
+$$E(x) = P(x) \cdot x = (100-x) \cdot x =100 x - x^2$$ 
+
+Die Kosten lassen sich darstellen durch: 
+
+$$K(x) = 2x^3-25x^2+134x+60$$
+
+:::
+::: {.column width="40%"}
+
+```{python UebungSekantenVerfahrenPlot, echo=FALSE}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Betrachteter Bereich 0 - 10,5
+x = np.arange(0, 10.5, 0.1)
+
+# Gewinnfunktion G(x) = P(x)*x - K(X)
+y = (100-x)*x - (2*x**3-25*x**2+134*x+60)
+
+# Bereich plotten
+plt.plot(x, y)
+
+# X-Achse benennen
+plt.xlabel('Menge [x]')
+
+# Y-Achse benennen
+plt.ylabel('Gewinn [y=G(x)]')
+
+# Titel fuer den Graphen:
+plt.title('Gewinnfunktion')
+
+# Gitterraster zeichnen
+plt.grid(True)
+
+# Fette X-Achse in schwarz
+plt.axhline(0, color='black', lw=2)
+
+# Nullstellen der Funktion mit roten Punkten markieren
+plt.plot([3, 10], [0, 0], 'ro')
+
+# Bemerkung welcher Punkt (hier Break Even Point) gesucht ist
+plt.annotate('Break Even Point', xy=(3, 0.01), xytext=(0, 50),
+             arrowprops=dict(facecolor='green', shrink=0.08),
+             )
+
+# Graphik anzeigen
+plt.show()
+
+```
+
+:::
+::::::
+
+Wo liegt, ausgehend von $x_0=2$ und $x_1=4$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Sekantenverfahrens ($epsilon=0.0001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$.
+
+::: {.notes}
+
+Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 60$. Die Startwerte lauten $x_0 = 2$, $x_1 = 4$.
+
+Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Sekantenverfahren:
+
+```{python, echo=FALSE}
+from math import exp
+
+
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+
+def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
+    x_last, x_cur, fx = x_0, x_1, f(x_0)
+    for i in range(1, max_iter):
+        fxl, fx = fx, f(x_cur)
+        dfx = (fxl - fx) / (x_last - x_cur)
+        print_iter_info(i, x_cur, fx, dfx)
+        if abs(fx) < epsilon: 
+            break
+        x_last, x_cur = x_cur, x_cur - (fx / dfx)
+    return x_cur
+
+    
+def fkt(x):
+    return 100*x - x**2 - (2*x**3-25*x**2+134*x+60)
+
+```
+
+```{python, echo=FALSE, results="asis"}
+x0 = 2.0
+x1 = 4.0
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
+print(f'{x0} & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
+x = sekantenverfahren(fkt, x0, x1, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n\n')
+print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+
+**Wichtig:** In Klausuren wird genau so eine Tabelle beim Sekantenverfahren erwartet!
+
+:::
+
+<!-- -->
+
+
+### Übung `r nextExercise()`: Sekanten- und Newtonverfahren {.exercise}
+
+Betrachten Sie ein Unternehmen mit Marktmacht, welches sich der
+Marktnachfrage $P(x)= 30-x$ gegenübersieht, wobei hier $P$ den Preis und $x$ die
+Menge bezeichnet. 
+
+Die Kosten $K$ sind gegeben durch $K(x) = 0{,}5\cdot x^2 +18 \cdot x + 18$.
+
+a) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Sekantenverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), \frac{\Delta f(x_i)}{\Delta x_i}$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.0001$. Startwerte $x_0=1$ und $x_1=3$
+
+b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfahrens. Stellen Sie dazu die Tabelle mit den Werten $i, x_i, f(x_i), f'(x_i)$ auf und rechnen Sie mit einer Genauigkeit von $epsilon = 0.0001$. Startwert: $x_1=3$
+
+::: {.notes}
+Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)=-3x+12$ erhalten wir:
+
+```{python, echo=FALSE}
+def fkt(x):
+    return -1.5*x**2+12*x-18
+    
+def dfkt(x):
+    return -3*x+12
+```
+
+::::::::: {.columns}
+:::::: {.column width="48%"}
+::::::::: {.scriptsize}
+
+Für das Sekantenverfahren:
+
+```{python, echo=FALSE, results="asis"}
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+x0 = 1
+x1 = 3
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $\\frac{\Delta f(x_i)}{\\Delta x_i}$ \\\\\\midrule\n')
+print(f'0  & {x0:.8F} & {fkt(x0):.8F} & -/- \\\\\n')
+x = sekantenverfahren(fkt, 1.0, 3.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+:::::::::
+::::::
+:::::: {.column width="48%"}
+::::::::: {.scriptsize}
+Für das Newtonverfahren:
+
+```{python, echo=FALSE, results="asis"}
+def print_iter_info(i, x, fx, dfx):
+    print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
+
+
+print('\\begin{tabular}{rrrr}\n\\toprule\n')
+print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
+x = newton(fkt, dfkt, 3.0, epsilon=0.0000001)
+print('\n\\bottomrule\n\\end{tabular}\n \n')
+print('\n \n \nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
+print('Ergebnis: $x\\approx %2.8F$' % (x))
+```
+:::::::::
+::::::
+:::::::::
+:::
+
+### Regular-Falsi (I/II)
+
+Das Verfahren mit dem Namen "Regular-Falsi", (lateinisch regula falsi ‚Regel des Falschen‘), ist eine Kombination aus Bisektions- und Sekantenverfahren. Wir wollen also das Beste beider Verfahren kombinieren.
+
+Das Bisektionsverfahren gibt uns mit Hilfe der Intervallschachtelung immer ein Intervall an, in dem sich die Nullstelle befindet.
+
+Das Sekantenverfahren bringt die Geschwindigkeit des Newtonverfahrens (Stichwort: *quadratische Konvergenz*), ohne das wir eine Ableitung berechnen müssen.
+
+Im Bisektionsverfahren haben wir in jedem Schritt ein neues $c$ als die Mitte des Intervalls von $a$ und $b$ bestimmt und danach entschieden, wo wir weitersuchen wollen.
+
+
+Zur Bestimmung von $c$ benutzen wir nun aber die Idee des Sekantenverfahrens, also möglichst durch die Sekante an die Nullstelle zu geraten. 
+
+### Regular-Falsi (II/II)
+
+
+Wir ersetzen die Bestimmung von $c_i = \frac{a_{i-1} + b_{i-1}}{2}$ durch:
+$$
+\begin{aligned}
+c_i &= a_{i-1} - \frac{f(a_{i-1})}{\Delta f}; \quad \text{mit} \quad\Delta f = \frac{f(b_{i-1})- f(a_{i-1})}{b_{i-1}- a_{i-1}} \\
+    &=  a_{i-1} - \frac{b_{i-1}- a_{i-1}}{f(b_{i-1})- f(a_{i-1})} \cdot f(a_{i-1}) \\
+    &= \frac{a_{i-1} \cdot f(b_{i-1})- b_{i-1}\cdot f(a_{i-1})}{f(b_{i-1})- f(a_{i-1})}
+\end{aligned}
+$$
+Und passen die Entscheidung, in welchem Teilintervall es weitergehen soll, etwas an:
+
+$$
+[a_{i}\,;\, b_{i}] = 
+        \begin{cases}
+            \left[a_{i-1} \,;\, c_i \right] & \text{ falls } f(a_{i-1}) \cdot f(c_i) \leq 0 \\[1.ex]
+            \left[c_i\,;\, b_{i-1} \right] & \text{ sonst }
+        \end{cases}
+$$
+
+### Python-Code für das Regular-Falsi-Verfahren (I/ II){.shrink}
+
+Zuerst etwas vorbereitenden Code:
+
+::: {.footnotesize}
+
+```{python}
+# Regular-Falsi-Verfahren in Python
+def print_iter_info(i, a, b, c, f):
+    print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}')
+
+def regularfalsi(f, a, b, max_iter=1000, epsilon=0.0001):
+    if f(a) * f(b) > 0:
+        raise ArithmeticError("Das Produkt der Intervallgrenzen muss " +
+                              "ein Vorzeichenwechsel haben!")
+    if a > b:
+        a, b = b, a
+    fa, fb = f(a), f(b)
+    for i in range(1, max_iter):
+        iw = b - a
+        if iw < epsilon:
+            break
+        c = a - iw / (fb - fa) * fa
+        fc = f(c)
+        print_iter_info(i, a, b, c, f)
+        if fb*fc <= 0:
+            a, fa = c, fc
+        else:
+            b, fb = c, fc
+    return a, b
+```
+
+:::
+
+<!-- --->
+
+### Beispiel: Regular-Falsi (I / II)
+
+```{python, echo=FALSE}
+def fkt(x):
+    return(exp(-x**2)-x)
+```
+
+Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=-0.6321205588285577$
+
+```{python}
+def fkt(x):
+  return(exp(-x**2)-x)
+  
+fkt(0)
+fkt(1)
+```
+
+<!-- --->
+
+### Beispiel: Regular-Falsi (II/II) {.shrink}
+
+```{python, results = "asis", echo=FALSE}
+def print_iter_info(i, a, b, c, f):
+    print(f'Iter. {i}:\na={a:.8F} f(a)={f(a):.8F} c={c:2.8F} '
+          f'f(c)={f(c):.8F} b={b:.8F}  f(b)={f(b):.8F}\n')
+
+```
+
+::: {.footnotesize}
+
+```{python, results = "asis", eval=FALSE}
+if __name__== "__main__":
+    print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
+```
+\begin{verbatim}
+```{python, results = "asis", R.options = list(width = 400), echo=FALSE}
+if __name__== "__main__":
+    print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
+```
+\end{verbatim}
+:::
+
+<!-- --->
+
+### Weiterführende Literatur {include-only=BIGSTUFF}
+
+Es gibt viele Versuche die positiven Eigenschaften bestimmter Verfahren zu erhalten. Lesen Sie zum Beispiel
+
+- http://www.math.nthu.edu.tw/~amen/2008/070227-1.pdf
+- https://www.jstor.org/stable/2001916?seq=1
+
+
+### Müllers-Methode {include-only=BIFSTUFF}
+
+```{python, eval=TRUE}
+def mueller(f, a, b, r, max_iter=1000, epsilon=1.0 / 1000):
+    x = [a, b, r]
+    x.sort()
+    x = [x[1], x[2], x[0]]
+    root = x[1]
+    for i in range(1, max_iter):
+        print(i)
+        x.sort()
+        x = [x[1], x[2], x[0]]
+        y = list(map(f, x))
+        h1 = x[1] - x[0]
+        h2 = x[0] - x[2]
+        lam = h2 / h1
+        c = y[0]
+        a = (lam * y[1] - y[0] * ((1.0 + lam)) + y[2]) / (lam * h1 ** 2.0 * (1 + lam))
+        b = (y[1] - y[0] - a * ((h1) ** 2.0)) / (h1)
+        last_root = root
+        if b > 0:
+            root = x[0] - ((2.0 * c) / (b + (b ** 2 - 4.0 * a * c) ** 0.5))
+        else:
+            root = x[0] - ((2.0 * c) / (b - (b ** 2 - 4.0 * a * c) ** 0.5))
+
+        if abs(last_root-root) < epsilon:
+            break
+
+        if abs(f(root)) > x[0]:
+            x = [x[1], x[0], root]
+        else:
+            x = [x[2], x[0], root]
+        x.sort()
+        x = [x[1], x[2], x[0]]
+    return(root)
+
+
+def fkt(x):
+  return(exp(-x**2)-x)
+
+
+if __name__== "__main__":
+    print(mueller(fkt, 0, 1, 0.5, epsilon=0.00000001))
+```
+
+<!-- nix iss! -->
+
+### Das Wissen Sie nun!
+
+- Nach dem Zwischenwertsatz gibt es bei stetigen Funktionen innerhalb eines Intervalls mindestens eine Nullstelle, wenn der Funktionswert an der einen Intervallgrenze größer als Null, an der anderen Intervallgrenze kleiner als Null ist
+
+- Nullstellen werden unter anderem zur Berechnung des Break-Even benötigt
+
+- Das Bisektionsverfahren findet Nullstellen von Funktionen, indem es ein immer kleineres Intervall bildet, in dem eine Nullstelle liegen muss
+
+- Das Newtonverfahren benötigt zur Nullstellenberechnung die 1. Ableitung. Mit dieser Hilfe findet es häufig recht schnell ein Nullstelle durch Approximation mit Hilfe der Tangente.
+
+- Beim Sekantenverfahren wird im Newtonverfahren die Ableitung durch die Sekantensteigung der letzten zwei Punkte ersetzt.
+
+- Das Regular-Falsi-Verfahren versucht die Vorteile des Bisektionsverfahrens und des Sekantenverfahrens zu kombinieren.
+
+
+```{r finish-Nullstellenberechnung, include=FALSE}
+rm(pathToImages)
+finalizePart(partname)
+```
