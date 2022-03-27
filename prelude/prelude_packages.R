@@ -54,7 +54,11 @@ if (!exists("prelude.packages")) {
 # Release Vergleich
 # ---------------------------------------------------------------------------
 releaseCompare <- function(relA, relB) {
-  return (compareVersion(relA, relB) < 0)
+  ret <- vector(length(relA), mode = "logical")
+  for (i in 1:length(relA)) {
+      ret[i] = compareVersion(relA[i], relB[i]) < 0
+  }
+  ret
 }
   
 # ---------------------------------------------------------------------------
@@ -117,10 +121,10 @@ releaseCompare <- function(relA, relB) {
       del.pkgs <- unwanted_pkgs[(unwanted_pkgs %in% installed.packages())]
       #print(new.pkgs)
       #print(del.pkgs)
-      if (length(new.pkgs)) {
+      if (length(new.pkgs) > 0) {
           install.packages(new.pkgs, dependencies = dependencies, repos = repos)
       }
-      if (length(del.pkgs)) {
+      if (length(del.pkgs) > 0) {
           remove.packages(del.pkgs)
       }
       message("... erledigt!")
