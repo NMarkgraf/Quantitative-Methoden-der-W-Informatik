@@ -989,15 +989,16 @@ kable(tab, "latex", booktabs = T, escape = FALSE) %>%
 Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdot y$.
 
 
-- *Addition*:
-    - absoluter Fehler: $\displaystyle \left|(\tilde{x} + \tilde{y}) - (x + y)\right| =  \left|- (e_x \cdot x + e_y \cdot y)\right|$
-    - relativer Fehler: $\displaystyle \left|\frac{(x+y) - (\tilde{x}+\tilde{y})}{x + y}\right| = \left|\frac{x}{x+y}\cdot e_x + \frac{y}{x+y}\cdot e_y\right|$
+- *Addition* / *Subtraktion*:
+    - absoluter Fehler: $\displaystyle \left|(\tilde{x} \pm \tilde{y}) - (x \pm y)\right| =  \left|- (e_x \cdot x \pm e_y \cdot y)\right|$
+    - relativer Fehler: $\displaystyle \left|\frac{(x \pm y) - (\tilde{x} \pm \tilde{y})}{x \pm y}\right| = \left|\frac{x}{x\pm y}\cdot e_x \pm \frac{y}{x\pmy}\cdot e_y\right|$
     
 - *Multiplikation*:
     - absoluter Fehler: $\left| x \cdot y -\tilde{x} \cdot \tilde{y}\right| = \left|-xy \cdot (e_x+e_y+ e_x \cdot e_y)\right|$
     - relativer Fehler: $\displaystyle\left| \frac{x \cdot y- (\tilde{x} \cdot \tilde{y})}{x \cdot y}\right| = e_x + e_y + e_x \cdot e_y$
 
-Addition ist numerisch fehleranfälliger als Multiplikation: Hoher relativer Fehler bei Subtraktion in etwa gleich großer Zahlen (**Auslöschung**)
+- Addition ist numerisch fehleranfälliger als Multiplikation! 
+- Hoher relativer Fehler bei Subtraktion in etwa gleich großer Zahlen (**Auslöschung**)
 
 
 ## Fehlerfortpflanzung bei Funktionsauswertung
