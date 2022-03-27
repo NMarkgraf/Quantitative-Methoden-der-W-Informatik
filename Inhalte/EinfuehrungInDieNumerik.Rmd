@@ -989,14 +989,13 @@ kable(tab, "latex", booktabs = T, escape = FALSE) %>%
 Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdot y$.
 
 
-
 - *Addition*:
-    - absoluter Fehler: $\tilde{x} + \tilde{y} = x + y - (e_x \cdot x + e_y \cdot y)$
-    - relativer Fehler: $\displaystyle \frac{x+y- (\tilde{x}+\tilde{y})}{x + y} = \frac{x}{x+y}\cdot e_x + \frac{y}{x+y}\cdot e_y$
+    - absoluter Fehler: $\displaystyle \left|(\tilde{x} + \tilde{y}) - (x + y)\right| =  \left|- (e_x \cdot x + e_y \cdot y)\right|$
+    - relativer Fehler: $\displaystyle \left|\frac{(x+y) - (\tilde{x}+\tilde{y})}{x + y}\right| = \left|\frac{x}{x+y}\cdot e_x + \frac{y}{x+y}\cdot e_y\right|$
     
 - *Multiplikation*:
-    - absoluter Fehler: $\tilde{x} \cdot \tilde{y} = (1-e_x-e_y+ e_x \cdot e_y) \cdot xy$
-    - relativer Fehler: $\displaystyle \frac{x \cdot y- (\tilde{x} \cdot \tilde{y})}{x \cdot y} = e_x+e_y - e_x \cdot e_y$
+    - absoluter Fehler: $\left| x \cdot y -\tilde{x} \cdot \tilde{y}\right| = \left|-xy \cdot (e_x+e_y+ e_x \cdot e_y)\right|$
+    - relativer Fehler: $\displaystyle\left| \frac{x \cdot y- (\tilde{x} \cdot \tilde{y})}{x \cdot y}\right| = e_x + e_y + e_x \cdot e_y$
 
 Addition ist numerisch fehleranfälliger als Multiplikation: Hoher relativer Fehler bei Subtraktion in etwa gleich großer Zahlen (**Auslöschung**)
 
@@ -1019,8 +1018,12 @@ $\tilde{y}=rd(f(\tilde{x}))$,  das in Gleitpunktarithmetik berechnete Ergebnis d
 
 Wie beurteilt man die Qualität von $\tilde{y}$?
 
-- [(Relativer) Vorwärtsfehler]{.cstrong}: $\left| \frac{y-\tilde{y}}{y}\right|$
-- [(Relativer) Rückwärtsfehler]{.cstrong}: $\left| \frac{x-\tilde{x}}{x}\right|$, dabei sei $\tilde{x}$ der (ein) Eingabewert, welcher bei rundungsfreier Rechnung zu $\tilde{y}=f(\tilde{x})$ führt. (Hierbei interpretieren wir Rundungsfehler als Datenfehler.)
+|                  | absoluter                   | relativer                             |
+|------------------|-----------------------------|---------------------------------------|
+| Vorwärtsfehler   | $\left| y-\tilde{y}\right|$ | $\left| \frac{y-\tilde{y}}{y}\right|$ |
+| Rückwärtsfehler  | $\left| x-\tilde{x}\right|$ | $\left| \frac{x-\tilde{x}}{x}\right|$ |
+
+Dabei sei $\tilde{x}$ der (ein) Eingabewert, welcher bei rundungsfreier Rechnung zu $\tilde{y}=f(\tilde{x})$ führt. (Hierbei interpretieren wir Rundungsfehler als Daten(eingabe)fehler.)
 
 Wir versuchen nun den Vorwärtsfehler durch den Rückwärtsfehler abzuschätzen:
 
@@ -1064,10 +1067,10 @@ $$
 
 - Relativer Fehler:
 $$
-    \begin{aligned}
-     \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq \underbrace{M \cdot \frac{\max\limits_{x_0 \in I} |x_0| }{\min\limits_{x_0 \in I} |f(x_0)|}}_{=\text{rel. Konditionszahl} \cdot 1/|x|} \cdot |x - \tilde{x}| \, \text{ mit } M = \max\limits_{x_0 \in I} |f'(x_0)| \\
-     \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\approx {|f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|}} \cdot |x - \tilde{x}|\\
-    \end{aligned}
+\begin{aligned}
+\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \underbrace{\frac{ \max\limits_{x_0 \in I} |x_0| }{\min\limits_{x_0 \in I} |f(x_0)|}}_{=\text{rel. Konditionsz. } K} \cdot \frac{|x - \tilde{x}|}{|x|} \, \text{ mit } M = \max\limits_{x_0 \in I} |f'(x_0)| \\
+     \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\approx {|f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|}} \cdot \frac{|x - \tilde{x}|}{|x|}\\
+\end{aligned}
 $$
 
 wobei $I$ ein Intervall ist, das sowohl $x$ als auch $\tilde{x}$ enthält.
@@ -1091,8 +1094,8 @@ $$
 - Für den relativen Fehler gilt:
 $$
     \begin{aligned}
-      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\leq 23 \cdot \frac{11.5}{10.25} \cdot 0.1 = 2.580488 \\
-      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = 22 \cdot \frac{11}{21} \cdot 0.1 = 1.152381 \\
+      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\leq 23 \cdot \frac{11.5}{10.25} \cdot \frac{0.1}{11.1} = 0.22324764 \\
+      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = 22 \cdot \frac{11}{21} \cdot \frac{0.1}{11.1} = 0.10381811 \\
     \end{aligned}
 $$
 
@@ -1126,19 +1129,19 @@ a) Absoluter Fehler: $|x - \tilde{x}| = |`r x` - `r x_tilde`| = `r absFehler`$
    
 b) Absoluter Fehler: $| f(x) - f(\tilde{x}) | \approx |f'(\tilde{x})| \cdot |x - \tilde{x}| = `r abs(df(x_tilde))` \cdot `r absFehler` = `r abs(df(x_tilde)) * absFehler`$
 
-   Relativer Fehler: $\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = `r abs(df(x_tilde))` \cdot `r abs(x_tilde)/abs(f(x_tilde))` \cdot `r absFehler` = `r abs(df(x_tilde)) * abs(x_tilde)/abs(f(x_tilde)) * absFehler`$
+   Relativer Fehler: $\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot \frac{|x - \tilde{x}|}{|x|} = `r abs(df(x_tilde))` \cdot `r abs(x_tilde)/abs(f(x_tilde))` \cdot `r relFehler` = `r abs(df(x_tilde)) * abs(x_tilde)/abs(f(x_tilde)) * relFehler`$
    
 c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x_0 \in I} |f'(x_0)| = `r M`$ und somit:
 
     Absoluter Fehler: $$\begin{aligned}
     | f(x) - f(\tilde{x}) | \leq M \cdot |x - \tilde{x}| &= `r M` \cdot `r absFehler`\\ &= `r M * absFehler`
-\end{aligned}$$ $$
+\end{aligned}$$
 
    Relativer Fehler:$$\begin{aligned}
-   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x - \tilde{x}| 
-   = `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r absFehler` \\ 
-   &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r absFehler` \\ 
-   = `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * absFehler`
+   \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot \frac{|x - \tilde{x}|}{x} 
+   = `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r relFehler` \\ 
+   &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r relFehler` 
+   = `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * relFehler`
    \end{aligned}$$
    
 d) $K = M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
