@@ -1,7 +1,7 @@
 ---
 #title: "Quantitative Methoden der (Wirtschafts-)Informatik"
 title: "Quantitative Methoden der Informatik"
-subtitle: "Revision 2022.0322"
+subtitle: "Revision 2022.0327"
 tag:
     - bachelor
     - shiny
@@ -16,6 +16,7 @@ library(knitr)
 library(here)
 #print(knitr::opts_knit$get("output.dir"))
 knitr::opts_knit$set(base.dir = here())
+opts_knit$set(base.dir = here())
 #print(knitr::opts_knit$get("base.dir"))
 source("prelude.R")
 initPrelude(
