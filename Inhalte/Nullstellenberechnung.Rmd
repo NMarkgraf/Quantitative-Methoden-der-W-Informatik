@@ -79,7 +79,7 @@ Sie können für unsere Programme auch diesen Online-IDE für Python nutzen: htt
 Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 
 1. https://www.python.org als Quelle für Python
-2. https://www.python-kurs.eu/python3_kurs.php als gute Quelle, wie man in Python programmiert.
+2. https://www.python-kurs.eu/python3_kurs.php als gute Quelle, wie mensch in Python programmiert.
 3. https://www.jetbrains.com/de-de/pycharm/ PyCharm als IDE für ihren Rechner.
 4. Installieren Sie numpy mittels:
 
@@ -373,7 +373,7 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 
 ### Sekantenverfahren 
 
-Möchte man die Bestimmung und Auswertung der Ableitung in jedem Schritt umgehen, weil z.B. die Ableitung schwer zu bestimmen ist, dann kann man die Tangentensteigung durch die Sekantensteigung der letzen zwei Punkte ersetzen.
+Möchte mensch die Bestimmung und Auswertung der Ableitung in jedem Schritt umgehen, weil z.B. die Ableitung schwer zu bestimmen ist, dann kann mensch die Tangentensteigung durch die Sekantensteigung der letzen zwei Punkte ersetzen.
 
 So erhalten wir das **Sekantenverfahren** mit der folgenden Rekursionsformel zur Bestimmung der nächsten Näherungslösung:
 

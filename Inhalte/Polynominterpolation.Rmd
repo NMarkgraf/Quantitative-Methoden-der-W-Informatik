@@ -26,7 +26,7 @@ options(xtable.timestamp = "")
 
 ### Über Punkte und Graden die diese Verbinden.
 
-Zwei Punkte in der Ebene liegen auf einer gemeinsamen Gerade. Doch wie kommt man an eine möglichst einfache Funktion, welche vorgegebene Punkte beinhaltet?
+Zwei Punkte in der Ebene liegen auf einer gemeinsamen Gerade. Doch wie kommt mensch an eine möglichst einfache Funktion, welche vorgegebene Punkte beinhaltet?
 
 Nehmen wir zwei Punkte in der Ebene ($\mathbf{R^2}$) mit den Koordinaten $(x_0, y_0)$ und $(x_1, y_1)$. Dann können wir eine **lineare Funktion** $f$ (also eine **Gerade**) der Form 
 
@@ -61,7 +61,7 @@ Doch was ist, wenn wir drei, vier oder noch mehr Punkte haben?
 
 ### Ein anderer Startpunkt und die Konsequenzen.
 
-Geraden stellt man klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderen Ansatz wählen:
+Geraden stellt menschklassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderen Ansatz wählen:
 
 $$f(x) = a_1 \cdot (x - x_0) + a_0$$
 
@@ -69,7 +69,7 @@ Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist
 das (nach Koeffizientenvergleich) nichts anderes als $f(x) = m \cdot x + b$ mit 
 $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
 
-Jedoch kann man für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizienten 
+Jedoch kann menschfür $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizienten 
 $a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
 
 :::::: {.columns}
@@ -317,7 +317,7 @@ Eine Idee, wie wir dieses Polynom finden, können wir (vielleicht) aus den bishe
 
 Auch sollte das Polynom relativ einfach auszuwerten sein. 
 
-Das *quadratische Polynom* (die *Parabel*) kann man z.B. wie folgt auswerten:
+Das *quadratische Polynom* (die *Parabel*) kann menschz.B. wie folgt auswerten:
 
 $$\begin{aligned}
   f(x) &= a_2 \cdot (x-x_0)\cdot (x-x_1) + a_1 \cdot (x-x_0) + a_0 \\
@@ -616,7 +616,7 @@ Um den Nachteil der zu großen Schwankungen auszugleichen wird das Intervall
 in mehrere Teilintervalle aufgeteilt.
 In den Teilintervallen wird dann ein Polynom niedrigeren Grades verwendet.
 
-Werden die einzelnen Stützpunkte mit Geraden verbunden spricht man von einer
+Werden die einzelnen Stützpunkte mit Geraden verbunden spricht menschvon einer
 **linearen Interpolierenden** (*Polygonzug*):
 <div class="columns">
 <div class="column" width="29%">
