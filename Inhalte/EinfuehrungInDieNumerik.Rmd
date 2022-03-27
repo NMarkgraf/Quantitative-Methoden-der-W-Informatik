@@ -533,9 +533,9 @@ Stellen Sie eine Vermutung an, wieso die Exponenten von $x_{min}$ und $x_{max}$ 
 
 ::: {.notes}
 $x_{min}$ basiert eigentlich auf der normalisierten Darstellung. 
-Sieht man aber von der Normalisierung ($z_1 \neq 0$) ab, so führt dies zu **subnormalen** Zahlen, die bis runter zu $B^{m-n}$ reichen und im Standard IEEE 754 definiert sind.
+Sieht mensch aber von der Normalisierung ($z_1 \neq 0$) ab, so führt dies zu **subnormalen** Zahlen, die bis runter zu $B^{m-n}$ reichen und im Standard IEEE 754 definiert sind.
 
-Führt man Rechnungen im subnormalen Bereich durch, so nennt man dies **graduellen Unterlauf** (*gradual underflow*). Ein (echter) Unterlauf tritt erst unterhalb der subnormalen Zahlen auf. In diesem Fall wird meist mit Null weitergerechnet.
+Führt mensch Rechnungen im subnormalen Bereich durch, so nennt mensch dies **graduellen Unterlauf** (*gradual underflow*). Ein (echter) Unterlauf tritt erst unterhalb der subnormalen Zahlen auf. In diesem Fall wird meist mit Null weitergerechnet.
 :::
 
 ### Offene Übung `r nextExercise()`: {.exercise}
@@ -706,31 +706,32 @@ D) Für B): $|rd(x_1)-x_1| = 0{,}078125$,
 
 ### Maschinengenauigkeit
 
-Für eine Rundung $rd(x)$ eines Wertes $x$ in $n$-stelliger Gleitpunktarithmetik hängt der verbundene sogenannte [absoluter Rundungsfehler]{.cstrong}
-
-::: {.footnotesize}
-$$\left| x - rd(x) \right| \leq \frac{B^{E-n}}{2}$$
+::: {.small}
+Für eine Rundung $\tilde{x}=rd(x)$ eines Wertes $x$ in $n$-stelliger Gleitpunktarithmetik hängt der verbundene sogenannte [absoluter Rundungsfehler]{.cstrong} noch vom Exponenten $E$ von $x$ ab:
 :::
-
-noch vom Exponenten $E$ von $x$ ab.
-
-Der [relative Rundungsfehler]{.cstrong} dagegen ist
-
 ::: {.footnotesize}
-$$\left| \frac{x -\tilde{x}}{x}\right| 
-   \leq \left| x -\tilde{x}\right| \cdot \frac{1}{\left|{x}\right|}
-   \leq \frac{B^{E-n}}{2} \cdot \frac{1}{|(0.z_1z_2\dots z_n)| \cdot B^E}
-   = \frac{B^{-n}}{2} \cdot \frac{B}{|(0.z_1z_2\dots z_n)| \cdot B }
-   \leq \frac{B^{-n}}{2} \cdot \frac{B}{1}
-   \leq \frac{B^{-n+1}}{2}$$
+$$\left| x - \tilde{x} \right| \leq \frac{B^{E-n}}{2}$$
 :::
-
-durch den Wert $eps := \frac{B^{1-n}}{2}$ nach oben beschränkt.  
-
+::: {.small}
+Der [relative Rundungsfehler]{.cstrong} dagegen ist durch den Wert $eps := \frac{B^{1-n}}{2}$ nach oben beschränkt:  
+:::
+::: {.footnotesize}
+$$
+\begin{aligned}
+\left| \frac{x -\tilde{x}}{x}\right| 
+   = \left| x -\tilde{x}\right| \cdot \frac{1}{\left|{x}\right|}
+   &\leq \frac{B^{E-n}}{2} \cdot \frac{1}{|(0.z_1z_2\dots z_n)_B| \cdot B^E}
+   = \frac{B^{-n}}{2} \cdot \frac{B}{|(0.z_1z_2\dots z_n)_B| \cdot B } \\
+   &\leq \frac{B^{-n}}{2} \cdot \frac{B}{1}
+   \leq \frac{B^{-n+1}}{2} = eps
+\end{aligned}
+$$
+:::
+::: {.small}
 Der Wert $eps$ wird auch [Maschinengenauigkeit]{.cstrong} genannt. Es gilt damit:
-
+:::
 ::: {.footnotesize}
-$$rd(x) = x + \epsilon \cdot x = (1 + \epsilon)\cdot x \text{ mit } |\epsilon| < eps$$
+$$rd(x) = x + \epsilon_x \cdot x = (1 + \epsilon_x)\cdot x \text{ mit } |\epsilon_x| < eps$$
 :::
 
 
@@ -795,7 +796,7 @@ Eine mögliche Lösung könnte wie folgt aussehen:
 
 \theverbbox
 
-Als Ergebnis würde man $eps=`r eps`$ erhalten.
+Als Ergebnis würde mensch $eps=`r eps`$ erhalten.
 
 ::::::
 
@@ -821,7 +822,7 @@ E.  `abs(foo(1) - 0.1) < eps`
 
 ::: {.notes}
 
-***E*** ist richtig. Möchte man in R oder Python auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheitszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
+***E*** ist richtig. Möchte mensch in R oder Python auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheitszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
 
 B und D prüfen formal korrekt auf Gleichheit. E hat aber den Vorteil, dass nicht nur zurückgegeben wird, ob Gleichheit vorliegt, sondern ob der Unterschied kleiner als eine vorgegebene Genauigkeit *eps*. 
 Diese sollte in der Praxis etwas größer gewählt werden, als die Maschinengenauigkeit.
@@ -986,16 +987,20 @@ kable(tab, "latex", booktabs = T, escape = FALSE) %>%
 
 ### Fehler bei arithmetischen Operationen / Auslöschung
 
-Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdot y$.
+Es sei $\tilde{x} = rd(x) = (1+\epsilon_x) \cdot x$ und $\tilde{y} = rd(y) = (1+\epsilon_y) \cdot y$.
 
+Dann gilt:
 
 - *Addition* / *Subtraktion*:
-    - absoluter Fehler: $\displaystyle \left|(\tilde{x} \pm \tilde{y}) - (x \pm y)\right| =  \left|- (e_x \cdot x \pm e_y \cdot y)\right|$
-    - relativer Fehler: $\displaystyle \left|\frac{(x \pm y) - (\tilde{x} \pm \tilde{y})}{x \pm y}\right| = \left|\frac{x}{x\pm y}\cdot e_x \pm \frac{y}{x\pmy}\cdot e_y\right|$
+    - absoluter Fehler: $\displaystyle \left|(\tilde{x} \pm \tilde{y}) - (x \pm y)\right| =  \left|- (\epsilon_x \cdot x \pm \epsilon_y \cdot y)\right|$
+    - relativer Fehler: $\displaystyle \left|\frac{(x \pm y) - (\tilde{x} \pm \tilde{y})}{x \pm y}\right| = \left|\frac{x}{x\pm y}\cdot \epsilon_x \pm \frac{y}{x\pm y}\cdot \epsilon_y\right|$
     
 - *Multiplikation*:
-    - absoluter Fehler: $\left| x \cdot y -\tilde{x} \cdot \tilde{y}\right| = \left|-xy \cdot (e_x+e_y+ e_x \cdot e_y)\right|$
-    - relativer Fehler: $\displaystyle\left| \frac{x \cdot y- (\tilde{x} \cdot \tilde{y})}{x \cdot y}\right| = e_x + e_y + e_x \cdot e_y$
+    - absoluter Fehler: $\left| x \cdot y -\tilde{x} \cdot \tilde{y}\right| = \left|-xy \cdot (\epsilon_x+\epsilon_y+ \epsilon_x \cdot \epsilon_y)\right|$
+    - relativer Fehler: $\displaystyle\left| \frac{x \cdot y- (\tilde{x} \cdot \tilde{y})}{x \cdot y}\right| = \epsilon_x + \epsilon_y + \epsilon_x \cdot \epsilon_y$
+
+
+Daraus folgt:
 
 - Addition ist numerisch fehleranfälliger als Multiplikation! 
 - Hoher relativer Fehler bei Subtraktion in etwa gleich großer Zahlen (**Auslöschung**)
@@ -1007,24 +1012,31 @@ Es sei $\tilde{x} = rd(x) = (1+e_x)\cdot x$ und $\tilde{y} = rd(y) = (1+e_y)\cdo
 
 Beim Auswerten einer Funktion $f$ an der (z.B. gerundeten) Stelle $\tilde{x}$ anstatt an der Stelle $x$ wirkt sich dieser Fehler natürlich auch auf den Funktionswert aus. 
 
-Wird mit diesen (fehlerhaften) Funktionswert weitergerechnet wirkt sich dieser Fehler natürlich auch dort aus, man spricht von **Fehlerfortpflanzung**
+Wird mit diesen (fehlerhaften) Funktionswert weitergerechnet wirkt sich dieser Fehler natürlich auch dort aus, mensch spricht von **Fehlerfortpflanzung**
 
 Je nach Beschaffenheit der zugrundeliegenden Funktionen kann das Ergebnis mehr oder weniger stark fehlerbehaftet sein.
 
 
 ### Vorwärts- und Rückwärtsfehler
 
-Betrachten wir eine Funktion $f(x)$ auf den reellen Zahlen. Berechnet man nun in normaler Arithmetik $y=f(x)$, so erhält man das exakte Ergebnis für $y$. Nutzt man einen Rechner, so erhält man i.d.R.
-$\tilde{y}=rd(f(\tilde{x}))$,  das in Gleitpunktarithmetik berechnete Ergebnis der Funktion $y=f(x)$ ($\tilde{x}=rd(x)$).
+Sei $\tilde{x}=rd(x)$ der gerundete Wert von $x$. 
+Betrachten wir eine Funktion $f: \mathbf{R} \to \mathbf{R}$ und bezeichnen wir nun mit $y=f(x)$ das exakte Ergebnis in *normaler* Arithmetik.
 
-Wie beurteilt man die Qualität von $\tilde{y}$?
+Nutzt mensch einen Rechner, so erhält mensch i.d.R.
+$\tilde{y}=rd(f(\tilde{x}))$, das in Gleitpunktarithmetik berechnete Ergebnis der Funktion. 
 
-|                  | absoluter                   | relativer                             |
-|------------------|-----------------------------|---------------------------------------|
-| Vorwärtsfehler   | $\left| y-\tilde{y}\right|$ | $\left| \frac{y-\tilde{y}}{y}\right|$ |
-| Rückwärtsfehler  | $\left| x-\tilde{x}\right|$ | $\left| \frac{x-\tilde{x}}{x}\right|$ |
+Wir beurteilen die Qualität von $\tilde{y}$ wie folgt:
 
-Dabei sei $\tilde{x}$ der (ein) Eingabewert, welcher bei rundungsfreier Rechnung zu $\tilde{y}=f(\tilde{x})$ führt. (Hierbei interpretieren wir Rundungsfehler als Daten(eingabe)fehler.)
+::: {.center}
+:::: {.small}
+|                  | absoluter                    | relativer                              |
+|------------------|------------------------------|----------------------------------------|
+| Vorwärtsfehler   | $\left| y-\tilde{y} \right|$ | $\left| \frac{y-\tilde{y}}{y} \right|$ |
+| Rückwärtsfehler  | $\left| x-\tilde{x} \right|$ | $\left| \frac{x-\tilde{x}}{x} \right|$ |
+::::
+:::
+
+Dabei sei $\tilde{x}$ der (ein) Eingabewert, welcher bei rundungsfreier Rechnung zu $\tilde{y}=f(\tilde{x})$ führt. (Hierbei interpretieren wir den Rundungsfehler als reinen Daten(eingabe)fehler!)
 
 Wir versuchen nun den Vorwärtsfehler durch den Rückwärtsfehler abzuschätzen:
 
@@ -1106,8 +1118,11 @@ $$
 Gegeben sei die Funktion $f(x) = \sqrt{x}$, $x = 0.011$ und $\tilde{x}=0.01$.
 
 a) Berechnen Sie den wahren absoluten und relativen Fehler für $x$.
+
 b) Geben Sie eine Schätzung für den absoluten und relativen Fehler für $f(x)$ an.
+
 c) Geben Sie ein Abschätzung (obere Schranke) für den absoluten und relativen Fehler von $f(x)$ im Intervall $I = [\tilde{x}, x]$ an.
+
 d) Bestimmen Sie die (relative) Konditionszahl $K$.
 
 ```{r echo=FALSE}
@@ -1147,7 +1162,7 @@ c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x
    
 d) $K = M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
     Und damit:
-    $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x) * relFehler`$$
+    $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * relFehler`$$
 
 :::
 ::::::
