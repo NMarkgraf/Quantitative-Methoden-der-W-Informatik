@@ -1,16 +1,18 @@
 # ===========================================================================
-# prelude_packages.R (Release 0.2.0)
+# prelude_packages.R (Release 0.2.1)
 # ==================---------------------------------------------------------
-# (W) by Norman Markgraf, Karsten Lübke in 2017/18
+# (W) by Norman Markgraf, Karsten Lübke in 2017-22
 #
 # 27. Feb. 2018  (nm)  Erstes Schritte. Extraktion aus der prelude.R
 #                      (0.1.0)
-# 04. Mrz. 2018  (nm)  Löschen von ungewollten oder störenden Paketen!
+# 04. Mär. 2018  (nm)  Löschen von ungewollten oder störenden Paketen!
 #                      (0.1.1)
 # 18. Mär. 2018  (nm)  Dokumentation angepasst.
 #                      (0.1.2)
 # 18. Jan. 2019  (nm)  Version der R Pakete werden nun richtig verglichen.
 #                      (0.2.0)
+# 27. Mär. 2019  (nm)  Fehler in Funktion "releaseCompare" gefixed.
+#                      (0.2.1)
 #
 #   (C)opyleft Norman Markgraf and Karsten Lübke in 2018/19
 #
