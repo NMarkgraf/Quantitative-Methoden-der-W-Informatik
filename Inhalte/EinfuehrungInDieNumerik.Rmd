@@ -1020,10 +1020,12 @@ Je nach Beschaffenheit der zugrundeliegenden Funktionen kann das Ergebnis mehr o
 ### Vorwärts- und Rückwärtsfehler
 
 Sei $\tilde{x}=rd(x)$ der gerundete Wert von $x$. 
-Betrachten wir eine Funktion $f: \mathbf{R} \to \mathbf{R}$ und bezeichnen wir nun mit $y=f(x)$ das exakte Ergebnis in *normaler* Arithmetik.
+Betrachten wir eine Funktion $f: \mathbf{R} \to \mathbf{R}$ und bezeichnen 
+wir nun mit $y=f(x)$ das exakte Ergebnis in *normaler* Arithmetik.
 
-Nutzt mensch einen Rechner, so erhält mensch i.d.R.
-$\tilde{y}=rd(f(\tilde{x}))$, das in Gleitpunktarithmetik berechnete Ergebnis der Funktion. 
+Nutzt mensch einen Rechner, so erhält mensch i.d.R. mit
+$\tilde{y}=rd(f(\tilde{x}))$ das in Gleitpunktarithmetik berechnete Ergebnis 
+der Funktion. 
 
 Wir beurteilen die Qualität von $\tilde{y}$ wie folgt:
 
@@ -1035,8 +1037,9 @@ Wir beurteilen die Qualität von $\tilde{y}$ wie folgt:
 | Rückwärtsfehler  | $\left| x-\tilde{x} \right|$ | $\left| \frac{x-\tilde{x}}{x} \right|$ |
 ::::
 :::
-
+:::: {.small}
 Dabei sei $\tilde{x}$ der (ein) Eingabewert, welcher bei rundungsfreier Rechnung zu $\tilde{y}=f(\tilde{x})$ führt. (Hierbei interpretieren wir den Rundungsfehler als reinen Daten(eingabe)fehler!)
+::::
 
 Wir versuchen nun den Vorwärtsfehler durch den Rückwärtsfehler abzuschätzen:
 
@@ -1081,7 +1084,7 @@ $$
 - Relativer Fehler:
 $$
 \begin{aligned}
-\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \underbrace{\frac{ \max\limits_{x_0 \in I} |x_0| }{\min\limits_{x_0 \in I} |f(x_0)|}}_{=\text{rel. Konditionsz. } K} \cdot \frac{|x - \tilde{x}|}{|x|} \, \text{ mit } M = \max\limits_{x_0 \in I} |f'(x_0)| \\
+\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq \underbrace{M \cdot \frac{ \max\limits_{x_0 \in I} |x_0| }{\min\limits_{x_0 \in I} |f(x_0)|}}_{=\text{rel. Konditionsz. } K} \cdot \frac{|x - \tilde{x}|}{|x|} \, \text{ mit } M = \max\limits_{x_0 \in I} |f'(x_0)| \\
      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\approx {|f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|}} \cdot \frac{|x - \tilde{x}|}{|x|}\\
 \end{aligned}
 $$
@@ -1108,7 +1111,7 @@ $$
 $$
     \begin{aligned}
       \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right|  &\leq 23 \cdot \frac{11.5}{10.25} \cdot \frac{0.1}{11.1} = 0.22324764 \\
-      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot |x - \tilde{x}| = 22 \cdot \frac{11}{21} \cdot \frac{0.1}{11.1} = 0.10381811 \\
+      \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\approx |f'(\tilde{x})|\cdot \frac{|\tilde{x}|}{|f(\tilde{x})|} \cdot \frac{|x - \tilde{x}|}{|x|} = 22 \cdot \frac{11}{21} \cdot \frac{0.1}{11.1} = 0.10381811 \\
     \end{aligned}
 $$
 
@@ -1160,7 +1163,7 @@ c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x
    = `r M * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * relFehler`
    \end{aligned}$$
    
-d) $K = M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot |x| = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r abs(x)` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * abs(x)`$
+d) $K = M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} = `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))`$
     Und damit:
     $$\left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| \leq K \cdot \frac{|x - \tilde{x}|}{|x|} = `r M  * abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde))) * relFehler`$$
 
