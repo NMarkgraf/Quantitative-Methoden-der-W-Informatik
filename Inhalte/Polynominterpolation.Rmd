@@ -387,11 +387,11 @@ Dann gibt es genau ein Polynom $p$ vom höchstens Grad $n$, so dass $p(x_i)=y_i$
 Die Idee das Polynom mit Hilfe der Stützstellen $x_0, \ldots, x_n$ zu definieren führt zur folgenden Darstellung:
 
 $$\begin{aligned}
-  p(x) &= && a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdot\ldots\cdot(x-x_0) + \\
-       &  &&\quad a_{n-1} \cdot (x-x_{n-2})\cdot(x-x_{n-3})\cdot\ldots\cdot(x-x_0) + \\
-       &  &&\quad \ldots \\
-       &  &&\quad a_1 \cdot(x-x0) + a_0 \\
-       &= &&\sum_{i=0}^{n} \left(a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})\right)
+  p(x) &=  a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdot\ldots\cdot(x-x_0) \\
+       &\quad+ a_{n-1} \cdot (x-x_{n-2})\cdot(x-x_{n-3})\cdot\ldots\cdot(x-x_0) \\
+       &\quad+ \ldots \\
+       &\quad+ a_1 \cdot(x-x_0) + a_0 \\
+       &=\sum_{i=0}^{n} \left(a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})\right)
   \end{aligned}$$
 
 Zum berechnen der $a_i$ verwenden wir **(Newtons) Dividierte Differenzen** zu den Stützstellen $(x_0, y_0),\ldots, (x_n, y_n)$.
