@@ -1,7 +1,7 @@
 ---
 #title: "Quantitative Methoden der (Wirtschafts-)Informatik"
 title: "Quantitative Methoden der Informatik"
-subtitle: "Revision 2022.0327"
+subtitle: "Revision 2022.0405"
 tag:
     - bachelor
     - shiny

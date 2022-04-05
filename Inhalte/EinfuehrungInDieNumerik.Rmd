@@ -684,7 +684,7 @@ C) $x_1 = (0.1011)_2 \cdot 2^3$,
    $rd(x_4)=0{,}0625$
 
 D) Für B): $|rd(x_1)-x_1| = 0{,}078125$, 
-   $|rd(x_2)-x_2| = 0{,}03125$, 
+   $|rd(x_2)-x_2| = 0{,}0625$, 
    $|rd(x_3)-x_3| = 0{,}0001220703125$, 
    $|rd(x_4)-x_4| = 0{,}000244140625$
    
@@ -692,14 +692,13 @@ D) Für B): $|rd(x_1)-x_1| = 0{,}078125$,
    $|rd(x_2)-x_2|/|x_2|= |rd(x_4)-x_4|/|x_4|=0{,}0\overline{03921586862745098}$
 
    Für C): $|rd(x_1)-x_1| = 0{,}171875$, 
-   $|rd(x_2)-x_2| = 0{,}03125$, 
+   $|rd(x_2)-x_2| = 0{,}0625$, 
    $|rd(x_3)-x_3| = 0{,}001220703125$, 
    $|rd(x_4)-x_4| = 0{,}0001220703125$
    
    $|rd(x_1)-x_1|/|x_1|=0{,}03225806$, 
-   $|rd(x_2)-x_2|/|x_2|=0{,}001956947$, 
    $|rd(x_3)-x_3|/|x_3|=0{,}01466276$, 
-   $|rd(x_4)-x_4|/|x_4|=0{,}0\overline{03921586862745098}$
+   $|rd(x_2)-x_2|/|x_2|=|rd(x_4)-x_4|/|x_4|=0{,}0\overline{03921586862745098}$
 :::
 ::::::
 
@@ -1116,7 +1115,7 @@ $$
 $$
 
 
-### Übung `r nextExercise()`:  Fehlerfortpflanzung {.exercise .allowframebreaks}
+### Übung `r nextExercise()`:  Fehlerfortpflanzung {.exercise}
 
 Gegeben sei die Funktion $f(x) = \sqrt{x}$, $x = 0.011$ und $\tilde{x}=0.01$.
 
@@ -1152,11 +1151,13 @@ b) Absoluter Fehler: $| f(x) - f(\tilde{x}) | \approx |f'(\tilde{x})| \cdot |x -
    
 c) Da $f'$ monoton fallend auf $I=[`r x_tilde`; `r x`]$ gilt $M = \max\limits_{x_0 \in I} |f'(x_0)| = `r M`$ und somit:
 
-    Absoluter Fehler: $$\begin{aligned}
+    Absoluter Fehler: 
+$$\begin{aligned}
     | f(x) - f(\tilde{x}) | \leq M \cdot |x - \tilde{x}| &= `r M` \cdot `r absFehler`\\ &= `r M * absFehler`
 \end{aligned}$$
 
-   Relativer Fehler:$$\begin{aligned}
+   Relativer Fehler:
+$$\begin{aligned}
    \left| \frac{f(x) - f(\tilde{x})}{f(x)} \right| &\leq M \cdot \frac{\max\limits_{x_0 \in I}|x_0|}{\min\limits_{x_0 \in I}{|f(x_0)|}} \cdot \frac{|x - \tilde{x}|}{x} 
    = `r M` \cdot \frac{`r abs(max(x, x_tilde))`}{`r abs(min(f(x),f(x_tilde)))`} \cdot `r relFehler` \\ 
    &= `r M` \cdot `r abs(max(x, x_tilde))/abs(min(f(x),f(x_tilde)))` \cdot `r relFehler` 

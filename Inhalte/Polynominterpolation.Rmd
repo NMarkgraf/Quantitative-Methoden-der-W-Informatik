@@ -49,7 +49,7 @@ m \cdot x_1 + b &= y_1
 
 2. Wir lösen dieses LGS (ganz allgemein) mittels:
 
-   $m = \frac{y_0 - y_1}{x_0 - y_1}$ und $b = y_0 - m \cdot x_0$
+   $m = \frac{y_0 - y_1}{x_0 - x_1}$ und $b = y_0 - m \cdot x_0$
 
 :::
 ::::::
@@ -61,7 +61,7 @@ Doch was ist, wenn wir drei, vier oder noch mehr Punkte haben?
 
 ### Ein anderer Startpunkt und die Konsequenzen.
 
-Geraden stellt menschklassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderen Ansatz wählen:
+Geraden stellt mensch klassisch in der Form $f(x) = m \cdot x + b$ dar, wir können aber auch einen anderen Ansatz wählen:
 
 $$f(x) = a_1 \cdot (x - x_0) + a_0$$
 
@@ -69,7 +69,7 @@ Wegen $f(x)= a_1 \cdot (x - x_0) + a_0 = a_1 \cdot x + a_0 - a_1 \cdot x_0$ ist
 das (nach Koeffizientenvergleich) nichts anderes als $f(x) = m \cdot x + b$ mit 
 $m = a_1$ und $b = a_0 - a_1 \cdot x_0$.
 
-Jedoch kann menschfür $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizienten 
+Jedoch kann mensch für $f(x)= a_1 \cdot (x - x_0) + a_0$ die Koeffizienten 
 $a_1$ und $a_0$ einfacher bestimmen, denn nun gilt:
 
 :::::: {.columns}
@@ -87,7 +87,9 @@ a_1 \cdot (x_1-x_0) + a_0 &= y_1
 
 2. Und damit:
 
-   $a_0 = y_0$ und $a_1 = \frac{y_1-y_0}{x_1-x_0}$
+- $a_0 = y_0$
+
+- $a_1 = \frac{y_1-y_0}{x_1-x_0}$
    
 :::
 ::::::
@@ -176,19 +178,32 @@ gf_line(linPoly(x, x0=x0, a=a) ~ x, color = "green") %>%
 
 ::::::
 
-Wir erhalten $a_0 = `r a0`$ sowie $a_1=`r a1`$ und damit `r fx` 
+Wir erhalten:
+
+- $a_0 = `r a0`$ 
+
+- $a_1 = \frac{`r y1`-(`r y0`)}{`r x1` - `r x0`} = `r a1`$ 
+
+Und damit:
+
+$`r fx`$ 
 
 
 ### Drei Punkte und quadratische Funktionen
 
-Wie sieht das mit drei Punkten ($(x_0, y_0)$, $(x_1, y_1)$ und $(x_2, y_2)$) aus? -- Diese liegen nicht zwangsläufig auf einer Geraden! -- Aber es gibt eine quadratische Funktion $f(x) = a x^2 + b x + c$, die durch alle drei Punkte verläuft.
+Wie sieht das bei drei Punkten ($(x_0, y_0)$, $(x_1, y_1)$ und $(x_2, y_2)$) aus?
 
-Wir wollen auch hier gleich den Trick von den Geraden übernehmen und mit $f(x) = a_2 (x-x_0)\cdot (x-x_1) + a_1 (x-x_0) + a_0$ rechnen: 
+Diese liegen nicht zwangsläufig auf einer Geraden! -- 
+Tuen sie es nicht, dann gibt es eine quadratische Funktion $f(x) = a x^2 + b x + c$, welche durch alle drei Punkte verläuft.
+
+Wir wollen hier gleich den Trick von den Geraden übernehmen und mit $f(x) = a_2 (x-x_0) \cdot (x-x_1) + a_1 (x-x_0) + a_0$ rechnen: 
+
+
 
 ::::::::: {.columns}
-:::::: {.column width="49%"}
+:::::: {.column width="59%"}
 
-1. Das folgende lineare Gleichungssystem: 
+1. Lineare Gleichungssystem: 
 
 ::: {.footnotesize}
 $$\begin{aligned}
@@ -199,13 +214,15 @@ a_2 \cdot (x_2-x_0)\cdot (x_2-x_1) + a_1 \cdot (x_2-x_0) + a_0 &= y_2
 :::
 
 ::::::
-:::::: {.column width="49%"}
+:::::: {.column width="39%"}
 
-2. Und damit:
+2. Die Koeffizienten:
 
-   - $a_0 = y_0$, 
-   - $a_1 = \frac{y_1-y_0}{x_1-x_0}$ und 
-   - $a_2 = \frac{\frac{y_2-y_0}{x_2-x_0} - \frac{y_1-y_0}{x_1-x_0}}{x_2-x_1}$
+- $a_0 = y_0$, 
+
+- $a_1 = \frac{y_1-y_0}{x_1-x_0}$ und 
+
+- $a_2 = \frac{\frac{y_2-y_0}{x_2-x_0} - \frac{y_1-y_0}{x_1-x_0}}{x_2-x_1}$
    
 ::::::
 :::::::::
@@ -304,9 +321,18 @@ gf_line(quadPoly(x, x0=x0, x1=x1, a=a) ~ x, color = "green") %>%
 :::
 
 ::::::
+::: {.small}
+Wir erhalten: 
 
+- $a_0 = `r a0`$ 
 
-Wir erhalten $a_0 = `r a0`$, $a_1=`r a1`$ sowie $a_2=`r a2`$ und somit `r fx`. 
+- $a_1 = \frac{`r y1` - (`r y0`)}{`r x1` - (`r x0`)} = `r a1`$ 
+
+- $a_2 = \frac{\frac{`r y2` - (`r y0`)}{`r x2` - `r x0`} - \frac{`r y1` - (`r y0`)}{`r x1` - `r x0`}}{`r x2` - `r x1`} =`r a2`$ 
+
+Somit ist: `r fx` 
+
+:::
 
 
 ### Eine Vermutung, eine Idee, eine Vereinfachung
@@ -317,7 +343,7 @@ Eine Idee, wie wir dieses Polynom finden, können wir (vielleicht) aus den bishe
 
 Auch sollte das Polynom relativ einfach auszuwerten sein. 
 
-Das *quadratische Polynom* (die *Parabel*) kann menschz.B. wie folgt auswerten:
+Das *quadratische Polynom* (die *Parabel*) kann mensch z.B. wie folgt auswerten:
 
 $$\begin{aligned}
   f(x) &= a_2 \cdot (x-x_0)\cdot (x-x_1) + a_1 \cdot (x-x_0) + a_0 \\
@@ -361,10 +387,11 @@ Dann gibt es genau ein Polynom $p$ vom höchstens Grad $n$, so dass $p(x_i)=y_i$
 Die Idee das Polynom mit Hilfe der Stützstellen $x_0, \ldots, x_n$ zu definieren führt zur folgenden Darstellung:
 
 $$\begin{aligned}
-  p(x) &= && a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdots\cdot(x-x_0) + \\
-       &  &&\quad a_{n-1} \cdot (x-x_{n-2})\cdot(x-x_{n-3})\cdots\cdot(x-x_0)+ \\
-       &  &&\quad \cdots + a_1 \cdot(x-x0) + a_0 \\
-       &= &&\sum_{i=0}^{n} a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})
+  p(x) &= && a_n     \cdot (x-x_{n-1})\cdot(x-x_{n-2})\cdot\ldots\cdot(x-x_0) + \\
+       &  &&\quad a_{n-1} \cdot (x-x_{n-2})\cdot(x-x_{n-3})\cdot\ldots\cdot(x-x_0) + \\
+       &  &&\quad \ldots \\
+       &  &&\quad a_1 \cdot(x-x0) + a_0 \\
+       &= &&\sum_{i=0}^{n} \left(a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})\right)
   \end{aligned}$$
 
 Zum berechnen der $a_i$ verwenden wir **(Newtons) Dividierte Differenzen** zu den Stützstellen $(x_0, y_0),\ldots, (x_n, y_n)$.
@@ -383,36 +410,38 @@ $$
 
 Also Schema:
 
-:::{.footnnotesize}
-
-$$
-\begin{array}{crcrccrcrc}
-f[x_0] \\
-       & \searrow \\{}
+::: {.scriptsize}
+$$\begin{array}[t]{crcrccrcrc}
+ & & & & & & & & & \\{}
+f[x_0] & & & & & & & & & \\{}
+        & \searrow \\{}
 f[x_1] & \rightarrow  & f[x_0, x_1]  \\
        & \searrow     &                & \searrow     \\{}
 f[x_2] & \rightarrow  & f[x_1, x_2]     & \rightarrow & f[x_0,x_1,x_2] \\{}
  \vdots & \vdots      & \vdots         & \vdots    & \vdots  &\ddots \\{}
   & \searrow     &                & \searrow    & &              & \searrow \\{}
 f[x_{n-1}] & \rightarrow  & f[x_{n-2}, x_{n-1}] & \rightarrow & f[x_{n-3},x_{n-2},x_{n-1}]
-  & \cdots & \rightarrow & f[x_0\ldots x_{n-1}]  \\
+  & \cdots & \rightarrow & f[x_0,\ldots, x_{n-1}]  \\
   & \searrow     &                & \searrow    & &              & \searrow && \searrow\\{}
 f[x_n] & \rightarrow  & f[x_{n-1}, x_n] & \rightarrow & f[x_{n-2},x_{n-1},x_n]
-  & \cdots & \rightarrow & f[x_1\ldots x_n] & \rightarrow & f[x_0\ldots x_n]
-\end{array}
-$$
-
+  & \cdots & \rightarrow & f[x_1,\ldots, x_n] & \rightarrow & f[x_0,\ldots, x_n]
+\end{array}$$
 :::
 
 
 ### Newtonverfahren zur Polynominterpolation
 
-Die gesuchten $a_i$ ergeben sich nun aus dem Schema der *dividierten Differenzen*. Dabei gilt:
+Die gesuchten $a_i$ ergeben sich nun aus dem Schema der *dividierten Differenzen*.
 
-Im Newtonschen Interpolationspolynom sind die $a_i$ die dividierten Differenzen $a_i = f[x_0, x_1, \dots, x_{i}]$.
+Dabei gilt:
+
+Im *Newtonschen Interpolationspolynom* 
+$$p(x) =  \sum_{i=0}^{n} \left(a_i \cdot \prod_{j=0}^{i-1}(x-x_{j})\right)$$
+sind die Koeffiziten $a_i$ ganau die *dividierten Differenzen* $$a_i = f[x_0, x_1, \dots, x_{i}].$$
 
 **Anmerkung:**
-Im Newtonverfahren werden also nur die dividierten Differenzen verwendet, die im „oberen Dreieckschenkel“ stehen.
+
+Im Newtonverfahren werden **nur die** *dividierten Differenzen* verwendet, die im „oberen Dreieckschenkel“ stehen.
 
 
 ### Beispiel: Newtonverfahren zur Polynominterpolation
@@ -429,15 +458,15 @@ Damit ist:
 
 $$
     \begin{aligned}
-        p(x) &= 12 - 5\cdot (x+1) + 1 \cdot (x+1)(x-0) = 12-5(x+1)+(x+1)x \\
-             &= 12-5x+5+x^2+x = 7 -4x +x^2
+        p(x) &= 12 - 5\cdot (x+1) + 1 \cdot (x+1)\cdot (x-0) = 12-5\cdot (x+1)+(x+1)\cdot x \\
+             &= 12-5\cdot x+5+x^2+x = 7 -4\cdot x +x^2
     \end{aligned}
 $$
 
-Als Beispiel das Auswerten an der Stelle $x=-2$:
+Als Beispiel die Auswertung an der Stelle $x=-2$:
 
 $$
-    p(-2) = 12 - 5 (-2+1) + (-2+1)(-2) = 12+5+2 = 19
+    p(-2) = 12 - 5 \cdot (-2+1) + (-2+1)\cdot (-2) = 12+5+2 = 19
 $$
 
 
@@ -531,9 +560,9 @@ Berechnen Sie mit Hilfe des Newtonverfahrens das Interpolationspolynom und werte
 ```{r echo=FALSE, fig.align="center", out.width="40%"}
 fkt = makeFun( 2*x^3 - 4*x^2 + 5*x - 4 ~ x)
 tab.df <- data.frame( x = c(0, 1, 3, 4), y = c(-4, -1, 29, 80) )
-plt <- xyplot(tab.df$y ~ tab.df$x,  ylim=range(-10, 100), xlim=range(-.5, 4.5), pch=21, fill="red", col="red", ylab="p(x)", xlab="x")
-plt2 <- plotFun(fkt, xlim=range(-.5, 4.5), ylim=range(-10, 100), ylab="p(x)", xlab="x")
-print(plt, more=TRUE)
+plt <- xyplot(tab.df$y ~ tab.df$x,  ylim=range(-10, 100), xlim=range(-.5, 4.5), pch=21, fill = "red", col = "red", ylab = "p(x)", xlab = "x")
+plt2 <- plotFun(fkt, xlim = range(-.5, 4.5), ylim = range(-10, 100), ylab = "p(x)", xlab = "x")
+print(plt, more = TRUE)
 print(plt2)
 ```
 
@@ -583,8 +612,8 @@ yrange = range(-0.1, 1.1)
 plt <- xyplot(tab.df$y ~ tab.df$x, ylim=yrange, xlim=xrange, pch=21, fill="red", col="red", ylab="p(x)", xlab="x")
 plt2 <- plotFun(fkt, ylim=yrange, xlim=xrange, ylab="p(x)", xlab="x")
 plt3 <- plotFun(pfkt, ylim=yrange, xlim=xrange, col="red", ylab="p(x)", xlab="x")
-print(plt, more=TRUE)
-print(plt2, more=TRUE)
+print(plt, more = TRUE)
+print(plt2, more = TRUE)
 print(plt3)
 ```
 
@@ -616,7 +645,7 @@ Um den Nachteil der zu großen Schwankungen auszugleichen wird das Intervall
 in mehrere Teilintervalle aufgeteilt.
 In den Teilintervallen wird dann ein Polynom niedrigeren Grades verwendet.
 
-Werden die einzelnen Stützpunkte mit Geraden verbunden spricht menschvon einer
+Werden die einzelnen Stützpunkte mit Geraden verbunden spricht mensch von einer
 **linearen Interpolierenden** (*Polygonzug*):
 <div class="columns">
 <div class="column" width="29%">
