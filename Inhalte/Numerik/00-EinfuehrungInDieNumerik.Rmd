@@ -614,8 +614,8 @@ Es ist, üblich die Funktion $rd(.)$ durch die "natürliche" Rundung zu realisie
 $$
 rd(x) = \text{sign}(x) \cdot
         \begin{cases}
-            (0.z_1z_2z_3\dots z_n)\phantom{+2^{-n})} \cdot 2^E & \text{für } z_{n+1} = 0    \\ 
-            (0.z_1z_2z_3\dots z_n + 2^{-n})          \cdot 2^E & \text{für } z_{n+1} = 1
+            (0.z_1z_2z_3\dots z_n)\phantom{+2^{-n})} \cdot 2^E & \text{für } z_{n+1} = 0    \qquad\text{\color{green}(abrunden)}\\ 
+            (0.z_1z_2z_3\dots z_n + 2^{-n})          \cdot 2^E & \text{für } z_{n+1} = 1 \qquad\text{\color{green}(aufrunden)}
         \end{cases}
 $$
 
@@ -641,9 +641,9 @@ Gegeben sind die folgenden Zahlen:
 
 $$\begin{aligned}
     x_1 = (0.101010101)_2 \cdot 2^3, \quad 
-    &x_2 = (0.11111111) \cdot 2^4, \\
+    &x_2 = (0.11111111)_2 \cdot 2^4, \\
     x_3 = (0.101010101)_2 \cdot 2^{-3}, \quad
-    &x_4 = (0.11111111) \cdot 2^{-4} 
+    &x_4 = (0.11111111)_2 \cdot 2^{-4} 
 \end{aligned}$$
 
 A) Geben Sie die Werte von $x_1$ bis $x_4$ an.
@@ -707,7 +707,9 @@ D) Für B): $|rd(x_1)-x_1| = 0{,}078125$,
 
 Für eine Rundung $rd(x)$ eines Wertes $x$ in $n$-stelliger Gleitpunktarithmetik hängt der verbundene sogenannte [absoluter Rundungsfehler]{.cstrong}
 
+::: {.footnotesize}
 $$\left| x - rd(x) \right| \leq \frac{B^{E-n}}{2}$$
+:::
 
 noch vom Exponenten $E$ von $x$ ab.
 
@@ -722,11 +724,13 @@ $$\left| \frac{x -\tilde{x}}{x}\right|
    \leq \frac{B^{-n+1}}{2}$$
 :::
 
-durch den $eps = \frac{B^{1-n}}{2}$ nach oben beschränkt.  
+durch den Wert $eps := \frac{B^{1-n}}{2}$ nach oben beschränkt.  
 
 Der Wert $eps$ wird auch [Maschinengenauigkeit]{.cstrong} genannt. Es gilt damit:
 
-$$rd(x) = (1 + \epsilon)\cdot x \text{ mit } |\epsilon| < eps$$
+::: {.footnotesize}
+$$rd(x) = x + \epsilon \cdot x = (1 + \epsilon)\cdot x \text{ mit } |\epsilon| < eps$$
+:::
 
 
 ### Korrektheit gerundeter Gleitpunktzahlen
@@ -815,6 +819,7 @@ E.  `abs(foo(1) - 0.1) < eps`
 
 
 ::: {.notes}
+
 ***E*** ist richtig. Möchte man in R oder Python auf Gleichheit prüfen (abfragen), so sind zwei Gleichheitszeichen nötig: `==`, da ein Gleichheiszeichen (`=`) für Zuweisungen eingesetzt wird. Daher sind die Antworten mit `=` falsch.
 
 B und D prüfen formal korrekt auf Gleichheit. E hat aber den Vorteil, dass nicht nur zurückgegeben wird, ob Gleichheit vorliegt, sondern ob der Unterschied kleiner als eine vorgegebene Genauigkeit *eps*. 
@@ -841,26 +846,72 @@ Bei der Addition müssen erst die Exponenten verglichen und ggfs. (über die Man
 - Bei der Multiplikation werden die Exponenten addiert und die Mantissen multipliziert. Danach wird ggfs. normalisiert
 
 
-### Beispiel: Rechenarithmetik
+### Beispiel: Rechenarithmetik (I/II)
 
-Addition in n=3-stelliger Gleitpunktarithmetik im Dezimalsystem:
-	
+Addition in 3-stelliger Gleitpunktarithmetik (kurz: *GPA*) im Dezimalsystem.
+
+Wir betrachten die drei Werte $x=1590$, $y=4$ und $z=4$. 
+Diese lassen sich wie folgt in 3-stelliger GPA in Dezimalsystem darstellen:
+
 $$
     \begin{aligned}
-        x = 1590 &= 0.159 \cdot 10^4; y = 4 = 0.4\cdot 10^1; z = 4 = 0.4 \cdot 10^1 \\
-        x + y    &= 0.159 \cdot 10^4 + 0.4\cdot 10^1 = 0.159 \cdot 10^4 + 0.0004\cdot 10^4 \\
-                 &= 0.1594 \cdot 10^4 \approx 0.159 \cdot 10^4 \\
-                 &\approx 1590 \\
-        (x+y)+z  &= 0.159 \cdot 10^4 + 0.4\cdot 10^1 = 0.159 \cdot 10^4 + 0.0004\cdot 10^4 \\
-                 &= 0.1594 \cdot 10^4 \approx 0.159 \cdot 10^4 \\
-                 &\approx 1590 \\
-        x+(y+z)  &= 0.159 \cdot 10^4 + 0.8\cdot 10^1 = 0.159 \cdot 10^4 + 0.0008\cdot 10^4 \\
-                 &= 0.1598 \cdot 10^4 \approx 0.160 \cdot 10^4 \\
-                 &\approx 1600 \\
+        x &= 1590  &=(0.159)_{10} \cdot 10^4 \\ 
+        y &= 4  &=(0.400)_{10} \cdot 10^1 \\ 
+        z &= 4  &=(0.400)_{10} \cdot 10^1 \\
     \end{aligned}
 $$
 
-*Beachte:* Die Reihenfolge der Terme spielt eine Rolle in der Gleitpunktarithmetik (Assoziativität der Additivität ist verloren)!
+Berechnen wir nun x+y so ergibt sich:
+
+$$
+\begin{aligned}
+        x + y    &= (0.159)_{10} \cdot 10^4 + (0.400)_{10}\phantom{0}\cdot 10^1 \\
+                 &= (0.159)_{10} \cdot 10^4 + (0.0004)_{10}\cdot 10^4 \\
+                 &= (0.1594)_{10} \cdot 10^4 \qquad \text{ (Runden und Normalisieren)} \\
+                 &= (0.159)_{10} \cdot 10^4 \approx 1590
+\end{aligned}
+$$
+
+### Beispiel: Rechenarithmetik (II/II)
+
+Was passiert nun, wenn wir $x+y+z$ berechnen wollen? -- Wir haben dazu zwei Möglichkeiten:
+
+Entweder a) $(x+y)+z$ oder b) $x+(y+z)$!
+
+Es ist:
+
+::: {.scriptsize}
+$$
+\begin{aligned}
+    (x+y) + z  &= [(0.159)_{10} \cdot 10^4 + (0.400)_{10}\cdot 10^1] + (0.400)_{10}\cdot 10^1 \\ 
+             &= (0.159)_{10} \cdot 10^4 + (0.0004)_{10} \cdot 10^4 \\
+             &= (0.1594)_{10} \cdot 10^4 \qquad \text{(Runden und Normalisieren)}\\
+             &= (0.159)_{10} \cdot 10^4 \approx 1590
+    \end{aligned}
+$$
+:::
+
+Aber:
+
+::: {.scriptsize}
+$$
+\begin{aligned}
+        x+(y+z)  &= (0.159)_{10} \cdot 10^4 + [(0.400)_{10} \cdot 10^1 + (0.400)_{10} \cdot 10^1] \\
+                 &= (0.159)_{10} \cdot 10^4 + 0.8\cdot 10^1 \\
+                 &= (0.159)_{10} \cdot 10^4 + (0.0008)_{10}\cdot 10^4 \\
+                 &= (0.1598)_{10} \cdot 10^4 \qquad \text{(Runden und Normalisieren)} \\
+                 &= (0.160)_{10} \cdot 10^4 \approx 1600 \\
+    \end{aligned}
+$$
+:::
+
+::: {.scriptsize}
+
+*Beachte:* 
+- Die Reihenfolge der Terme spielt eine Rolle in der Gleitpunktarithmetik! 
+- Assoziativitätgesetz der Additivität gilt nicht mehr!
+
+:::
 
 
 ### Übung `r nextExercise()`:  {.exercise}
@@ -883,17 +934,17 @@ Berechnen Sie in 5-stelliger dezimaler Gleitpunktarithmetik!
 ::: {.notes}
 $$
     \begin{aligned}
-        rd(\tilde{x}_1 -_M \tilde{x}_2)   &= 0.123454 \cdot 10^{12} - 0.123446 \cdot 10^{12} \\ 
-                                        &= 0.12345 \cdot 10^{12} - 0.12345 \cdot 10^{12} \\
+        rd(\tilde{x}_1 -_M \tilde{x}_2)   &= (0.123454)_{10} \cdot 10^{12} - (0.123446)_{10} \cdot 10^{12} \qquad\text{(Runden und Normalisieren)}\\ 
+                                        &= (0.12345)_{10} \cdot 10^{12} - (0.12345)_{10} \cdot 10^{12} \\
                                         &= 0
     \end{aligned}
 $$
 $$
     \begin{aligned}
-        rd(\tilde{x}_1 -_M \tilde{x}_3)   &= 0.123454 \cdot 10^{12} - 0.123435 \cdot 10^{12} \\
-                        &= 0.12345 \cdot 10^{12} - 0.12344 \cdot 10^{12}\\
-                        &= 0.00001 \cdot 10^{12} \\
-                    &= 0.1 \cdot 10^{8}\\
+        rd(\tilde{x}_1 -_M \tilde{x}_3)   &= (0.123454)_{10} \cdot 10^{12} - (0.123435)_{10} \cdot 10^{12} &\text{(Runden und Normalisieren)}\\
+                        &= (0.12345)_{10} \cdot 10^{12} - (0.12344)_{10} \cdot 10^{12}\\
+                        &= (0.00001)_{10} \cdot 10^{12}  &\text{(Normalisieren)}\\
+                    &= (0.10000)_{10} \cdot 10^{8}\\
                     &= 10\,000\,000
      \end{aligned}
 $$                  

@@ -34,8 +34,8 @@ UsePrivate <- TRUE  #
 # Sommersemester: "SoSe 20XX"
 # Wintersemesrer: "WiSe 20XX/XX"
 #- - - - - - - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - -
-#Semester <- "WiSe 2021/22"  # Standard Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
-Semester <- "SoSe 2022"  # Standard Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
+Semester <- "WiSe 2022/23"  # Standard Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
+#Semester <- "SoSe 2022"  # Standard Semesterangabe (SoSe XXXX / WiSe XXXX/XX)
 #- - - - - - - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - -
 # Angabe der/des Lehrenden. Standard ist "FOM Dozent:in"
 #- - - - - - - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - -
@@ -72,12 +72,12 @@ tmp_layouttype <- ""
 # Zur Sicherheit starten wir mal 'reticulte'. Damit sollte die korrekte
 # Python Version benutzt werden!
 suppressWarnings({
-    if (is.na(packageDescription("reticulate"))) { 
+    if (any(is.na(packageDescription("reticulate")))) { 
         install.package("reticulate")
     }
     out <- capture.output(reticulate::py_config())
     
-    if (is.na(packageDescription("futile.logger"))) {
+    if (any(is.na(packageDescription("futile.logger")))) {
         install.packages("futile.logger")
     }
 })

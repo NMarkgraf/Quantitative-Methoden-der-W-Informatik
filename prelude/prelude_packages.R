@@ -1,18 +1,16 @@
 # ===========================================================================
-# prelude_packages.R (Release 0.2.1)
+# prelude_packages.R (Release 0.2.0)
 # ==================---------------------------------------------------------
-# (W) by Norman Markgraf, Karsten Lübke in 2017-22
+# (W) by Norman Markgraf, Karsten Lübke in 2017/18
 #
 # 27. Feb. 2018  (nm)  Erstes Schritte. Extraktion aus der prelude.R
 #                      (0.1.0)
-# 04. Mär. 2018  (nm)  Löschen von ungewollten oder störenden Paketen!
+# 04. Mrz. 2018  (nm)  Löschen von ungewollten oder störenden Paketen!
 #                      (0.1.1)
 # 18. Mär. 2018  (nm)  Dokumentation angepasst.
 #                      (0.1.2)
 # 18. Jan. 2019  (nm)  Version der R Pakete werden nun richtig verglichen.
 #                      (0.2.0)
-# 27. Mär. 2019  (nm)  Fehler in Funktion "releaseCompare" gefixed.
-#                      (0.2.1)
 #
 #   (C)opyleft Norman Markgraf and Karsten Lübke in 2018/19
 #
@@ -56,11 +54,8 @@ if (!exists("prelude.packages")) {
 # Release Vergleich
 # ---------------------------------------------------------------------------
 releaseCompare <- function(relA, relB) {
-  ret <- vector(length(relA), mode = "logical")
-  for (i in 1:length(relA)) {
-      ret[i] = compareVersion(relA[i], relB[i]) < 0
-  }
-  ret
+    library(purrr)
+    return (any(map2(relA, relB, compareVersion) < 0))
 }
   
 # ---------------------------------------------------------------------------
@@ -121,16 +116,16 @@ releaseCompare <- function(relA, relB) {
       
       new.pkgs <- needed_pkgs[!(needed_pkgs %in% installed.packages())]
       del.pkgs <- unwanted_pkgs[(unwanted_pkgs %in% installed.packages())]
-      #print(new.pkgs)
-      #print(del.pkgs)
-      if (length(new.pkgs) > 0) {
+      print(new.pkgs)
+      print(del.pkgs)
+      if (length(new.pkgs)) {
           install.packages(new.pkgs, dependencies = dependencies, repos = repos)
       }
-      if (length(del.pkgs) > 0) {
+      if (length(del.pkgs)) {
           remove.packages(del.pkgs)
       }
       message("... erledigt!")
-      message("Ggf. müssen noch Updates gemacht werden. Ich prüfe das ...", appendLF = FALSE)
+      message("Ggf. müssen noch Updates gemacht werden. Ich prüfe das ...")
       # Prüfe ob Updates nötig sind
       currel <- c()
       for (pkg in needed_pkgs_df[needed_pkgs_df$minrelease != "-",]$packages)
@@ -142,7 +137,7 @@ releaseCompare <- function(relA, relB) {
       # Ggf. wird hier ein Update durchgeführt oder eine Mitteilung gesendet!
       for (pkg in update.pkgs)
       {
-          if (noupdates || (pkg %in% loadedNamespaces())) {
+          if (noupdates || pkg %in% loadedNamespaces()) {
               warning(paste0("WARNUNG: ",
                              "Das Paket `", pkg, "` muss upgedatet werden!"))
           }

@@ -59,8 +59,8 @@ $$
     c_i = \frac{a_i + b_i}{2}; \qquad
     [a_{i+1}\,;\, b_{i+1}] = 
         \begin{cases}
-            \left[a_i \,;\, c \right] & \text{ falls } f(a_i) \cdot f(c) \leq 0 \\[1.ex]
-            \left[c\,;\, b_i \right] & \text{ sonst }
+            \left[a_i \,;\, c_i \right] & \text{ falls } f(a_i) \cdot f(c_i) \leq 0 \\[1.ex]
+            \left[c_i\,;\, b_i \right] & \text{ sonst }
         \end{cases}
 $$
 
@@ -70,74 +70,8 @@ $$
 
 <!-- --->
 
-### Die Programmiersprache R (I/ II) {.shrink include-only=use_r}
 
-Um in R einfach mit Funktionen umgehen zu können laden wir zusätzlich zum Paket `mosaic` auch das Paket `mosaicCalc`:
-
-```{r, eval=FALSE, echo=TRUE}
-library(mosaic)
-library(mosaicCalc)
-```
-
-Ein paar Befehle für den Anfang:
-
-```{r r_demo_1, eval=FALSE, echo=TRUE}
-# Variablenzuweisung:
-a <- 3; A <- 0
-# Vergleiche:
-a == A; a != A
-# Schleifen:
-while (a != A) {
-    a <- a - 1
-    print("Und noch eins abziehen!")
-}
-print("Erledigt!")
-# Abfragen:
-if (a >= 2) { a <- 2 } else { a <- 0 }
-print(paste("Es ist a =", a, "und A =", A))
-```
-
-<!-- --->
-
-### Die Programmiersprache R (II/ II) {.shrink include-only=use_r}
-
-```{r ref.label="r_demo_1", eval=TRUE}
-```
-
-<!-- --->
-
-### R-Code für Bisektionsverfahren {.shrink include-only=use_r}
-
-```{r, eval=TRUE, echo=FALSE}
-library(mosaic)
-library(mosaicCalc)
-```
-
-```{r}
-bisektion <- function(fkt, a, b, maxiter=1000, minwidth=1/1000){
-    # Bisektionsverfahren 
-    if (fkt(a)*fkt(b) > 0) {
-        stop("Das Intervall muss keine Nullstellen enthalten!")
-    }
-    if (a > b) { swap <- a; a <- b; b <- swap }
-    iw <- (b-a); i <- 1
-    while (iw > minwidth) {
-        c <- (a+b)/2;
-        cat("Iteration:", i, "\t(a+b)/2=", c, "\tf((a+b)/2)=", 
-            fkt(c), "\na=", a, "\t fkt(a)=", fkt(a), 
-            "\nb=", b, "\t fkt(b)=", fkt(b), "\n\n");
-        i <- i + 1
-        if (i > maxiter) break
-        if (fkt(a)*fkt(c) <= 0) { b <- c } else { a <- c }
-        iw <- (b-a)
-    }
-    erg <- list(fkt=fkt, a=a, b=b); return(erg)
-}
-```
-
-<!-- --->
-
-### Die Programmiersprache Python {include-only=use_python}
+### Die Programmiersprache Python
 
 Sie müssen Python nicht unbedingt auf ihrem Rechner installieren. 
 Sie können für unsere Progamme auch diesen Online-IDE für Python nutzen: https://repl.it/languages/python3
@@ -166,12 +100,12 @@ oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann viell
 
 :::
 
-### Python-Code für das Bisektionsverfahren {.shrink include-only=use_python}
+### Python-Code für das Bisektionsverfahren
 
 ::: {.footnotesize}
 
-```{python eval=use_python, include=use_python}
-from math import exp, fabs
+```{python}
+from math import exp
 
 def print_iter_info(i, a, b, c, f):
     print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} '
@@ -200,9 +134,9 @@ def bisection(f, a, b, max_iter=1000, epsilon=0.0001):
 
 <!-- --->
 
-### Beispiel: Bisektionsverfahren (I / II) {include-only=use_python}
+### Beispiel: Bisektionsverfahren (I/II) 
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python, echo=FALSE}
 def fkt(x):
     return(exp(-x**2)-x)
 ```
@@ -219,9 +153,9 @@ fkt(1)
 
 <!-- --->
 
-### Beispiel: Bisektionsverfahren (II/ II) {.shrink inlcude-only=use_python}
+### Beispiel: Bisektionsverfahren (II/II) {.shrink}
 
-```{python, eval=use_python, include=use_python, R.options = list(width = 400), echo=FALSE}
+```{python, R.options = list(width = 400), echo=FALSE}
 def print_iter_info(i, a, b, c, f):
     print(f'Iter. {i}: a={a:.8F} f(a)={f(a):.8F} c=(a+b)/2={c:.8F} f(c)={f(c):.8F} b={b:.8F} f(b)={f(b):.8F}\n')
 
@@ -229,7 +163,7 @@ def print_iter_info(i, a, b, c, f):
 
 ::: {.footnotesize}
 
-```{python eval=FALSE, do_bisection_1, results="asis"}
+```{python do_bisection_1, eval=FALSE,  results="asis"}
 if __name__== "__main__":
     print(bisection(fkt, 0, 1))
     
@@ -246,56 +180,12 @@ cat(readr::read_file(here("bisection-output.txt")))
 
 <!-- --->
 
-### Beispiel: Bisektionsverfahren (I/ II) {include-only=use_r}
 
-```{r, echo=FALSE}
-fkt <- makeFun( exp(-x*x)-x ~ x )
-```
-
-
-Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=`r fkt(1)`$
-
-```{r, eval=use_R, include=use_R}
-fkt <- makeFun( exp(-x*x)-x ~ x )
-fkt(0)
-fkt(1)
-```
-
-```{r eval=FALSE, width="50%", include=use_R}
-bisektion(fkt, 0, 1)
-```
-
-<!-- --->
-
-### Beispiel: Bisektionsverfahren (II/ II) {.shrink include-only=use_r}
-
-::: {.small}
-
-```{r eval=TRUE, width="50%", , eval=use_R, include=use_R}
-bisektion(fkt, 0, 1)
-```
-
-:::
-
-<!-- --->
-
-### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise include-only=use_r}
+### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise}
 
 Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
 
-```{r, out.width="60%", eval=use_R, include=use_R}
-fkt <- makeFun(sqrt( (x-2)^2 + 1) - 2*(x+1)^2 ~ x)
-p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
-ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
-```
-
-<!-- --->
-
-### Übung `r nextExercise()`:  Bisektionsverfahren {.exercise include-only=use_python}
-
-Berechnen Sie mit Hilfe des Bisektionsverfahrens die erste Nachkommastelle der Nullstelle der Funktion $f(x)=\sqrt{(x-2)^2+1}-2(x+1)^2$ auf dem Intervall $[0, 1]$.
-
-```{r, out.width="60%", eval=use_python, include=use_python, echo=FALSE}
+```{r, out.width="60%", echo=FALSE}
 fkt <- makeFun(sqrt( (x-2)^2 + 1) - 2*(x+1)^2 ~ x)
 p <- plotFun(fkt, x.lim=range(-0.5,1.5), h=0)
 ladd(panel.abline(h=0,v=0,col='gray50'), plot=p)
@@ -316,52 +206,9 @@ $$
 
 <!-- --->
 
-### R-Code für das Newtonverfahren {.shrink include-only=use_r}
+### Python-Code für das Newtonverfahren {.shrink}
 
-```{r, eval=use_R, include=use_R}
-newton <- function(fkt, dftk, xstart, maxiter=1000, epsilon=1/1000) {
-    x <- xstart
-    for(i in 1:maxiter) {
-        fx <- fkt(x)
-        dfx <- dfkt(x)
-        cat("Iteration :", i, "x=", x, ", f(x)=", fkt(x),
-            ", f'(x)=", dfkt(x), "\n")
-        if (abs(fx) < epsilon) break
-        x <- x - (fx / dfx)
-    }
-    erg <- list(fkt=fkt, dfkt=dfkt, x=x)
-    return(erg)
-}
-```
-
-<!-- --->
-
-### Beispiel: Newtonverfahren (I/ II) {include-only=use_r}
-
-Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
-Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
-
-Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
-
-```{r, eval=use_R, include=use_R}
-fkt = makeFun( -x^3+8*x^2-9*x-18 ~ x )
-dfkt = D( fkt(x) ~ x )
-dfkt = makeFun( -3*x^2+16*x-9 ~ x )
-```
-
-<!-- --->
-
-### Beispiel: Newtonverfahren (II/ II) {include-only=use_r}
-
-```{r, eval=use_R, include=use_R}
-newton(fkt, dfkt, 4)
-```
-
-<!-- --->
-
-### Python-Code für das Newtonverfahren {.shrink include-only=use_python}
-
-```{python, eval=use_python, include=use_python}
+```{python}
 def print_iter_info(i, x, fx, dfx):
     print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}')
 
@@ -379,7 +226,7 @@ def newton(f, df, x_start, max_iter=1000, epsilon=0.0001):
 <!-- --->
 
 
-### Beispiel: Newtonverfahren (I/ II) {include-only=use_python}
+### Beispiel: Newtonverfahren (I/II)
 
 Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15\cdot x$. 
 Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
@@ -388,7 +235,7 @@ Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
 
 Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$, sowie die Grenzgewinnfunktion $G'(x)=-3x^2+16x-9$ und definieren die notwenidigen Funktionen in Python: 
 
-```{python, eval=use_python, include=use_python}
+```{python}
 def fkt(x):
     return -x**3+8*x**2-9*x-18
 
@@ -398,13 +245,14 @@ def dfkt(x):
 
 <!-- --->
 
-### Beispiel: Newtonverfahren (II/ II) {include-only=use_python}
-```{python, eval=use_python, include=use_python, echo=FALSE}
+### Beispiel: Newtonverfahren (II/II)
+
+```{python echo=FALSE}
 def print_iter_info(i, x, fx, dfx):
     print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F} f\'(x)={dfx:.8F}\n')
 ```
 
-```{python, results = "asis", eval=use_python, include=use_python}
+```{python, results = "asis"}
 newton(fkt, dfkt, 4)
 ```
 
@@ -429,7 +277,7 @@ $$K(x) = 2x^3-25x^2+134x+60$$
 :::
 ::: {.column width="40%"}
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python UebungNewtonVerfahrenPlot, echo=FALSE}
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -481,7 +329,7 @@ Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 
 
 Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Newtonverfahren:
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python NewtonVerfahrenDefinieren, echo=FALSE}
 from math import exp, fabs
 
 
@@ -506,7 +354,7 @@ def dfkt(x):
     return 100 - 2*x - (6*x**2-50*x+134)
 ```
 
-```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+```{python NewtonverfahrenAusgabeErzeugen, echo=FALSE, results="asis"}
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
 print('$i$ & $x_i$ & $f(x_i)$ & $f^\\prime(x_i)$ \\\\\\midrule\n')
 x = newton(fkt, dfkt, 2.0, epsilon=0.0000001)
@@ -535,10 +383,10 @@ Statt wie beim Newton-Verfahren mit einem Startwert $x_1$ brauchen wir für das 
 <!-- -->
 
 
-### Python-Code Sekantenverfahren {include-only=use_python}
+### Python-Code Sekantenverfahren
 
 ::: {.small}
-```{python, eval=use_python, include=use_python}
+```{python SekantenverfahrenDefinieren}
 from math import exp, fabs
 
 def print_iter_info(i, x, fx, dfx):
@@ -558,7 +406,7 @@ def sekantenverfahren(f, x_0, x_1, max_iter=1000, epsilon=0.0001):
 
 :::
 
-```{python, eval=use_python, include=use_python, echo=FALSE}
+```{python, echo=FALSE}
 def print_iter_info(i, x, fx, dfx):
     print(f'Iter. {i}: x={x:.8F} f(x)={fx:.8F}'
           ' \\ensuremath{\\Delta}'
@@ -568,7 +416,7 @@ def print_iter_info(i, x, fx, dfx):
 <!-- --->
 
 
-### Beispiel: Sekantenverfahren (I/ II) {include-only=use_python}
+### Beispiel: Sekantenverfahren (I/II) 
 
 Ein Unternehmen (unter vollkommener Konkurrenz) erhält für sein produziertes Gut den Preis $P=15$, so dass für seine Erlöse gilt: $E(x) = 15 \cdot x$. 
 Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$. 
@@ -578,7 +426,7 @@ Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4
 Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwendige Funktion in Python: 
 
 
-```{python, eval=use_python, include=use_python}
+```{python}
 def fkt(x):
     return -x**3+8*x**2-9*x-18
 ```
@@ -587,9 +435,9 @@ Da wir die Grenzgewinnfunktion $G'(x)$ durch die Sekantensteigungen $\frac{\Delt
 
 <!-- --->
 
-### Beispiel: Sekantenverfahren (II/ II) {include-only=use_python}
+### Beispiel: Sekantenverfahren (II/II) 
 
-```{python, results = "asis", eval=use_python, include=use_python}
+```{python SekantenVerfahrenAusfuehren, results = "asis"}
 sekantenverfahren(fkt, 2, 4, epsilon=0.0000001)
 ```
 
@@ -614,7 +462,7 @@ $$K(x) = 2x^3-25x^2+134x+60$$
 :::
 ::: {.column width="40%"}
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python UebungSekantenVerfahrenPlot, echo=FALSE}
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -666,8 +514,8 @@ Wir erhalten für die Gewinnfunktion den Ausdruck $G(x)= -2 x^3 + 24x^2 -34 x - 
 
 Wir erstellen die Tabelle zur Berechnung der Näherungslösung nach dem Sekantenverfahren:
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
-from math import exp, fabs
+```{python, echo=FALSE}
+from math import exp
 
 
 def print_iter_info(i, x, fx, dfx):
@@ -691,7 +539,7 @@ def fkt(x):
 
 ```
 
-```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+```{python, echo=FALSE, results="asis"}
 x0 = 2.0
 x1 = 4.0
 print('\\begin{tabular}{rrrr}\n\\toprule\n')
@@ -725,7 +573,7 @@ b) Bestimmen Sie den Break-Even-Point näherungsweise mit Hilfe des Newtonverfah
 ::: {.notes}
 Wegen $G(x)=P(x)\cdot x - K(x)= -1{,}5\cdot x^2+12\cdot x -18$ und $G'(x)=-3x+12$ erhalten wir:
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python, echo=FALSE}
 def fkt(x):
     return -1.5*x**2+12*x-18
     
@@ -739,7 +587,7 @@ def dfkt(x):
 
 Für das Sekantenverfahren:
 
-```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+```{python, echo=FALSE, results="asis"}
 def print_iter_info(i, x, fx, dfx):
     print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
@@ -759,7 +607,7 @@ print('Ergebnis: $x\\approx %2.8F$' % (x))
 ::::::::: {.scriptsize}
 Für das Newtonverfahren:
 
-```{python, echo=FALSE, results="asis", eval=use_python, include=use_python}
+```{python, echo=FALSE, results="asis"}
 def print_iter_info(i, x, fx, dfx):
     print(f'{i} & {x:.8F} & {fx:.8F} & {dfx:.8F} \\\\\n')
 
@@ -810,7 +658,7 @@ $$
         \end{cases}
 $$
 
-### Python-Code für das Regular-Falsi-Verfahren (I/ II){.shrink include-only=use_python}
+### Python-Code für das Regular-Falsi-Verfahren (I/ II){.shrink}
 
 Zuerst etwas vorbereitenden Code:
 
@@ -847,16 +695,16 @@ def regularfalsi(f, a, b, max_iter=1000, epsilon=0.0001):
 
 <!-- --->
 
-### Beispiel: Regular-Falsi (I / II) {include-only=use_python}
+### Beispiel: Regular-Falsi (I / II)
 
-```{python, echo=FALSE, eval=use_python, include=use_python}
+```{python, echo=FALSE}
 def fkt(x):
     return(exp(-x**2)-x)
 ```
 
 Gegeben: $f(x) = e^{-x^2}-x$; $f(0)=1$; $f(1)=-0.6321205588285577$
 
-```{python, eval=use_python, include=use_python}
+```{python}
 def fkt(x):
   return(exp(-x**2)-x)
   
@@ -866,7 +714,7 @@ fkt(1)
 
 <!-- --->
 
-### Beispiel: Regular-Falsi (II/ II) {.shrink inlcude-only=use_python}
+### Beispiel: Regular-Falsi (II/ II) {.shrink}
 
 ```{python, results = "asis", eval=use_python, include=use_python, echo=FALSE}
 def print_iter_info(i, a, b, c, f):
@@ -877,12 +725,12 @@ def print_iter_info(i, a, b, c, f):
 
 ::: {.footnotesize}
 
-```{python, results = "asis", eval=FALSE, include=use_python}
+```{python, results = "asis", eval=FALSE}
 if __name__== "__main__":
     print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
 ```
 \begin{verbatim}
-```{python, results = "asis", eval=use_python, R.options = list(width = 400), echo=FALSE}
+```{python, results = "asis", R.options = list(width = 400), echo=FALSE}
 if __name__== "__main__":
     print(regularfalsi(fkt, 0, 1, epsilon=0.000001))
 ```
@@ -901,7 +749,7 @@ Es gibt viele Versuche die positiven Eigenschaften bestimmter Verfahren zu erhal
 
 ### Müllers-Methode {include-only=BIFSTUFF}
 
-```{python, eval=TRUE, eval=use_python, include=use_python}
+```{python, eval=TRUE}
 def mueller(f, a, b, r, max_iter=1000, epsilon=1.0 / 1000):
     x = [a, b, r]
     x.sort()

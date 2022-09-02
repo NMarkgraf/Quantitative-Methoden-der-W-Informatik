@@ -59,3 +59,4 @@ include-notes.tex
 **/__pycache__/**
 pandoc-filter/alt/**
 pandoc-filter/neu/**
+pandoc-filter/__pycahe__/*
