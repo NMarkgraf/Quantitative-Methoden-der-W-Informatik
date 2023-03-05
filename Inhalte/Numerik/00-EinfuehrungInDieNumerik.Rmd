@@ -162,7 +162,7 @@ zur *Basis* $B$
 ### Beispiele für Gleitpunktzahlen
 
 - Eine vierstellige dezimale Gleitpunktzahl mit negativem Vorzeichen:
-  $-(0.1234)_{10} \cdot 10^{4} = -1234,0$
+  $-(0.1234)_{10} \cdot 10^{4} = -1234{,}0$
   
   *Es ist somit:* $n=4$, $B=10$, $s=1$ und $(z_1,z_2,z_3,z_4) = (1,2,3,4)$
   
@@ -174,8 +174,9 @@ zur *Basis* $B$
 
 ### Die Wahl der Basis
 
-*Wahl der Basis:* Verschiedene Werte von $B$ sind möglich bzw. werden
-verwendet, so etwa
+**Wahl der Basis:** 
+
+Verschiedene Werte von $B$ sind möglich bzw. werden verwendet, so etwa
 
 - $B = 10$: die ”Basis des täglichen Lebens“, wird/wurde auch intern von vielen Taschenrechnern verwendet;[Z.B.: HP 11C, 15C und TI SR-5x];
 
@@ -264,6 +265,7 @@ Welche theoretisch möglichen Gleitpunktzahlen fehlen in dieser Auflistung?
 ::: {.notes}
 Es fehlen die 18 folgenden ***nicht**-normalisierten* Gleitpunktzahlen:
 
+~
 
 ```{r, echo=FALSE, results="asis"}
 df <- all_values(c("001", "010", "011"), c("-1","0","1"))
@@ -283,7 +285,7 @@ print(tab,
       scalebox = 0.9)
 ```
 
-
+~
 
 Die *negative* Null: $-(0.000) \cdot 2^0$, sowie die *exotischen* Nullen: $\pm(0.000) \cdot 2^{-1}; \pm(0.000) \cdot 2^{1}$
 
@@ -322,11 +324,11 @@ Bisher haben wir den Exponenten in 2 Bits gespeichert und damit 3 Werte ($(1,0)=
 
 Bisher haben wir ein Bit zum Kodieren des Vorzeichens benutzt. Dieses Bit können wir einsparen, wenn wir eine Verschiebung (engl. *bias*) des Exponenten (vorab und fix) festlegen. 
 
-Der wahre Exponent $e$ ergibt sich dann aus der Kodierung $E$ Minus der Verschiebung $bias$:
+Der wahre Exponent $e$ ergibt sich dann aus der Kodierung $E$ Minus der Verschiebung *bias*:
 
-$$e = E - bias$$
+$$e = E - \text{bias}$$
 
-Wählen wir in unserem Beispiel einen *Bias*wert von $2$, dann haben wir $(0,0)=0-2=-2$, $(0,1)=1-2=-1$, $(1,0)=2-2=0$ und $(1,1)=3-2=1$ als möglichen Exponenten (in 2 Bits kodiert).
+Wählen wir in unserem Beispiel einen *Bias*wert von $2$, dann haben wir mit $(0,0)=0-2=-2$, $(0,1)=1-2=-1$, $(1,0)=2-2=0$ und $(1,1)=3-2=1$ die möglichen Exponenten (in 2 Bits kodiert).
 
 
 #### {.exercise}
@@ -401,7 +403,7 @@ Sofern nicht anders explizit angegeben sei nun *bias* konstant 0.
 #### {.examples}
 - $x=-(0.1001)_{2}\cdot 2^2$ ist eine *4-stellige duale Gleitpunktzahl* und hat wegen $-(10.01)_2=-(2.25)_{10}$ den Wert $-2{,}25$.
 - $x=-(0.2345)_{8}\cdot 8^{-2}$ ist eine *4-stellige octale Gleitpunktzahl* und hat wegen $-(0.002345)_8=-(0.004779815673828)_{10}$ den Wert $-0{,}004779815673828$.
-- $x=(0.AFFE)_{16}\cdot 16^3$ ist eine *4-stellige hexadezimale Gleitpunktzahl* und hat wegen $(AFF.E)_{16}=(2815.875)_{10}$ den Wert $2815,875$
+- $x=(0.AFFE)_{16}\cdot 16^3$ ist eine *4-stellige hexadezimale Gleitpunktzahl* und hat wegen $(AFF.E)_{16}=(2815.875)_{10}$ den Wert $2815{,}875$
 
 
 ### IEEE 754-2008
@@ -516,8 +518,8 @@ $(10010.11)_2 = (10010.11)_2 \cdot 2^0 = +(0.1001011)_2 \cdot 2^5$
 
  Typ            | \texttt{float}                    |  \texttt{double} 						
 :---------------|----------------------------------:|-------------------------------------------:
- $x_{min}$ 		  |  $\pm 1.40239846 \cdot 10^{-45}$ 	| $\pm 4.94065458412465 \cdot 10^{-324}$	
- $x_{max}$ 		  |  $\pm 3.40282347 \cdot 10^{+38}$ 	| $\pm 1.79769318462315750 \cdot 10^{+308}$
+ $x_{min}$ 		|  $\pm 1.40239846 \cdot 10^{-45}$ 	| $\pm 4.94065458412465 \cdot 10^{-324}$
+ $x_{max}$ 		|  $\pm 3.40282347 \cdot 10^{+38}$ 	| $\pm 1.79769318462315750 \cdot 10^{+308}$
  Dezimalstellen |  $\approx$ 7                      |  $\approx$ 15 
  Byte           |  4 (= 32 Bit)                     | 8 (= 64 Bit)
  Vorzeichen     |  1 Bit                            | 1 Bit
@@ -771,6 +773,8 @@ $$\tilde{x} +_M \tilde{y} = \tilde{x} \qquad  \text{ für } |y| \leq \frac{|x|}{
 
 mit $x=1$ und variieren Sie $y$ geschickt.
 
+~
+
 
 ```{r include=FALSE}
 eps <- 1
@@ -789,6 +793,8 @@ eps
 \end{verbbox}
 
 :::::: {.notes}
+
+~
 
 Eine mögliche Lösung könnte wie folgt aussehen:
 
@@ -809,7 +815,9 @@ $$((1/x)/10+1) \cdot x-x = \left(\frac{\frac{1}{x}}{10}+1\right)\cdot x - x
 
 gilt mathematisch: `foo(1)`  $= 0.1$!
 
-Wie würden Sie diese Gleichheit in einem Programm sinnvoll abfragen:
+**ABER:** Der Rechner hat so seine Probleme mit der *Gleichheit* von Zahlen. 
+
+*Daher:* Wie würden Sie diese Gleichheit in einem Programm sinnvoll abfragen:
 
 A.  `foo(1) = 0.1`
 B.  `foo(1) == 0.1`
@@ -838,10 +846,16 @@ und wählen Sie dann geeignete Werte für *eps*.
 
 ### Rechenarithmetik
 
-- Jede einzelne Operation ($+$, $-$, $\cdot$, $\ldots$) wird auf $n+1$ Stellen gerechnet und dann wird auf Grund der $n+1$-ten Stelle auf die $n$-te Stelle gerundet. Erst im Anschluss wird die nächste Operation durchgeführt
+- Jede einzelne Operation ($+$, $-$, $\cdot$, $\ldots$) wird auf $n+1$ Stellen exakt gerechnet.
+- Im Anschluss nach dieser Operation wird dann auf Grund der $n+1$-ten Stelle auf die $n$-te Stelle gerundet. 
+- Erst im Anschluss wird die nächste Operation durchgeführt
+
 
 - Das Ergebnis einer Kette von Operationen ist das Ergebnis einer Kette von Rundungen –- nicht erst das Ergebnis ist gerundet!
-Bei der Addition müssen erst die Exponenten verglichen und ggfs. (über die Mantisse) angepasst werden, dann können die Mantissen ($n+1$ Stellen!) addiert werden. Danach wird ggfs. normalisiert
+
+
+- Bei der Addition müssen erst die Exponenten verglichen und ggfs. (über die Mantisse) angepasst werden, dann können die Mantissen ($n+1$ Stellen!) addiert werden. Danach wird ggfs. normalisiert
+
 
 - Bei der Multiplikation werden die Exponenten addiert und die Mantissen multipliziert. Danach wird ggfs. normalisiert
 
@@ -871,6 +885,7 @@ $$
                  &= (0.159)_{10} \cdot 10^4 \approx 1590
 \end{aligned}
 $$
+
 
 ### Beispiel: Rechenarithmetik (II/II)
 
@@ -909,7 +924,7 @@ $$
 
 *Beachte:* 
 - Die Reihenfolge der Terme spielt eine Rolle in der Gleitpunktarithmetik! 
-- Assoziativitätgesetz der Additivität gilt nicht mehr!
+- **ACHTUNG**: U.a. das Assoziativgesetz der Additivität gilt nicht mehr!
 
 :::
 
@@ -954,7 +969,8 @@ $$
 
 ### Auslöschung
 
-Bei der Subtraktion zweier fast gleichgroßer Zahlen kann es zu einem besonderen Phänomen kommen: der **Auslöschung**.
+Bei der Subtraktion zweier fast gleichgroßer Zahlen kann es zu einem besonderen Phänomen kommen: 
+der **Auslöschung**.
 
 **Beispiel:**
 Sei $\Delta f(x,h) := f(x+h)-f(x)$ und $f(x)= sin(x)$, $x=1$ und $h=10^{-i}$ für $i=1,...,8$ mit 10-stelliger dezimaler Gleitpunktarithmetik. Wir berechnen $\Delta f(1,h)$ sowie den abs. und relativen Fehler:
@@ -1044,7 +1060,7 @@ $$
 \left|\frac{f(x)-f(\tilde{x})}{f(x)}\right| \leq K \cdot \left|\frac{x-\tilde{x}}{x}\right|
 $$
 
-Einmal bestimmt können wir so im Intervall die Fehler abschätzen, ohne die Funktionen explizit auszuwerten.
+Einmal bestimmt können wir so im Intervall die Fehler abschätzen, **ohne** die Funktionen explizit auszuwerten.
 
 
 ### Abschätzung und Schätzung des Fehlers bei Funktionsauswertungen
@@ -1076,7 +1092,7 @@ wobei $I$ ein Intervall ist, das sowohl $x$ als auch $\tilde{x}$ enthält.
 
 ### Beispiel Fehlerfortpflanzung
 
-Es soll das Fehlerfortpflanzungverhalten der Funktion $f(x) = x^2 - 100$ an der Stelle $x=11.1$, $\tilde{x} = 11$, $I=[10.5, 11.5]$ untersucht werden:
+Es soll das Fehlerfortpflanzungsverhalten der Funktion $f(x) = x^2 - 100$ an der Stelle $x=11.1$, $\tilde{x} = 11$, $I=[10.5, 11.5]$ untersucht werden:
 
 - Für den absoluten Fehler gilt, wegen $M = \max\limits_{x_0 \in I} |f'(x_0)| = \max\limits_{x_0 \in I} |2 \cdot x_0| = 2 \cdot 11.5 = 23$:
 $$
@@ -1179,11 +1195,11 @@ gegeben.
 
 
 ```{r include=FALSE}
-f <- function(x,y) 108-((815-1500/y)/x)
+f <- function(x,y) 108 - ((815 - 1500/y)/x)
 
 a <- c(4, 4.25)
-for(i in 1:100) {
-    a <- c(a, f(a[i], a[i+1]))
+for (i in 1:100) {
+    a <- c(a, f(a[i], a[i + 1]))
 }
 ```
 

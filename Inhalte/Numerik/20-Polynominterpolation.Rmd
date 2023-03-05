@@ -26,9 +26,11 @@ options(xtable.timestamp = "")
 
 ### Über Punkte und Graden die diese Verbinden.
 
-Zwei Punkte in der Ebene liegen auf einer gemeinsamen Gerade. Doch wie kommt man an eine möglichst einfache Funktion, welche vorgegebene Punkte beinhaltet?
+Zwei Punkte in der Ebene liegen auf einer gemeinsamen Gerade. 
+Doch wie kommt man an eine möglichst einfache Funktion, welche vorgegebene Punkte beinhaltet?
 
-Nehmen wir zwei Punkte in der Ebene ($\mathbf{R^2}$) mit den Koordinaten $(x_0, y_0)$ und $(x_1, y_1)$. Dann können wir eine **lineare Funktion** $f$ (also eine **Gerade**) der Form 
+Nehmen wir zwei Punkte in der Ebene ($\mathbf{R^2}$) mit den Koordinaten $(x_0, y_0)$ und $(x_1, y_1)$. 
+Dann können wir eine **lineare Funktion** $f$ (also eine **Gerade**) der Form 
 
 $$f(x) = m\cdot x + b,$$ 
 

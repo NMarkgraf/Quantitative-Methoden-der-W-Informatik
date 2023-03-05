@@ -90,7 +90,7 @@ Sollten Sie aber Python installieren wollen, dann empfehle ich Ihnen:
 ```
 :::
 
-oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS user, dann vielleicht:
+oder, falls sie Python2 auf ihrem Rechner haben, wie z.B. macOS User, dann vielleicht:
 
 ::: {.scriptsize}
 
@@ -321,7 +321,7 @@ plt.show()
 :::
 ::::::
 
-Wo liegt, ausgehend von $x_1=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.00001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
+Wo liegt, ausgehend von $x_1=2$, die Break-Even ($x_{BE}$) Gewinnschwelle?  -- Geben Sie eine Näherung mit Hilfe des Newtonverfahrens ($epsilon=0.0000001$) an! Erstellen Sie dafür eine Tabelle mit $i, x_i, f(x_i), f'(x_i)$.
 
 ::: {.notes}
 
@@ -551,7 +551,7 @@ print('\n\n\nAus der Tabelle lesen wir das Ergebnis für $x$ ab:\n')
 print('Ergebnis: $x\\approx %2.8F$' % (x))
 ```
 
-**Wichtig:** In Klausuren wird genau so eine Tabelle beim Sekantenverfahren erwartet!
+**Wichtig:** In Klausuren wird genau so eine Tabelle u.a. beim Sekantenverfahren erwartet!
 
 :::
 
@@ -637,6 +637,8 @@ Im Bisektionsverfahren haben wir in jedem Schritt ein neues $c$ als die Mitte de
 
 Zur Bestimmung von $c$ benutzen wir nun aber die Idee des Sekantenverfahrens, also möglichst durch die Sekante an die Nullstelle zu geraten. 
 
+
+
 ### Regular-Falsi (II / II)
 
 
@@ -657,6 +659,7 @@ $$
             \left[c_i\,;\, b_{i-1} \right] & \text{ sonst }
         \end{cases}
 $$
+
 
 ### Python-Code für das Regular-Falsi-Verfahren (I/ II){.shrink}
 
