@@ -650,9 +650,9 @@ $$\begin{aligned}
 
 A) Geben Sie die Werte von $x_1$ bis $x_4$ an.
 
-B) Runden Sie die Zahlen $x_1$ bis $x_4$ aus eine 5-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
+B) Runden Sie die Zahlen $x_1$ bis $x_4$ auf eine 5-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
 
-C) Runden Sie die Zahlen $x_1$ bis $x_4$ aus eine 4-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
+C) Runden Sie die Zahlen $x_1$ bis $x_4$ auf eine 4-stellige Gleitpunktzahl und bestimmen Sie den Wert der Rundung.
 
 D) Bestimmen Sie jeweils den absoluten und relativen Fehler der Rundungen und B) und C).
 
