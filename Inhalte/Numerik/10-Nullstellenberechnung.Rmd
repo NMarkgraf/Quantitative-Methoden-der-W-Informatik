@@ -233,7 +233,7 @@ Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$.
 
 Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=4$?
 
-Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$, sowie die Grenzgewinnfunktion $G'(x)=-3x^2+16x-9$ und definieren die notwenidigen Funktionen in Python: 
+Wir bestimmen zunächst $G(x) = E(x)- K(x) = -x^3+8x^2-9x-18$, sowie die Grenzgewinnfunktion $G'(x)=-3x^2+16x-9$ und definieren die notwenidigen Funktionen in Python: 
 
 ```{python}
 def fkt(x):
@@ -423,7 +423,7 @@ Die Kosten lassen sich darstellen durch $K(x) = x^3-8 x^2+24 x+18$.
 
 Wo liegt die Break-Even (BE) Gewinnschwelle – ausgehend von $x_0=2$ und $x_1=4$?
 
-Wir bestimmen zunächst $G(x) = E(X)- K(X) = -x^3+8x^2-9x-18$ und definieren die notwendige Funktion in Python: 
+Wir bestimmen zunächst $G(x) = E(x)- K(x) = -x^3+8x^2-9x-18$ und definieren die notwendige Funktion in Python: 
 
 
 ```{python}
